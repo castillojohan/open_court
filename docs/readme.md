@@ -1,11 +1,11 @@
 #  ![balle de tennis](./Tennis_ball_3.svg "balle de tennis") OpenCourt: ![une raquette de tennis](./296859.png "une raquette de tennis")
 
 OpenCourt est une application conçu et pensée pour répondre au besoin de digitalisation de petites structure de tennis loisir et à pour but de répondre aux problématique rencontrés par les association qui gèrent de petit clubs de tennis, cela permettrait par exemple:
-  - De simplifier l'accès au court, actuellement le seul moyen de reserver est de se déplacer jusqu'au court pour s'y inscrire.
-  - éviter les corvé manuelle comme le remplacement ses planning de reservation chaques semaines.
-  - L'association n'a que trop peu de visibilité ( village de 1500 habitants / 40 adhérents ) dans et hors du village.
+  - De simplifier l'accès au court, actuellement le seul moyen de reserver est de se déplacer jusqu'au terrain pour s'y inscrire.
+  - éviter les corvées manuelles comme le remplacement ses plannings de reservation chaques semaine.
+  - L'association a peu de visibilité ( village de 1500 habitants / 40 adhérents ) dans et hors du village.
   - Animer le club et faire participer les adhérents.
-  - Favoriser les rencontres entres adhérents.
+  - Favoriser les rencontres entre adhérents.
   - Diffuser des informations relative à l'association.
 
 </br>
@@ -13,41 +13,40 @@ OpenCourt est une application conçu et pensée pour répondre au besoin de digi
 # MVP
 - L'affichage des services proposés par l'association ( cours , réunions , ect .. )
 - L'inscription en ligne d'un adhèrent.
-- La réservation en ligne du court pour l'adhérent certifié
+- La réservation en ligne du court pour l'adhérent certifié.
 - Une messagerie interne.
-- Une interface pour gérer les adhérents
+- Une interface pour gérer les adhérents.
 - De quoi ajouter du contenu vitrine et des informations sur l'association.
-- créer et gérer un évènement de type tournois/championnat. 
+- Créer et gérer un évènement de type tournois/championnat. 
 
   ## Potentielle évolution :
   - un système de classement pour les joueurs
-  - un matchmaking qui proposerait des choix pertinent pour le niveau de l'adhérent. 
+  - un matchmaking qui proposerait des choix pertinents pour le niveau de l'adhérent. 
 
 # Les Technos
 - Symfony webapp
 - Twig
 
   ## Dans un second temps
-  Dans un second temps peut être une API , couplé à du React native pour de l'App mobile 
+  Dans un second temps peut être une API, couplée à du React native pour de l'App mobile 
 
 # User Stories
-| En tant que | je souhaite | afin | commentaires |
+| En tant que | Je souhaite | Afin | Commentaires |
 |--|--|--|--|
-| visiteur | je souhaite voir et m'informer des services/évènements proposé par l'association | pouvoir envisager de m'inscrire |
-| visiteur | je souhaite pouvoir m'inscrire en ligne | profiter du terrain et des services/évènements |
-| adhérent | je souhaite pouvoir réserver le terrain en ligne | ne pas me déplacer jusqu'au terrain |
-| adhérent | je souhaite pouvoir voir le planning en temps réel | ne pas réservé un créneau déjà occupé |
-| adhérent | je souhaite pouvoir communiquer avec l'association ou les autres adhèrents | afin d'avoir réponse à mes questions / rencontrer d'autres joueurs |
-| adhérent | je souhaite pouvoir participer aux événements proposés par l'association | participer/échanger |
-| adhérent | je souhaite pouvoir proposer un match a un autre adhèrent |de m'amuser et progresser | v2 |
-| adhérent | je souhaite que l'on me propose des potentiels adversaires de mon niveau | ne pas m'embêter à chercher | v2 |
-| administrateur | pouvoir accéder à la liste des inscrits | voir le nombre de personnes potentiellement intérréssé |  |
-| administrateur | certifié un adhèrent qui a régler sa cotisation | qu'il puisse accéder a toutes les fonctionnalités. |  |
-| administrateur | pouvoir créer du contenu pour la page d'accueil | de rendre attrayant le club de tennis |  |
-| administrateur | je souhaite pouvoir réserver des créneaux hebdomadaire de manière automatique pour les cours dispensés | ne plus avoir à le faire chaques semaines |  |
-| administrateur | pouvoir créer/gerer des évènements de type tournois/championnat | de dynamiser le club |  |
-| administrateur | diffuser par mail des nouvelles/informations aux adhérents de l'association | de communiquer les informations importante / fidéliser les adhérents |  |
-|--|--|--|--|
+| Visiteur | Voir et m'informer des services/évènements proposés par l'association | Pouvoir envisager de m'inscrire |  |
+| Visiteur | Pouvoir m'inscrire en ligne | Profiter du terrain et des services/évènements |  |
+| Adhérent | Pouvoir réserver le terrain en ligne | Ne pas me déplacer jusqu'au terrain |  |
+| Adhérent | Pouvoir voir le planning en temps réel | Ne pas réserver un créneau déjà occupé |  |
+| Adhérent | Pouvoir communiquer avec l'association ou les autres adhérents | Avoir des réponses à mes questions / Rencontrer d'autres joueurs |  |
+| Adhérent | Pouvoir participer aux événements proposés par l'association | Participer/Échanger |  |
+| Adhérent | Pouvoir proposer un match à un autre adhérent | M'amuser et progresser | V2 |
+| Adhérent | Souhaiter que l'on me propose des potentiels adversaires de mon niveau | Ne pas m'embêter à chercher | V2 |
+| Administrateur | Pouvoir accéder à la liste des inscrits | Voir le nombre de personnes potentiellement intéressées |  |
+| Administrateur | Certifier un adhérent qui a réglé sa cotisation | Qu'il puisse accéder à toutes les fonctionnalités |  |
+| Administrateur | Pouvoir créer du contenu pour la page d'accueil | Rendre attractif le club de tennis |  |
+| Administrateur | Pouvoir réserver des créneaux hebdomadaires de manière automatique pour les cours dispensés | Ne plus avoir à le faire chaque semaine |  |
+| Administrateur | Pouvoir créer/gérer des évènements de type tournois/championnat | Dynamiser le club |  |
+| Administrateur | Diffuser par mail 
 
 </br></br>
 
