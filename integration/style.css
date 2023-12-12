@@ -7,6 +7,7 @@ header div{
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     color: white;
     position: relative;
     height: 160px;
@@ -25,7 +26,7 @@ div h1{
 }
 
 nav{
-    margin-left: 20em;
+    margin-left: 3em; 
 }
 
 nav ul{
@@ -44,7 +45,7 @@ nav li a{
     text-decoration: none;
     font-weight: bold;
     color: white;
-    margin: 0 2.8em 0 2.8em;
+    margin: 0 2em 0 2em;
     display: block;
     position: relative;
     padding: 10px;
