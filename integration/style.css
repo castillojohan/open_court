@@ -14,7 +14,7 @@ header div{
     margin: 0;
 }
 
-div img{
+header div img{
     width: 160px;
     margin-left: 2em;
 }
@@ -72,7 +72,7 @@ nav li:hover:after{
     height:95%;
     width:93%;
     margin-left: .5em;
-    transition: width .3s;
+    transition: width .4s ease;
     z-index: -1;
     border-radius: 6px;
 }
@@ -80,11 +80,70 @@ nav li:hover:after{
 header::after{
     content: "";
     height: 90px;
-    width: 150%;
+    width: 100%;
     position: absolute;
     z-index: -2;
     background-color: #2e425b;
     transform: rotate(2deg);
-    top:126px;
-    left:0px;
+    top: 105px;
+    left: 2px;
+}
+
+.main__slider{
+    width: 90%;
+    position: relative;
+    height: 20em;
+    margin: 5em auto 2em auto;
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+}
+
+.main__slider img{
+    position: absolute;
+    width : 80%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    max-height: 20em;
+    transition: opacity .3s;
+    left: 10%;
+}
+
+.active{
+    opacity: 1;
+    z-index: 1;
+}
+
+.main__slider p{
+    z-index: 2;
+    font-weight: bolder;
+    color: black;
+    font-size: 5em;
+    opacity : .4;
+}
+
+.slider__nav{
+    display:flex;
+    justify-content: space-between;
+    margin-top: 2%;
+}
+
+.slider__nav p:hover{
+    opacity: 1;
+    text-shadow: 1px 1px black;
+    cursor: pointer;
+}
+
+.slider__overlay{
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    left: 10%;
+    background-color: rgba(0, 0, 7, 0.4);
+}
+
+.main__slider h2{
+    color: white;
+    margin-left: .8em;
 }
