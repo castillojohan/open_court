@@ -1,14 +1,26 @@
+html{
+    --theme-blue-primary: #2e425b;
+    --theme-blue-secondary: white;
+
+    --nav-links-hover: #cce447 ;
+}
+
 body{
-    margin: 0;
+    margin: 0 auto;
+}
+
+main{
+    width: 90%;
+    margin: 0 auto;
 }
 
 header div{
-    background-color: #2e425b;
+    background-color: var(--theme-blue-primary);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--theme-blue-secondary);
     position: relative;
     height: 160px;
     margin: 0;
@@ -35,7 +47,7 @@ nav ul{
 
 nav li{
     list-style: none;
-    border-right: 2px solid white;
+    border-right: 2px solid var(--theme-blue-secondary);
     display:inline-block;
     position:relative;
     z-index: 2;
@@ -44,7 +56,7 @@ nav li{
 nav li a{
     text-decoration: none;
     font-weight: bold;
-    color: white;
+    color: var(--theme-blue-secondary);
     margin: 0 2em 0 2em;
     display: block;
     position: relative;
@@ -58,14 +70,14 @@ nav li:after{
     left: 0;
     width:0%;
     height:0;
-    background-color: #cce447;
+    background-color: var(--nav-links-hover);
     transform: rotate(-5deg);
 }
 
 nav li:hover a{
     color: white;
     transition:  color .3s;
-    text-shadow: 1px 1px 2px #2e425b;
+    text-shadow: 1px 1px 2px var(--theme-blue-primary);
 }
 
 nav li:hover:after{
@@ -83,14 +95,14 @@ header::after{
     width: 100%;
     position: absolute;
     z-index: -2;
-    background-color: #2e425b;
+    background-color: var(--theme-blue-primary);
     transform: rotate(2deg);
     top: 105px;
     left: 2px;
 }
 
 .main__slider{
-    width: 90%;
+    width: 100%;
     position: relative;
     height: 20em;
     margin: 5em auto 2em auto;
@@ -101,13 +113,18 @@ header::after{
 
 .main__slider img{
     position: absolute;
-    width : 80%;
+    width : 90%;
     height: 100%;
     object-fit: cover;
-    opacity: 1;
     max-height: 20em;
     transition: opacity .3s;
-    left: 10%;
+    top: 0;
+    left: 5%;
+}
+
+.slider__display{
+    opacity: 0;
+    z-index: 3;
 }
 
 .active{
@@ -138,12 +155,16 @@ header::after{
 .slider__overlay{
     position: absolute;
     bottom: 0;
-    width: 80%;
-    left: 10%;
+    width: 90%;
+    left: 5%;
     background-color: rgba(0, 0, 7, 0.4);
 }
 
 .main__slider h2{
     color: white;
     margin-left: .8em;
+}
+
+.main__articles{
+    border-top: 2px solid ;
 }
