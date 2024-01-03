@@ -7,6 +7,12 @@ html{
     --nav-links-hover: #cce447 ;
 
     font-family: 'Anton', sans-serif;
+    h2{
+        font-size: 1.8em;
+    }
+    h3{
+        font-size: 1.6em;
+    }
 }
 
 body{
@@ -15,7 +21,7 @@ body{
 
 main{
     width: 90%;
-    margin: 0 auto;
+    margin: 2em auto 1em auto;
 }
 
 header{
@@ -60,11 +66,11 @@ header{
     &::after{
         content: "";
         height: 90px;
-        width: 101%;
+        width: 100%;
         position: absolute;
         z-index: -2;
         background-color: var(--theme-blue-primary);
-        transform: rotate(2deg);
+        transform: rotate(1deg);
         top: 105px;
         left: 0px;
     }
@@ -225,6 +231,113 @@ article{
     }
 }
 
+.holster{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+}
+.container{
+    display: flex;
+    overflow: auto;
+    flex: none;
+    margin: 1em auto;
+    &.y{
+        width: 100%;
+        height: 50vh;
+        flex-flow: column nowrap;
+    }
+    & > div{
+        text-align: center;
+        scroll-snap-align: center;
+        flex: none;
+        gap: 1em;
+    }
+
+    & > div:nth-child(even){
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        background-color: var(--theme-blue-primary);
+        color: var(--theme-blue-secondary);
+    }
+    & > div:nth-child(odd) {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row-reverse;
+        background-color: whitesmoke;
+    }
+}
+.y.mandatory-scroll{
+    scroll-snap-type: y mandatory;
+}
+
+.y.container > div {
+    width: 100%;
+    height: 50vh;
+    img{
+        width: 40%;
+    }
+    h3{
+        align-self: center;
+        font-size: 3em;
+    }
+
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    margin: 2em auto;
+    border: 3px solid var(--theme-blue-primary);
+    border-radius: 20px;
+    div{
+        display: flex;
+        flex-direction: column;
+        padding: 1em 2em 2em 2em;
+        h3{
+            text-align: center;
+            text-decoration: underline;
+            margin: 0;
+        }
+        &:nth-child(even){
+            margin-top: 1em;
+        }
+        &.cgu{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            input{
+                width: 1.5em;
+            }
+        }
+    }
+    label{
+        font-size: 1.2em;
+        margin-top: .5em;
+    }
+    input{
+        height: 2em; 
+        font-size: large;
+        &.button{
+            width: 30%;
+            height: 3em;
+            font-size: 1.2em;
+            font-weight: bolder;
+            margin: 1em auto;
+            cursor: pointer;
+            background-color: var(--theme-blue-primary);
+            color: var(--theme-blue-secondary);
+            &:hover{
+                transition: color ease-in .5s;
+                color: var(--nav-links-hover);
+            }
+        }
+
+    }
+}
+
 footer{
     background-color: var(--theme-blue-primary);
     display: flex;
@@ -252,5 +365,5 @@ footer{
         list-style:none;
         padding: .6em;
     }
-    
+
 }
