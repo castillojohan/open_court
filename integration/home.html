@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 
-<body>
+<body class="logon">
     <header class="header">
         <section>
             <section>
@@ -30,7 +30,7 @@
                         <a href="services.html">Services</a>
                     </li>
                     <li>
-                        <a href="#">Connexion</a>
+                        <a class="open-modale" href="login">Connexion</a>
                     </li>
                 </ul>
             </nav>
@@ -38,6 +38,32 @@
     </header>
         
     <main>
+        <!-- Login Modal -->
+        <section class="blur-pattern">
+            <div class="login-modal">
+                <div class="form">
+                    <form action="">
+                        <div>
+                            <div>
+                                <p class="button-close">x</p>
+                            </div>
+                            <h3>Connexion</h3>
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" required>
+
+                            <label for="password">Mot de passe</label>
+                            <input type="password" name="password" id="password" required>
+                        </div>
+                        <div>
+                            <p><a href="#">Mot de passe oublié</a> - <a href="#">Pas encore inscrit</a></p>
+                            
+                        </div>
+                        <input class="button" type="submit" value="Se connecter">
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--End Modal section-->
         <section class="main__slider">
             <div class="slider__nav">
                 <p class="left-arrow">&lt;</p>
@@ -140,6 +166,6 @@
             <svg fill="#ffffff" width="64px" height="64px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M22,3H2A1,1,0,0,0,1,4V20a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V4A1,1,0,0,0,22,3ZM21,19H3V9.477l8.628,3.452a1.01,1.01,0,0,0,.744,0L21,9.477ZM21,7.323l-9,3.6-9-3.6V5H21Z"></path></g></svg>    
         </section>
     </footer>
+    <script type="module" src="main.js"></script>
 </body>
-
 </html>
