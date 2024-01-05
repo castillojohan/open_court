@@ -159,8 +159,14 @@ nav{
         font-weight: bolder;
         margin: auto 0;
         font-size: 6em;
-        color: #2e425b;
+        color: var(--theme-blue-primary);
+        p{
+            opacity: .5;
+        }
         p:hover{
+            background-color: var(--theme-blue-primary);
+            color: var(--nav-links-hover);
+            border-radius: 8px;
             opacity: 1;
             text-shadow: 2px 1px black;
             cursor: pointer;
@@ -352,7 +358,7 @@ form{
     .login-modal{
         width:30%;
         position: sticky;
-        background-color: var(--theme-blue-secondary);
+        background-color: whitesmoke;
         border-radius: 25px;
         margin: 10% auto;
         filter: drop-shadow(0 0 1.75rem var(--theme-blue-primary));
