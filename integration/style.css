@@ -2,17 +2,35 @@
 
 html{
     --theme-blue-primary: #2e425b;
-    --theme-blue-secondary: white;
+    --theme-red-primary: #c54217;
+    --theme-green-primary: #489452;
+
+    --theme-primary: #2e425b;
+    --theme-secondary: white;
 
     --nav-links-hover: #cce447 ;
 
     font-family: 'Anton', sans-serif;
+    a{
+        color: unset;
+        text-decoration: none;
+    }
     h2{
         font-size: 1.8em;
     }
     h3{
         font-size: 1.6em;
     }
+}
+
+.theme-green{
+    --theme-primary: var(--theme-green-primary);
+}
+.theme-red{
+    --theme-primary: var(--theme-red-primary);
+}
+.theme-blue{
+    --theme-primary: var(--theme-blue-primary);
 }
 
 body{
@@ -26,12 +44,12 @@ main{
 
 header{
     >section{
-    background-color: var(--theme-blue-primary);
+    background-color: var(--theme-primary);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    color: var(--theme-blue-secondary);
+    color: var(--theme-secondary);
     position: relative;
     height: 160px;
     margin: 0;
@@ -42,7 +60,7 @@ header{
     >section{
         display: flex;
         flex-direction: row;
-        border: 3px solid var(--theme-blue-secondary);
+        border: 3px solid var(--theme-secondary);
         border-radius: 30px;
         max-width: 11.5em;
         box-shadow: -3px 2px 2px black;
@@ -69,7 +87,7 @@ header{
         width: 100%;
         position: absolute;
         z-index: -2;
-        background-color: var(--theme-blue-primary);
+        background-color: var(--theme-primary);
         transform: rotate(1deg);
         top: 105px;
         left: 0px;
@@ -80,12 +98,45 @@ nav{
     display: flex;
     align-self: flex-end;
     margin-left: 3em;
+    div{
+        display: flex;
+        flex-direction: column-reverse;
+        .header__theme-switcher{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            gap : 1em;
+            p{
+                filter:  unset;
+                font-size: 1em;
+            }
+            button{
+                border: 1px solid darkgray;
+                border-radius: 100%;
+                padding: 0.8em;
+                &.theme-blue{
+                    background-color: var(--theme-blue-primary);
+                }
+                &.theme-green{
+                    background-color: var(--theme-green-primary);
+                }
+                &.theme-red{
+                    background-color: var(--theme-red-primary);
+                }
+                &:hover{
+                    cursor: pointer;
+                    filter: drop-shadow(0 0 0.5rem white);
+                }
+            }   
+        }
+    }
     ul{
-        display: inline-block;
+        display: inline;
     }
     li{
         list-style: none;
-        border-right: 2px solid var(--theme-blue-secondary);
+        border-right: 2px solid var(--theme-secondary);
         display:inline-block;
         position:relative;
         z-index: 2;
@@ -93,7 +144,7 @@ nav{
             font-size: 1.1em;
             text-decoration: none;
             font-weight: bold;
-            color: var(--theme-blue-secondary);
+            color: var(--theme-secondary);
             margin: 0 2em 0 2em;
             display: block;
             position: relative;
@@ -112,7 +163,7 @@ nav{
         &:hover a{
             color: white;
             transition:  color .3s;
-            text-shadow: 1px 1px 2px var(--theme-blue-primary);
+            text-shadow: 1px 1px 2px var(--theme-primary);
         }
         &:hover:after{
             height:95%;
@@ -159,12 +210,12 @@ nav{
         font-weight: bolder;
         margin: auto 0;
         font-size: 6em;
-        color: var(--theme-blue-primary);
+        color: var(--theme-primary);
         p{
             opacity: .5;
         }
         p:hover{
-            background-color: var(--theme-blue-primary);
+            background-color: var(--theme-primary);
             color: var(--nav-links-hover);
             border-radius: 8px;
             opacity: 1;
@@ -265,8 +316,8 @@ article{
         display: flex;
         justify-content: space-around;
         flex-direction: row;
-        background-color: var(--theme-blue-primary);
-        color: var(--theme-blue-secondary);
+        background-color: var(--theme-primary);
+        color: var(--theme-secondary);
     }
     & > div:nth-child(odd) {
         display: flex;
@@ -292,11 +343,44 @@ article{
 
 }
 
+.main__user-panel{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin : 3em 0 3em 0;
+    a{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin : 1em;
+        padding : 1em;
+        width: 42%;
+        border: 3px solid var(--theme-primary);
+        border-radius: 20px;
+        gap: 1em;
+        box-shadow: 5px 2px 5px black;
+        background-color: whitesmoke;
+        cursor: pointer;
+        transition : color ease .4s;
+        &:hover{
+            background-color: var(--theme-primary);
+            color: var(--nav-links-hover); 
+            svg{
+                filter: invert(100%);
+            }
+        }
+        svg{
+            align-self: center;
+        }
+    }
+
+}
+
 form{
     display: flex;
     flex-direction: column;
     margin: 2em auto;
-    border: 3px solid var(--theme-blue-primary);
+    border: 3px solid var(--theme-primary);
     border-radius: 20px;
     div{
         display: flex;
@@ -333,14 +417,13 @@ form{
             font-weight: bolder;
             margin: 1em auto;
             cursor: pointer;
-            background-color: var(--theme-blue-primary);
-            color: var(--theme-blue-secondary);
+            background-color: var(--theme-primary);
+            color: var(--theme-secondary);
             &:hover{
                 transition: color ease-in .5s;
                 color: var(--nav-links-hover);
             }
         }
-
     }
 }
 
@@ -361,7 +444,7 @@ form{
         background-color: whitesmoke;
         border-radius: 25px;
         margin: 10% auto;
-        filter: drop-shadow(0 0 1.75rem var(--theme-blue-primary));
+        filter: drop-shadow(0 0 1.75rem var(--theme-primary));
         div{
             padding-bottom: 0;
         }
@@ -379,7 +462,7 @@ form{
             border-radius: 10px;
             &:hover{
                 cursor: pointer;
-                background-color: var(--theme-blue-primary);
+                background-color: var(--theme-primary);
                 color: var(--nav-links-hover);
             }
         }
@@ -396,7 +479,7 @@ form{
 }
 
 footer{
-    background-color: var(--theme-blue-primary);
+    background-color: var(--theme-primary);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -404,7 +487,7 @@ footer{
     align-items: center;
     svg{
         width:50px;
-        fill: var(--theme-blue-secondary);
+        fill: var(--theme-secondary);
         &:hover{
             cursor: pointer;
             transition: fill .6s ease-out;
