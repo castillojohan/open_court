@@ -1,5 +1,5 @@
-import modale from "./modale.js";
-import slider from "./slider.js";
+import modale from "./modale/modale.js";
+import slider from "./slider/slider.js";
 
 const main = {
     init : () => {
