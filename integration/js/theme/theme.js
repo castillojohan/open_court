@@ -4,7 +4,11 @@ const theme = {
 
     init : () => {
         theme.bindButtons();
-        theme.loadFavoriteTheme();
+        if(localStorage.getItem('theme')){
+            theme.loadFavoriteTheme();
+        }else{
+            theme.changeToPickedColor('theme-blue');
+        }
     },
 
     bindButtons : () => {

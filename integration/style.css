@@ -5,7 +5,8 @@ html{
     --theme-red-primary: #c54217;
     --theme-green-primary: #489452;
 
-    --theme-primary: #2e425b;
+    /* for get a smoother transition between two navigation pages */
+    --theme-primary: grey;
     --theme-secondary: white;
 
     --nav-links-hover: #cce447 ;
