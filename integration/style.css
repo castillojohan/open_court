@@ -395,6 +395,32 @@ form{
     }
 }
 
+.settings{
+    margin: 3.5em auto 1em auto;
+}
+
+.navigation-links{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    a{
+        display: flex;
+        gap : 3px;
+        background-color: var(--theme-primary);
+        color: var(--theme-secondary);
+        border: 1px solid var(--theme-primary);
+        padding: 1em ;
+        border-radius: 10px;
+        &:hover{
+            opacity: .8;
+        }
+    }
+    .del-button{
+        background-color: darkred;
+        color: var(--theme-secondary);
+    }
+}
+
 .blur-pattern{
     visibility: hidden;
     opacity: 0;
