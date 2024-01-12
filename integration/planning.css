@@ -1,0 +1,40 @@
+
+table{
+    font-size: 1.4rem;
+    width:100%;
+    tbody{
+        tr{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: .3em 0;
+            height: 4.5rem;
+            border: 3px solid var(--theme-primary);
+            border-radius: 10px;
+            cursor: pointer;
+            &:hover{
+                background-color: var(--theme-primary);
+                color: var(--theme-secondary);
+                transition: background-color ease .3s ;
+            }
+            &.reserved{
+                background-color: lightgray;
+                cursor: not-allowed;
+                &-hover{
+                    background-color: unset;
+                    color: unset;
+                }
+            }
+            td{
+                margin: 0 .8em;
+                &.planning__state{
+                    display: block;
+                    overflow: hidden;
+                    width: 3rem;
+                    height: 3rem;
+                    border-radius: 100%;
+                }
+            }
+        }
+    }
+}
