@@ -6,13 +6,14 @@ const planning = {
     timeSlots : [],
     
     init : () => {
+        planning.verifySlots();
         planning.buildItems();
 
         const trCollection = document.querySelectorAll("table tr");
         trCollection.forEach( tableRow => {
             document.addEventListener('click', planning.handleTrClick);
         });
-        planning.verifySlots();
+        
         
     },
     
@@ -23,12 +24,6 @@ const planning = {
 
     buildItems : () => {
         const actualTime = new Date();
-        /*
-        actualTime.setMinutes(0);
-        actualTime.setSeconds(0);
-        actualTime.setMilliseconds(0);
-        */
-        const reservedSlots = [...planning.timeSlots];
         const tableParent = document.querySelector('table');
         
         //* Build thead + tr who contain time & datetime
@@ -57,8 +52,10 @@ const planning = {
             slotTime.setSeconds(0);
             slotTime.setMilliseconds(0);
             secondTimeChild.dateTime = slotTime.toISOString();
-            if(planning.timeSlots.includes(secondTimeChild.dateTime)){
-                console.log('true');
+            const timeToCompare = Date.parse(secondTimeChild.dateTime);
+
+            if(planning.timeSlots.includes(timeToCompare)){
+                trChild.classList.add('reserved');
             }
             /* ENDTEST */
             firstTdChild.append(secondTimeChild);
@@ -77,7 +74,8 @@ const planning = {
     verifySlots : () => {
         const slotsReserved = [...data.courts.timeSlots];
         slotsReserved.forEach((slot) => {
-            planning.timeSlots.push(slot.startReservation);
+            const convertedSlots = Date.parse(slot.startReservation);
+            planning.timeSlots.push(convertedSlots);
         })
     }
 }
