@@ -6,24 +6,29 @@ const planning = {
     timeSlots : [],
     
     init : () => {
-        planning.verifySlots();
+        planning.loadReservedSlots();
         planning.buildItems();
 
         const trCollection = document.querySelectorAll("table tr");
         trCollection.forEach( tableRow => {
-            document.addEventListener('click', planning.handleTrClick);
+            tableRow.addEventListener('click', planning.handleTrClick);
         });
         
-        
+        planning.checkDisplayedSlots();
     },
     
     handleTrClick : (event) => {
-        //* it's ok i got datetime value in this way.
-        const timeValue = event.target.firstElementChild.firstChild.attributes.dateTime.value;
+        const cleanedEvent = event.stopPropagation();
+        //* Maybe my element must have an attribute 'datetime' , will be easiest, stopPropagation seems not work ( pick childs and modify event.target )
+        //
+        console.log(event.target.childNodes[0].firstChild.dateTime)
+        //const timeValue = event.target.firstElementChild.firstChild.attributes.dateTime.value;
+        
     },
 
     buildItems : () => {
         const actualTime = new Date();
+        console.log(actualTime.toLocaleString());
         const tableParent = document.querySelector('table');
         
         //* Build thead + tr who contain time & datetime
@@ -45,19 +50,14 @@ const planning = {
             const firstTdChild = document.createElement('td');
             const secondTimeChild = document.createElement('time');
             secondTimeChild.innerText = `${slot}h - ${slot+1}h`;
-            /* TEST */
+            
             const slotTime =  new Date(actualTime);
             slotTime.setHours(slot+1);
             slotTime.setMinutes(0);
             slotTime.setSeconds(0);
             slotTime.setMilliseconds(0);
             secondTimeChild.dateTime = slotTime.toISOString();
-            const timeToCompare = Date.parse(secondTimeChild.dateTime);
 
-            if(planning.timeSlots.includes(timeToCompare)){
-                trChild.classList.add('reserved');
-            }
-            /* ENDTEST */
             firstTdChild.append(secondTimeChild);
             
             const secondTdChild = document.createElement('td');
@@ -71,11 +71,20 @@ const planning = {
         tableParent.appendChild(tbodyChild);
     },
 
-    verifySlots : () => {
+    loadReservedSlots : () => {
         const slotsReserved = [...data.courts.timeSlots];
         slotsReserved.forEach((slot) => {
-            const convertedSlots = Date.parse(slot.startReservation);
-            planning.timeSlots.push(convertedSlots);
+            planning.timeSlots.push(slot.startReservation)
+        })
+    },
+
+    checkDisplayedSlots : () => {
+        const actualTime = new Date().toISOString();
+        const allSlots = document.querySelectorAll('td:first-child');
+        allSlots.forEach((slot)=>{
+            if(planning.timeSlots.includes(slot.firstChild.attributes[0].value) || slot.firstChild.attributes[0].value < actualTime){
+                slot.parentNode.classList.add("reserved");
+            }
         })
     }
 }
