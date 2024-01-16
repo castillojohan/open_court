@@ -10,7 +10,7 @@ const slotComponent = {
     },
 
     loadReservedSlots : () => {
-        const slotsReserved = [...data.state.timeSlots];
+        const slotsReserved = [...data.state.slots];
         slotsReserved.forEach((slot) => {
             slotComponent.timeSlots.push(slot.startReservation);
         });
