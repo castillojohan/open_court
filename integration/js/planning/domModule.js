@@ -6,7 +6,6 @@ const domModule = {
     timeSlotCount : 22,
 
     init: () => {
-        console.log("relance", data.state.currentDate)
         domModule.buildTableHead(data.state.currentDate);
         domModule.buildTableItems();
         bindListeners.init();

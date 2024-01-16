@@ -15,12 +15,11 @@ const handleClick = {
     },
 
     slots : (event) => {
-        if(event.target.className !== "reserved" && event.explicitOriginalTarget.childElementCount >= 2){
+        if(event.target.className !== "reserved" && event.target.childElementCount >= 2){
             console.log(event.target.firstElementChild.firstChild.attributes.dateTime.value);    
         }
         return false;
     },
-
 
     goToDate : (newDayPosition) => {
         handleClick.daysCollection[newDayPosition];
