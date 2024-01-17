@@ -615,6 +615,28 @@ footer{
     .burger{
         display: unset;
     }
+    .main__slider{
+        height: 12em; 
+        position: relative;
+        h2{
+            font-size: 20px;
+        }
+        img{
+            object-fit: cover;
+            width:100%;
+            max-height: 13em;
+            left:0;
+        }
+        .slider__nav{
+            font-size: 5em;
+            margin: -5% 0%;
+            z-index: 6;
+        }
+        .slider__overlay{
+            width: 100%;
+            left:0;
+        }
+    }
 }
 
 @media screen and (max-width:900px){
@@ -639,5 +661,110 @@ footer{
             }
         }
     }
+}
 
+@media screen and (max-width:768px){
+    article{
+        font-size: 14px;
+        margin: 2em auto;
+        h2{
+            font-size: 20px;
+        }
+        p{
+            max-height: 20em;
+            overflow: hidden;
+        }
+    }
+}
+
+@media screen and (max-width:576px){
+    header{
+        &>section{
+            position:relative;
+            display: block;
+            height: fit-content;
+            padding-top: 1em;
+            h1{
+                text-align: center;
+                margin: .5em auto;
+            }
+            &>section{
+                margin: 0 auto;
+            }
+            nav div:last-child{
+                position:absolute;
+                margin: 1em 1em;
+                top:0;
+                right:0;
+            }
+        }
+    }
+    main{
+        width:100%;
+        .main__slider{
+            margin: 1em 0;
+            img{
+                object-fit: fill;
+            }
+            .slider__nav{
+                filter: drop-shadow( 2px 2px 3px black );
+                .left-arrow, .right-arrow{
+                    font-size: .6em;
+                    margin: 1.5em .1em;
+                    opacity: 1;
+                }
+            }
+            
+            .slider__overlay{
+                h2{
+                    font-size: 1em;
+                }
+            }
+        }
+        article, article:nth-child(2n){
+            padding: unset;
+            header{
+                flex-flow: column wrap;
+                h2{
+                    margin:.5em;
+                }
+            }
+            section:first-of-type{
+                flex-direction: column;
+                align-items: center;
+            }
+            img{
+                object-fit: cover;
+                max-width: 200px;
+                margin: .5em 0 0 0;;
+            }
+            p{
+                max-height: 12em;
+                margin: 1em 1em;
+            }
+        }
+    }
+    footer{
+        flex-direction: column;
+        justify-content: center;
+        section{
+            width: 100%;
+            align-items: center;
+            ul{
+                display: flex;
+                flex-direction: row;
+                padding: unset;
+            }
+            &>div:first-child{
+                flex-direction: column;
+                height:fit-content;
+                p{
+                    margin-top: .1em;
+                }
+            }
+        }
+        svg{
+            width:30px;
+        }
+    }
 }
