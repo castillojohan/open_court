@@ -42,6 +42,10 @@ body{
     margin: 0 auto;
 }
 
+.burger{
+    display: none;
+}
+
 main{
     width: 90%;
     margin: 2em auto 1em auto;
@@ -93,9 +97,6 @@ nav{
     display: flex;
     align-self: flex-end;
     margin-left: 3em;
-    ul{
-        display: inline;
-    }
     li{
         border-right: 2px solid var(--theme-secondary);
         display:inline-block;
@@ -134,6 +135,50 @@ nav{
             z-index: -1;
             border-radius: 6px;
         }
+    }
+    div{
+        &.side-container{
+            background-color: var(--theme-primary);
+            position:fixed;
+            height: 100%;
+            width:250px;
+            right: -250px;
+            top:0;
+            z-index: 999;
+            transition: right 0.5s ease;
+            &.showed{
+                right:0; 
+            }
+            li{
+                border: unset;
+            }
+            .close-burger{
+                position: absolute;
+                right: .5em;
+                top:.5em;
+                width:40px;
+                height:40px;
+                font-size: 1.5em;
+                text-align: center;
+            }
+            ul{
+                position: fixed;
+                top: 2.5em;
+            }
+        }
+    }
+    div:last-child{
+        padding:.5em;
+        cursor: pointer;
+    }
+    div>a{
+        span{
+        display: block;
+        width: 35px;
+        height:5px;
+        margin: 6px 0;
+        background-color: var(--theme-secondary);
+        }    
     }
 }
 
@@ -550,6 +595,49 @@ footer{
     li{
         list-style:none;
         padding: .6em;
+    }
+
+}
+@media screen and (max-width:1400px){
+    header
+        section{
+            justify-content: space-between;
+            h1{
+                max-width: fit-content;
+            }
+        } 
+        section>nav{
+        align-self: center;
+    }
+    nav ul:first-of-type{
+        display: none;
+    }
+    .burger{
+        display: unset;
+    }
+}
+
+@media screen and (max-width:900px){
+    header{
+        section>h1{
+            font-size: 2em;
+            max-width: 10em;
+        }
+        section>section{
+            max-width: 8.5em;
+            border-radius: 15px;
+            margin-left: 5px;
+            justify-content: center;
+            p{
+                font-size: 1.8em;
+            }
+            svg{
+                margin-left:.5em;
+                align-self: center;
+                margin-top: unset;
+                width:unset;
+            }
+        }
     }
 
 }
