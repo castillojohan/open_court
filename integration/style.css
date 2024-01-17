@@ -757,7 +757,7 @@ footer{
             }
             &>div:first-child{
                 flex-direction: column;
-                height:fit-content;
+                height:auto;
                 p{
                     margin-top: .1em;
                 }
@@ -765,6 +765,7 @@ footer{
         }
         svg{
             width:30px;
+            height: 30px;
         }
     }
 }
