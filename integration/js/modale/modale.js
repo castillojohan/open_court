@@ -1,6 +1,9 @@
 const modale = {
     init: () => {
-        document.querySelector("a[href='login']").addEventListener('click', modale.handleLoginClick);
+        const openModal = document.querySelectorAll("a[href='login']")
+        openModal.forEach((buttonLogin) => {
+            buttonLogin.addEventListener('click', modale.handleLoginClick);
+        })
         document.querySelector('.button-close').addEventListener('click', modale.handleLoginClick);
     },
 

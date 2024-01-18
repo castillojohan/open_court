@@ -472,7 +472,6 @@ form{
     z-index: 6;
     .login-modal{
         width:30%;
-        position: sticky;
         background-color: whitesmoke;
         border-radius: 25px;
         margin: 10% auto;
@@ -481,6 +480,7 @@ form{
             padding-bottom: 0;
         }
         form{
+            z-index: 999;
             margin: 0;
         }
         .button-close{
@@ -497,6 +497,9 @@ form{
                 background-color: var(--theme-primary);
                 color: var(--nav-links-hover);
             }
+        }
+        input.button{
+            width:fit-content
         }
         p{
             text-align: center;
@@ -609,7 +612,7 @@ footer{
         section>nav{
         align-self: center;
     }
-    nav ul:first-of-type{
+    nav>ul:first-of-type{
         display: none;
     }
     .burger{
@@ -630,11 +633,16 @@ footer{
         .slider__nav{
             font-size: 5em;
             margin: -5% 0%;
-            z-index: 6;
+            z-index: 5;
         }
         .slider__overlay{
             width: 100%;
             left:0;
+        }
+    }
+    main section.blur-pattern{
+        .login-modal{
+            width:40%;
         }
     }
 }
@@ -664,6 +672,11 @@ footer{
 }
 
 @media screen and (max-width:768px){
+    main section.blur-pattern{
+        .login-modal{
+            width:60%;
+        }
+    }
     article{
         font-size: 14px;
         margin: 2em auto;
