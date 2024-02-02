@@ -87,35 +87,33 @@ OpenCourt est une application conçu et pensée pour répondre au besoin de digi
 # MCD (raw)
 
 ```
-EVENT: event_num, title, is_open, players, start_at, winner, second, third
 BELONG, 11 EVENT, 11 EVENTPARTICIPANT
 EVENTPARTICIPANT: event_num, player_num
-:
-:
-
-CONSTITUED, 01 MATCH, 1N EVENT
-:
 ENROLLED, 0N USER, 11 EVENTPARTICIPANT
 WRITE, 11 ACTU, 0N USER
 ACTU: actu_num, title, image, content, published_at, author, created_at, updated_at
+:
 
-MATCH:match_num, player_1, player_2, player_1_set1, player_1_set2, player_2_set1, player_2_set2, player_1_tb, player_2_tb, winner, played_at
-PLAYED, 1N MATCH, 0N USER
+EVENT: event_num, title, is_open, players, start_at, winner, second, third
+MESSAGE: message_num, recipient, sender, title, content
+SEND, 1N MESSAGE, 0N USER
 USER: email, password, match_count, level
 PARTICIPATE, 0N COURSE, 0N USER
-:
-
-:
-SEND, 1N MESSAGE, 0N USER
-RESERVE, 0N COURT, 01 USER
 COURSE: course_num, capacity, start_course, end_course
-:
+
+CONSTITUED, 01 MATCH, 1N EVENT
+MATCH:match_num, player_1, player_2, player_1_set1, player_1_set2, player_2_set1, player_2_set2, player_1_tb, player_2_tb, winner, played_at
+PLAYED, 1N MATCH, 0N USER
+ENGAGE, 0N USER, 11 SLOTS
+SLOTS: slot_num, start_at, end_at
+OCCUP, 11 SLOTS, 1N COURSE
 
 :
-MESSAGE: message_num, recipient, sender, title, content
-COURT: court_num, reserved_time, start_reservation, end_reservation, is_active
-GIVEN, 01 COURT, 1N COURSE
 :
+:
+:
+RELATED, 1N COURT, 11 SLOTS
+COURT: court_num, is_active, surface, is_lighted
 ```
 
 # MCD
