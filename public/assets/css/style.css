@@ -29,9 +29,9 @@ html{
 }
 
 .error p{
-    padding: .5em;
+    padding: .6em;
     color: white;
-    background-color: red;
+    background-color: darkred;
     margin: .5em auto;
     text-align: center;
     border-radius: 10px;
