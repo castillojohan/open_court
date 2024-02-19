@@ -5,7 +5,7 @@
     <meta keywords="tennis, reserver terrain de tennis, Pimprenelle-sur-odette, cours de tennis, tournois de tennis, match de tennis">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Association - Tennis club de Primprenelle sur Odette{% endblock %}</title>
+    <title>{% block title %}Ocourt - Tennis club de Primprenelle sur Odette - Accueil{% endblock %}</title>
     <link rel="stylesheet" href="./assets/css/style.css">
         {% block stylesheets %}{% endblock %}
 </head>
@@ -20,35 +20,30 @@
             
             <h1>Tennis club de Primprenelle sur Odette</h1>
             <nav>
-                <ul>
-                    <li>
-                        <a href="home.html">Accueil</a>
-                    </li>
-                    <li>
-                        <a href="register.html">Inscription</a>
-                    </li>
-                    <li>
-                        <a href="services.html">Services</a>
-                    </li>
-                    <li>
-                        <a class="open-modale" href="login">Connexion</a>
-                    </li>
-                </ul>
-                <div class="side-container">
+                <div class='side-container'>
                     <a href="#" class="close-burger">X</a>
                     <ul class="sidemenu">
                         <li>
-                            <a href="home.html">Accueil</a>
+                            <a href="{{ path ('app_main') }}">Accueil</a>
                         </li>
                         <li>
-                            <a href="register.html">Inscription</a>
+                            <a href="{{ path ('app_services') }}">Services</a>
+                        </li>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li>
+                            <a href="{{ path ('app_account') }}">Gestion du compte</a>
                         </li>
                         <li>
-                            <a href="services.html">Services</a>
+                            <a href="{{ path ('app_logout')}}">Déconnexion</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{{ path ('app_register') }}">Inscription</a>
                         </li>
                         <li>
                             <a class="open-modale" href="login">Connexion</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div>
@@ -63,36 +58,19 @@
     </header>
         
     <main>
-            <!-- Login Modal -->
-        <section class="blur-pattern">
-            <div class="login-modal">
-                <div class="form">
-                    <form action="{{ path('app_login')}}" method="post">
-                        <div>
-                            <div>
-                                <p class="button-close">x</p>
-                            </div>
-                            <h3>Connexion</h3>
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" value="{{ last_username }}" required>
-                            <label for="password">Mot de passe</label>
-                            <input type="password" name="password" id="password" required>
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        </div>
-                        <div>
-                            <p><a href="#">Mot de passe oublié</a> - <a href="#">Pas encore inscrit</a></p>
-                        </div>
-                        <input class="button" type="submit" value="Se connecter">
-                    </form>
-                </div>
-            </div>
-        </section>
+        <!-- Login Modal -->
+        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ include ( '_login-modal.html.twig' ) }}
+        {% else %}
+            <section class="button-close">
+            </section>
+        {% endif %}  
         <!--End Modal section-->
-        {% if error %}
-            <div class="error">
-                <p>L'email et ou le mot de passe ne correspondent pas: {{ error.message }}</p>
-            </div>
-        {% endif %}
+
+        <!-- Flash Messages -->
+        {{ include ( '_flash-messages.html.twig' )}}
+
+        
     {% block main %}{% endblock %}
     </main>
     

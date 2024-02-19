@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block title %}OpenCourt - Pimprennelle sur Odette - Inscription {% endblock %}
+{% block main %} 
+<main>
+    <section>
+    <h2>Formulaire d'inscription</h2>
+    <form action="">
+        <div>
+            <h3>Vos informations personnelles</h3>
+            <label for="lastname"> Votre nom </label>
+            <input type="text" name="lastname" id="lastname" required>
+            
+            <label for="firstname"> Votre prénom </label>
+            <input type="text" name="firstname" id="firstname" required>
+
+            <label for="age"> Votre age </label>
+            <input type="date" name="age" id="age" required>
+        </div>
+
+        <div>
+            <h3>Vos informations d'usage</h3>
+            <label for="email">Adresse email</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password" required>
+
+            <label for="confirmPassword">Confirmation de mot de passe</label>
+            <input type="password" name="confirmPassword" id="confirmPassword" required>
+        </div>
+
+        <div class="cgu">
+            <label for="acceptCGU">J'accepte les conditions d'utilisation et le réglement de l'association (<a href="#">CGU</a>, <a href="#">Réglement</a>)</label>
+            <input type="checkbox" name="acceptCGU" id="acceptCGU" required>
+        </div>
+
+        <input class="button" type="submit" value="S'inscrire">
+    </form>
+    </section>
+</main>
+{% endblock %}

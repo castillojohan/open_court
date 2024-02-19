@@ -148,33 +148,12 @@ nav{
     }
     div{
         &.side-container{
-            background-color: var(--theme-primary);
-            position:fixed;
-            height: 100%;
-            width:250px;
-            right: -250px;
-            top:0;
-            z-index: 999;
-            transition: right 0.5s ease;
             &.showed{
                 right:0; 
             }
-            li{
-                border: unset;
-            }
-            .close-burger{
-                position: absolute;
-                right: .5em;
-                top:.5em;
-                width:40px;
-                height:40px;
-                font-size: 1.5em;
-                text-align: center;
-            }
-            ul{
-                position: fixed;
-                top: 2.5em;
-            }
+        }
+        .close-burger{
+            display:none;
         }
     }
     div:last-child{
@@ -621,6 +600,38 @@ footer{
         } 
         section>nav{
         align-self: center;
+        div{
+            &.side-container{
+                background-color: var(--theme-primary);
+                position:fixed;
+                height: 100%;
+                width:250px;
+                right: -250px;
+                top:0;
+                z-index: 999;
+                transition: right 0.5s ease;
+                li{
+                    border:unset;
+                }
+                &.showed{
+                    right:0; 
+                }
+                .close-burger{
+                    display: unset;
+                    position: absolute;
+                    right: .5em;
+                    top:.5em;
+                    width:40px;
+                    height:40px;
+                    font-size: 1.5em;
+                    text-align: center;
+                }
+                ul{
+                    position: fixed;
+                    top: 2.5em;
+                }
+            }
+        }
     }
     nav>ul:first-of-type{
         display: none;

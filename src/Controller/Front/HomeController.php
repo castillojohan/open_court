@@ -13,7 +13,21 @@ class HomeController extends AbstractController
     public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render(
-            'home.html.twig', 
+            'Front/home.html.twig', 
+            [
+                "dataSlider" => $articleRepository->findBy([], ['createdAt' => 'ASC'], 4),
+                "dataArticles" => $articleRepository->findAll(),
+                "last_username" => '',
+                "error" => ''
+            ]
+        );
+    }
+
+    #[Route('/services', name: 'app_services', methods: 'GET')]
+    public function services(ArticleRepository $articleRepository): Response
+    {
+        return $this->render(
+            'Front/services.html.twig', 
             [
                 "dataSlider" => $articleRepository->findBy([], ['createdAt' => 'ASC'], 4),
                 "dataArticles" => $articleRepository->findAll(),
