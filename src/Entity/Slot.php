@@ -25,7 +25,7 @@ class Slot
 
     #[ORM\ManyToOne(inversedBy: 'slots')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?Member $memb = null;
 
     public function getId(): ?int
     {
@@ -68,14 +68,14 @@ class Slot
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getMemb(): ?Member
     {
-        return $this->user;
+        return $this->memb;
     }
 
-    public function setUser(?User $user): static
+    public function setMemb(?Member $memb): static
     {
-        $this->user = $user;
+        $this->memb = $memb;
 
         return $this;
     }

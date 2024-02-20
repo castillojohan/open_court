@@ -26,16 +26,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
-    private Collection $articles;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Slot::class)]
-    private Collection $slots;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Member::class, orphanRemoval: true)]
+    private Collection $members;
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
-        $this->slots = new ArrayCollection();
+        $this->members = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,59 +96,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Article>
+     * @return Collection<int, Member>
      */
-    public function getArticles(): Collection
+    public function getMembers(): Collection
     {
-        return $this->articles;
+        return $this->members;
     }
 
-    public function addArticle(Article $article): static
+    public function addMember(Member $member): static
     {
-        if (!$this->articles->contains($article)) {
-            $this->articles->add($article);
-            $article->setAuthor($this);
+        if (!$this->members->contains($member)) {
+            $this->members->add($member);
+            $member->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeArticle(Article $article): static
+    public function removeMember(Member $member): static
     {
-        if ($this->articles->removeElement($article)) {
+        if ($this->members->removeElement($member)) {
             // set the owning side to null (unless already changed)
-            if ($article->getAuthor() === $this) {
-                $article->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Slot>
-     */
-    public function getSlots(): Collection
-    {
-        return $this->slots;
-    }
-
-    public function addSlot(Slot $slot): static
-    {
-        if (!$this->slots->contains($slot)) {
-            $this->slots->add($slot);
-            $slot->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSlot(Slot $slot): static
-    {
-        if ($this->slots->removeElement($slot)) {
-            // set the owning side to null (unless already changed)
-            if ($slot->getUser() === $this) {
-                $slot->setUser(null);
+            if ($member->getUser() === $this) {
+                $member->setUser(null);
             }
         }
 

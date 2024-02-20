@@ -282,6 +282,60 @@ article{
         border-bottom: 1px solid;
     }
 }
+div.family{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+a.cards, article.cards{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    background-color: var(--theme-primary);
+    color: var(--theme-secondary);
+    margin: 1em;
+    width:150px;
+    align-items: center;
+    svg{
+        margin: 0 auto;
+    }
+    p{
+        margin: .2em;
+    }
+    &::after{
+        border:unset;    
+    }
+    a{
+        background-color: var(--theme-secondary);
+        color: var(--theme-primary);
+        margin: 0 auto;
+        text-align: center;
+        width:80%;
+    }
+    &:hover{
+        box-shadow: 2px 2px 1px black;
+    }
+    a:hover{
+        box-shadow: 5px 2px 5px black;
+        color: var(--nav-links-hover)
+    }
+}
+
+article.cards.selected{
+    border: 4px solid var(--nav-links-hover)
+}
+a.cards--add{
+    justify-content: center;
+    p{
+        font-size: 6em;
+    }
+    &:hover{
+        p{
+            color: var(--nav-links-hover);
+        }
+    }
+}
 
 .holster{
     height: 100%;

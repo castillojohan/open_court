@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block title %}OpenCourt - Pimprennelle sur Odette - Ajout d'un membre {% endblock %}
+{% block main %} 
+<main>
+    <section>
+    <h2>Ajouter un membre à ma tribu</h2>
+    <form action="" method="POST">
+        <div>
+            <h3>Informations requises</h3>
+            <label for="lastName"> Nom </label>
+            <input type="text" name="lastName" id="lastName" required>
+            
+            <label for="firstName"> Prénom </label>
+            <input type="text" name="firstName" id="firstName" required>
+
+            <label for="age"> Date de naissance </label>
+            <input type="date" name="age" id="age" required>
+
+            <input type="hidden" name="_token" value="{{ csrf_token('member') }}">
+        </div>
+        <input class="button" type="submit" value="S'inscrire">
+    </form>
+    </section>
+</main>
+{% endblock %}
