@@ -3,8 +3,16 @@
 {% block main %} 
 <main>
     <section>
+    {% if errors %}
+        <div class="error">
+            {% for key, error in errors %}
+                <p> {{ key }} => {{ error }} </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <h2>Formulaire d'inscription</h2>
-    <form action="">
+    <form action="" method='POST' id='registration' novalidate>
         <div>
             <h3>Vos informations personnelles</h3>
             <label for="lastname"> Votre nom </label>
@@ -33,7 +41,7 @@
             <label for="acceptCGU">J'accepte les conditions d'utilisation et le réglement de l'association (<a href="#">CGU</a>, <a href="#">Réglement</a>)</label>
             <input type="checkbox" name="acceptCGU" id="acceptCGU" required>
         </div>
-
+        <input type="hidden" name="_token" value="{{ csrf_token('registration') }}">
         <input class="button" type="submit" value="S'inscrire">
     </form>
     </section>

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
 #[ORM\Table(name: '`member`')]
@@ -17,12 +18,21 @@ class Member
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(
+        message : "Ne dois pas être vide"
+    )]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+    #[Assert\NotBlank(
+        message : "Ne dois pas être vide"
+    )]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[Assert\NotBlank(
+        message : "Ne dois pas être vide"
+    )]
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $age = null;
 
