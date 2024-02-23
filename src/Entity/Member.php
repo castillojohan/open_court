@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MemberRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -34,7 +35,9 @@ class Member
         message : "Ne dois pas être vide"
     )]
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $age = null;
+    private ?\DateTimeImmutable $birthday = null;
+
+    private ?int $age = null;
 
     #[ORM\ManyToOne(inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
@@ -45,6 +48,12 @@ class Member
 
     #[ORM\OneToMany(mappedBy: 'memb', targetEntity: Article::class)]
     private Collection $articles;
+
+    #[ORM\Column]
+    private ?bool $gender = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $pinCode = null;
 
     public function __construct()
     {
@@ -81,15 +90,35 @@ class Member
         return $this;
     }
 
-    public function getAge(): ?\DateTimeImmutable
+    public function getBirthDay(): ?\DateTimeImmutable
     {
+        return $this->birthday;
+    }
+
+    public function setBirthday(\DateTimeImmutable $birthday): static
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getAge()
+    {
+        $this->setAge();
         return $this->age;
     }
 
-    public function setAge(\DateTimeImmutable $age): static
+    /**
+     * function setAge() take dateTimeNow and compare to member birthday date
+     * converted to years diff only and forced to be an integer
+     * @return void
+     */
+    public function setAge()
     {
-        $this->age = $age;
-
+        $dateNowObject = new DateTimeImmutable();
+        $birthdayObject = $this->getBirthDay();
+        $diff = $dateNowObject->diff($birthdayObject)->format('%Y');
+        $this->age = $diff;
         return $this;
     }
 
@@ -161,6 +190,30 @@ class Member
                 $article->setMemb(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isGender(): ?bool
+    {
+        return $this->gender;
+    }
+
+    public function setGender(bool $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getPinCode(): ?int
+    {
+        return $this->pinCode;
+    }
+
+    public function setPinCode(?int $pinCode): static
+    {
+        $this->pinCode = $pinCode;
 
         return $this;
     }
