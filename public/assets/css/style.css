@@ -13,6 +13,7 @@ html{
     --nav-links-hover: #cce447 ;
 
     font-family: 'Anton', sans-serif;
+    font-synthesis-weight: none;
     a{
         color: unset;
         text-decoration: none;
