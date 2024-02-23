@@ -307,20 +307,20 @@ a.cards, article.cards{
     &::after{
         border:unset;    
     }
-    a{
-        background-color: var(--theme-secondary);
-        color: var(--theme-primary);
-        margin: 0 auto;
-        text-align: center;
-        width:80%;
-    }
     &:hover{
         box-shadow: 2px 2px 1px black;
     }
-    a:hover{
-        box-shadow: 5px 2px 5px black;
-        color: var(--nav-links-hover)
+}
+.cards--choices{
+    display: flex;
+    flex-direction: row;
+    gap:1em;
+    svg{
+        width: 35px;
     }
+}
+.cards--choices svg:hover{
+   stroke: var(--nav-links-hover);
 }
 
 article.cards.selected{
@@ -435,7 +435,7 @@ form{
     div{
         display: flex;
         flex-direction: column;
-        padding: 1em 2em 2em 2em;
+        padding: 0.2em 2em 0.2em 2em;
         h3{
             text-align: center;
             text-decoration: underline;
@@ -455,9 +455,9 @@ form{
     }
     label{
         font-size: 1.2em;
-        margin-top: .5em;
+        margin-top: .2em;
     }
-    input{
+    input, select, button{
         height: 2em; 
         font-size: large;
         &.button{
