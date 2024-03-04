@@ -1,0 +1,45 @@
+section.pinpad{
+    margin: 2em auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border: 4px solid var(--theme-primary);
+    border-radius: 20px;
+    max-width: 350px;
+    button{
+        border-radius: 40px;
+        background-color: var(--theme-primary);
+        color: var(--theme-secondary);
+        font-size: 2em;
+    }
+    .pinpad-header{
+        text-align: center;
+        input{
+            width: 70%;
+            height :3em;
+        }
+    }
+    .pincode{
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        .pinpad-btn{
+            padding: .6em;
+            margin: .3em .5em .2em .4em;
+        }
+    }
+    .pin-navigation{
+        display: flex;
+        justify-content:center;
+        gap: 1.5em;
+        margin: -1em 0 1.5em 0;
+        svg{
+            width: 50px
+        }
+        button{
+            padding: .1em;
+            margin-top: 1em;
+        }
+    }
+}

@@ -14,13 +14,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MemberController extends AbstractController
 {
-    #[Route('/member-choice/{memberId}', name: 'app_member_choice', methods:'GET')]
+    #[Route('/member-choice/{memberId}', name: 'app_member_choice', methods:['GET', 'POST'])]
     public function memberChoice(Member $memberId, Request $request): Response
     {
-        $session = $request->getSession();
-        $memberId->getAge();
-        $session->set('member', $memberId);
-        return $this->redirectToRoute('app_account');
+        if($memberId == null){
+            return new Exception("Membre non trouvé ( 404 )", Response::HTTP_NOT_FOUND);
+        }
+
+        if($request->isMethod('POST')){
+            $session = $request->getSession();
+            $session->set('member', $memberId);
+            return $this->redirectToRoute('app_account');
+        }
+        
+        return $this->render('/security/pincode.html.twig', [
+            'member'=> $memberId,
+            'last_username' => "",
+        ]);
     }
 
     #[Route('/register-member', name: 'app_register_member', methods:['GET', 'POST'])]
