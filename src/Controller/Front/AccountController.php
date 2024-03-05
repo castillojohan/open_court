@@ -25,7 +25,7 @@ class AccountController extends AbstractController
 
         if($request->isMethod('POST')){
             $allDatas = $request->getPayload()->all();
-            $birthdayDate = new DateTimeImmutable($allDatas['age']); 
+            $birthdayDate = new DateTimeImmutable($allDatas['birthday']); 
             $submittedToken = $request->getPayload()->get('_token');
             
             if($this->isCsrfTokenValid('registration', $submittedToken)){

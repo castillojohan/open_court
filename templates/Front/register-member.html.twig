@@ -1,9 +1,13 @@
 {% extends "base.html.twig" %}
-{% block title %}OpenCourt - Pimprennelle sur Odette - Ajout d'un membre {% endblock %}
+{% block title %} Ajout d'un membre {% endblock %}
 {% block main %} 
 <main>
     <section>
+
+    
     <h2>Ajouter un membre à ma tribu</h2>
+    {{ include ("Front/_members-form.html.twig") }}
+    <!--
     <form action="" method="POST">
         <div>
             <h3>Informations requises</h3>
@@ -30,6 +34,7 @@
         </div>
         <input class="button" type="submit" value="S'inscrire">
     </form>
+    -->
     </section>
 </main>
 {% endblock %}
