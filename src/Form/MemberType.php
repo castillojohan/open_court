@@ -7,9 +7,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemberType extends AbstractType
@@ -24,7 +25,7 @@ class MemberType extends AbstractType
                 'label' => 'Nom de famille'
             ])
             ->add('birthday', DateType::class, [
-                'label' => 'Date de naissance'
+                'label' => 'Date de naissance',
             ])
             ->add('gender', ChoiceType::class, [
                 'label' => "Genre",
@@ -33,18 +34,24 @@ class MemberType extends AbstractType
                     'Femme' => true
                 ]
             ])
-            ->add('pincode', PasswordType::class, [
-                "attr" => [
-                    "placeholder" => "Laisser vide si pas de modification du code pin"
-                ]
-            ])
-            ->add('submit', SubmitType::class, [
-                "label" => "Enregistrer",
-                "attr" => [
-                    "class" => "button",
-                ]
-            ])
-        ;
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
+                $form = $event->getForm();
+                $member = $event->getData();
+                if($member->getPinCode() !== null){
+                    $form->add('pincode', null, [
+                        "mapped" => false,
+                        "attr" => [
+                            "placeholder" => "Laisser vide si inchangé"
+                        ]
+                    ]);
+                }
+                else {
+                    $form->add('pincode', null, [
+                        "mapped" => true
+                    ]);
+                }
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

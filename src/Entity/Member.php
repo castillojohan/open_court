@@ -31,9 +31,11 @@ class Member
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[Assert\NotNull]
     #[Assert\NotBlank(
         message : "Ne dois pas être vide"
     )]
+    #[Assert\Type("\DateTimeImmutable")]
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $birthday = null;
 
@@ -53,7 +55,7 @@ class Member
     private ?bool $gender = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $pinCode = null;
+    private ?string $pinCode = null;
 
     public function __construct()
     {
@@ -206,12 +208,12 @@ class Member
         return $this;
     }
 
-    public function getPinCode(): ?int
+    public function getPinCode(): ?string
     {
         return $this->pinCode;
     }
 
-    public function setPinCode(?int $pinCode): static
+    public function setPinCode(?string $pinCode): static
     {
         $this->pinCode = $pinCode;
 

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@300&display=swap');
 @import url('./booking-history.css');
+@import url('./pin.css');
 
 html{
     --theme-blue-primary: #2e425b;
@@ -432,6 +433,20 @@ form{
     margin: 2em auto;
     border: 3px solid var(--theme-primary);
     border-radius: 20px;
+    p{
+        margin-top: -1px;
+        text-align: center;
+        color: grey;
+        font-size: .9em;
+    }
+    ul{
+        background-color: darkred;
+        text-align: center;
+        color: white;
+        padding : .4em;
+        border-radius: 10px;
+        width: 50%;
+    }
     div{
         display: flex;
         flex-direction: column;
