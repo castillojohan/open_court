@@ -15,6 +15,7 @@
     <form action="" method='POST' id='registration' novalidate>
         <div>
             <h3>Vos informations personnelles</h3>
+            <p>Ce formulaire permet de créer le premier membre associé à votre compte, celui-ci dans le cas des compte *duo ou *famille, permettra la gestion globale du compte ainsi que l'ajout des autres membres associés au compte principal.</p>
             <label for="lastname"> Votre nom </label>
             <input type="text" name="lastname" id="lastname" required>
             
@@ -23,10 +24,21 @@
 
             <label for="birthday"> Votre age </label>
             <input type="date" name="birthday" id="birthday" required>
+
+            <label for="pincode"> Code PIN (4 à 6 chiffres) </label>
+            <input type="password" name="pincode" id="pincode" required>
+            <p class="help">*Facultatif, mais garanti la sécurité des paramètres de compte ainsi que la gestion des membres</p>
+
+            <label for="gender"> Genre </label>
+            <select name="gender" id="gender" required>
+                <option value="1"> Femme </option>
+                <option value="0"> Homme </option>
+            </select>
         </div>
 
         <div>
             <h3>Vos informations d'usage</h3>
+            <p>Ce formulaire contiendra les identifiants de connexion sur le site</p>
             <label for="email">Adresse email</label>
             <input type="email" name="email" id="email" required>
 
@@ -35,6 +47,14 @@
 
             <label for="confirmPassword">Confirmation de mot de passe</label>
             <input type="password" name="confirmPassword" id="confirmPassword" required>
+            
+            <!-- IMPORTANT: this items -> price and seasons may be included in DB in CMS way-->
+            <label for="accountChoice">Type de compte</label>
+            <select name="accountChoice" id="accountChoice">
+                <option value="simple">Compte simple ( 1 adhérent ) ~ 60€ Saison: 2023/2024 </option>
+                <option value="couple">Compte couple ( 2 adhérents ) ~ 80€ Saison: 2023/2024 </option>
+                <option value="family">Compte famille ( jusqu'à 8 adhérents de la même famille ) ~ 120€ Saison: 2023/2024 </option>
+            </select>
         </div>
 
         <div class="cgu">

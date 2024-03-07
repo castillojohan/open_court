@@ -61,7 +61,6 @@ class Member
     {
         $this->slots = new ArrayCollection();
         $this->articles = new ArrayCollection();
-        $this->birthday = new DateTimeImmutable();
     }
 
     public function getId(): ?int

@@ -4,11 +4,9 @@ namespace App\Form;
 
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -28,8 +26,6 @@ class MemberType extends AbstractType
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',
-                'widget' => "choice",
-                'format' => "dd MMMM yyyy"
             ])
             ->add('gender', ChoiceType::class, [
                 'label' => "Genre",
@@ -41,7 +37,7 @@ class MemberType extends AbstractType
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
                 $form = $event->getForm();
                 $member = $event->getData();
-                if($member->getId() !== null){
+                if($member->getPinCode() !== null){
                     $form->add('pincode', null, [
                         "mapped" => false,
                         "attr" => [
@@ -50,7 +46,9 @@ class MemberType extends AbstractType
                     ]);
                 }
                 else {
-                    $form->add('pincode');
+                    $form->add('pincode', null, [
+                        "mapped" => true
+                    ]);
                 }
             }
         );

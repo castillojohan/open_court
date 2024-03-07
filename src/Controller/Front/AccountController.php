@@ -37,7 +37,9 @@ class AccountController extends AbstractController
                         ->setRoles(['ROLE_USER']);
                 $member->setFirstName($allDatas['firstname'])
                         ->setLastName($allDatas['lastname'])
-                        ->setAge($birthdayDate);
+                        ->setBirthday($birthdayDate)
+                        ->setPinCode($allDatas['pincode'])
+                        ->setGender($allDatas['gender']);
 
                 $errorsMember = $validator->validate($member);
                 $errorsUser = $validator->validate($user);

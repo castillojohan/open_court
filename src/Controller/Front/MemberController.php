@@ -76,6 +76,10 @@ class MemberController extends AbstractController
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
+            $formPinCode = $form->get('pincode')->getData();
+            if($formPinCode !== null){
+               $member->setPinCode($formPinCode); 
+            }
             $memberRepository->add($member, true);
             $this->addFlash('Success', 'Membre bien modifié');
             return $this->redirectToRoute('app_account');
