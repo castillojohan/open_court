@@ -17,10 +17,21 @@ class RegistrationType extends AbstractType
             ->add('email', EmailType::class,[
                     'label' => 'Adresse Email'
                 ])
-            ->add('password', PasswordType::class)
-            ->add('confirmPassword', PasswordType::class, [
-                "mapped" => false
+            ->add('password', PasswordType::class, [
+                "label" => "Nouveau mot de passe",
+                "mapped" => false,
+                "attr" => [
+                    "placeholder" => "Laisser vide si inchangé"
+                ]
             ])
+            ->add('confirmPassword', PasswordType::class, [
+                "label" => "Confirmation du mot de passe",
+                "mapped" => false,
+                "attr" => [
+                    "placeholder" => "Laisser vide si inchangé"
+                ]
+            ])
+            
         ;
     }
 

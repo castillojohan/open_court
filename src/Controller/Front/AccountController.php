@@ -4,10 +4,12 @@ namespace App\Controller\Front;
 
 use App\Entity\Member;
 use App\Entity\User;
+use App\Form\RegistrationType;
 use App\Repository\MemberRepository;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,6 +87,60 @@ class AccountController extends AbstractController
         $this->addFlash('success', "Bienvenue, $userMail");
 
         return $this->render('Front/account.html.twig', ['members'=> $memberCollection, 'session'=>$request->getSession(), "dateNow" => new DateTimeImmutable()]);
+    }
+
+    #[Route('/account/settings', name: 'app_settings', methods: ['GET', 'POST'])]
+    public function userSettings(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager){
+        $user = $userRepository->find($this->getUser()->getId());
+        $form = $this->createForm(RegistrationType::class, $user);
+        
+        if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                $plainPassword = $form->get('password')->getData();
+                $confirmPassword = $form->get('confirmPassword')->getData();
+                if( $plainPassword !== null && $confirmPassword !== null ){
+                    if( $plainPassword !== $confirmPassword ){
+                        return $this->render('/Front/settings.html.twig', ['form' => $form, 'errors' => 'Les mots de passe ne correspondent pas']);
+                    }
+                    $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
+                }
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', "Modifications sur le compte Utilisateur, effectuées");
+                return $this->redirectToRoute('app_account');
+            }
+        }
+        return $this->render("/Front/settings.html.twig", ['form' => $form, 'errors' => '' ]);
+    }
+
+    #[Route('/account/delete', name: 'app_delete_user', methods: ['GET', 'POST'])]
+    public function delete(EntityManagerInterface $entityManager, UserRepository $userRepository, Request $request)
+    {
+        // get current user
+        $currentUser = $this->getUser();
+        $user = $userRepository->find($currentUser);
+        //get current member in session
+        $currentMember = $request->getSession()->get('member');
+        $members = $user->getMembers();
+        
+        if($currentMember->getUser()->getId() !== $user->getId() || $currentMember->getAge() < 18){
+            throw $this->createAccessDeniedException("Une erreur est survenue, nous vous invitons à vous reconnecter");
+        }
+        
+        if($request->isMethod('POST')){
+            foreach($members as $member){
+                $entityManager->remove($member);
+            }
+            $entityManager->remove($user);
+            $entityManager->flush();
+            // Cleanning sessions variable
+            $session = $request->getSession();
+            $session->invalidate();
+            return $this->redirectToRoute('app_main');
+        }
+        
+        return $this->render('/Front/confirmation.html.twig', ['user'=>$user, 'members'=>$members]);
     }
 
     /**

@@ -30,7 +30,7 @@ html{
     }
 }
 
-.error p{
+.error{
     padding: .6em;
     color: white;
     background-color: darkred;
@@ -62,6 +62,33 @@ main{
     width: 90%;
     margin: 2em auto 1em auto;
     min-height: 65vh;
+}
+.danger{
+    background-color: rgba(240, 128, 128, 0.411);
+    border: 2px solid red;
+    padding: 1em;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.button{
+    width: 20%;
+    font-size: 1.2em;
+    font-weight: bolder;
+    cursor: pointer;
+    font-family: 'Anton', sans-serif;
+    background-color: var(--theme-primary);
+    color: var(--theme-secondary);
+    &:hover{
+        transition: color ease-in .5s;
+        color: var(--nav-links-hover);
+    }
+}
+
+a.button{
+    padding:.4em;
+    border: 2px solid lightgray;
+    text-align: center;
 }
 
 header{
@@ -494,6 +521,18 @@ form{
 
 .settings{
     margin: 3.5em auto 1em auto;
+}
+
+.settings-navigation{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    button{
+        &:last-child{
+            background-color: darkred;
+        }
+        
+    }
 }
 
 .navigation-links{
