@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Controller\LoginController;
 use App\Entity\Member;
 use App\Entity\User;
 use App\Form\RegistrationType;
@@ -129,15 +130,15 @@ class AccountController extends AbstractController
         }
         
         if($request->isMethod('POST')){
+            // invalidate token session
+            $this->container->get("security.token_storage")->setToken(null);
             foreach($members as $member){
                 $entityManager->remove($member);
             }
             $entityManager->remove($user);
             $entityManager->flush();
-            // Cleanning sessions variable
-            $session = $request->getSession();
-            $session->invalidate();
-            return $this->redirectToRoute('app_main');
+            // redirect to logout, which will redirect to app_main 
+            return $this->redirectToRoute('app_logout');
         }
         
         return $this->render('/Front/confirmation.html.twig', ['user'=>$user, 'members'=>$members]);
