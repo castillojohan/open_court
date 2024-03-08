@@ -40,6 +40,7 @@ const domModule = {
         //* Trying to build the whole table
         const tableParent = document.querySelector('table');
         const tbodyChild = document.createElement('tbody');
+        tbodyChild.classList.add('planning');
         for (let slot = 8; slot < domModule.timeSlotCount ; slot++){
             const trChild = document.createElement('tr');
             

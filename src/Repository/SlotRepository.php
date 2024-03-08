@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Slot;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,6 +22,20 @@ class SlotRepository extends ServiceEntityRepository
         parent::__construct($registry, Slot::class);
     }
 
+    public function findSlotsFromToday()
+    {
+        $dateOfTheDay = new DateTimeImmutable();
+        $currentYear = $dateOfTheDay->format('Y');
+        $currentMonth = $dateOfTheDay->format('m');
+        $currentDay = $dateOfTheDay->format('d');
+        $searchDate = new DateTimeImmutable("{$currentYear}-{$currentMonth}-{$currentDay} 07:00:00");
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.startAt > :val')
+            ->setParameter('val', $searchDate)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 //    /**
 //     * @return Slot[] Returns an array of Slot objects
 //     */

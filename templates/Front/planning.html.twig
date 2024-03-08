@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+{% block title %}Réserver un terrain{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/planning.css') }}">{% endblock %}
+{% block main %}
+<section>
+    <h2>Réservation du terrain</h2>
+    <section class="main__planning">
+        <select type="court">
+        {% for court in courts %}
+            <option value="{{ court.id }}">{{ court.name }}</option>
+        {% endfor %}
+        </select>
+        
+        <table>
+            <!-- SKULLS NEEDED FOR BUILD IT WITH JS 
+            <thead>
+                <tr>
+                    <th><time datetime="2024-01-12"></time>le 12 Janvier 2024</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><time datetime="2024-01-12 8:00">8h00-9h00</time></td>
+                    <td class="show">
+                        <a href="#">Validation</a>
+                        <a href="#">Annulation</a>
+                    </td>
+                    <td>météo-temps ?</td>
+                </tr>
+            </tbody>
+            -->
+        </table>
+
+    </section>
+</section>
+{% endblock %}

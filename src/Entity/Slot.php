@@ -4,16 +4,20 @@ namespace App\Entity;
 
 use App\Repository\SlotRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SlotRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Slot
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("get_slots")]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups("get_slots")]
     private ?\DateTimeImmutable $startAt = null;
 
     #[ORM\Column]

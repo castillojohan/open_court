@@ -7,28 +7,33 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
 #[ORM\Table(name: '`member`')]
+#[ORM\HasLifecycleCallbacks]
 class Member
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("get_member")]
     private ?int $id = null;
 
     #[Assert\NotBlank(
         message : "Ne dois pas être vide"
     )]
     #[ORM\Column(length: 255)]
+    #[Groups("get_member")]
     private ?string $firstName = null;
 
     #[Assert\NotBlank(
         message : "Ne dois pas être vide"
     )]
     #[ORM\Column(length: 255)]
+    #[Groups("get_member")]
     private ?string $lastName = null;
 
     #[Assert\NotNull]

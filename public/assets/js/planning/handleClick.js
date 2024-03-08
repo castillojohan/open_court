@@ -1,5 +1,6 @@
 import data from "./data.js";
 import planning from "./planning.js";
+import slotComponent from "./slotsComponents.js";
 
 const handleClick = {
     currentDay: 0,
@@ -16,16 +17,41 @@ const handleClick = {
 
     slots : (event) => {
         if(event.target.className !== "reserved" && event.target.childElementCount >= 2){
-            console.log(event.target.firstElementChild.firstChild.attributes.dateTime.value);    
+            const timeValue = event.target.firstElementChild.firstChild.attributes.dateTime.value;
+            const dateTimeValue = timeValue.split('T');
+            const hrDateTimeValue = dateTimeValue[0];
+            const hrTimeValue = dateTimeValue[1].slice(0, -8);
+            const result = confirm(`Etes vous sur de vouloir reserver le : ${hrDateTimeValue} à ${hrTimeValue} ?` )
+            if(result){
+                handleClick.sendSlot(timeValue);
+            };
         }
         return false;
+    },
+
+    sendSlot : async (slotValue) => {
+        const response = await fetch('http://127.0.0.1:8000/book-slot', 
+        {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                start_slot: slotValue,
+                end_slot: slotValue,
+                court_id: 1,
+                user_id: 1
+            })
+        });
+        const reservationSlot = await response.json();
     },
 
     goToDate : (newDayPosition) => {
         handleClick.daysCollection[newDayPosition];
         data.state.currentDate = handleClick.daysCollection[newDayPosition];
         handleClick.currentDay = newDayPosition;
-        planning.init()
+        planning.init();
+        slotComponent.checkDisplayedSlots();
     },
 
     leftDayButton: () => {
