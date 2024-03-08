@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+{% block title %}Modification de mon compte{% endblock %}
+{% block main %}
+    {% if errors %}
+        <p class="error">{{ errors }}</p>
+    {% endif %}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_widget(form) }}
+        <div class="inline-form-div">
+            <button class="button">Modifier</button>
+        </div>
+    {{ form_end(form) }}
+    <section class="settings-navigation">
+        <a class="button" href="{{ path('app_account') }}">Retour</a>
+        <a class="button" href="{{ path('app_delete_user') }}">Supprimer</a>
+    </section>
+{% endblock %}

@@ -1,40 +1,8 @@
 {% extends "base.html.twig" %}
 {% block title %} Ajout d'un membre {% endblock %}
 {% block main %} 
-<main>
     <section>
-
-    
-    <h2>Ajouter un membre à ma tribu</h2>
-    {{ include ("Front/_members-form.html.twig") }}
-    <!--
-    <form action="" method="POST">
-        <div>
-            <h3>Informations requises</h3>
-            <label for="lastName"> Nom </label>
-            <input type="text" name="lastName" id="lastName" required>
-            
-            <label for="firstName"> Prénom </label>
-            <input type="text" name="firstName" id="firstName" required>
-
-            <label for="birthday"> Date de naissance </label>
-            <input type="date" name="birthday" id="birthday" required>
-
-            <label for="gender">Genre</label>
-            <select name="gender" id="gender">
-                <option value="0">Homme</option>
-                <option value="1">Femme</option>
-            </select>
-
-            <label for="pincode">Code pin*</label>
-            <input type="password" name="pincode">
-            <legend>*Recommandé pour les membres adultes, laisser vide pour membres mineurs</legend>
-
-            <input type="hidden" name="_token" value="{{ csrf_token('member') }}">
-        </div>
-        <input class="button" type="submit" value="S'inscrire">
-    </form>
-    -->
+        <h2>Ajouter un membre à ma tribu</h2>
+        {{ include ("Front/_members-form.html.twig") }}
     </section>
-</main>
 {% endblock %}
