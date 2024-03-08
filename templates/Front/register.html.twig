@@ -1,8 +1,7 @@
 {% extends "base.html.twig" %}
 {% block title %}OpenCourt - Pimprennelle sur Odette - Inscription {% endblock %}
 {% block main %} 
-<main>
-    <section>
+<section>
     {% if errors %}
         <div class="error">
             {% for key, error in errors %}
@@ -64,6 +63,5 @@
         <input type="hidden" name="_token" value="{{ csrf_token('registration') }}">
         <input class="button" type="submit" value="S'inscrire">
     </form>
-    </section>
-</main>
+</section>
 {% endblock %}

@@ -1,7 +1,6 @@
 {% extends "base.html.twig" %}
 {% block title %} Mon compte {% endblock %}
 {% block main %}
-    <main>
     {% include ("Front/_tribe.html.twig") %}
         {% if session.get('member') %}
             <section class="main__user-panel">
@@ -37,6 +36,4 @@
             <p>Vous devez selectionner un membre</p>
         </div>
         {% endif %}
-        
-    </main>
 {% endblock %}
