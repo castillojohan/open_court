@@ -30,17 +30,19 @@ const handleClick = {
     },
 
     sendSlot : async (slotValue) => {
+        console.log(slotComponent.memberInformations);
         const response = await fetch('http://127.0.0.1:8000/book-slot', 
         {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': slotComponent.token,
             },
             body: JSON.stringify({
                 start_slot: slotValue,
                 end_slot: slotValue,
                 court_id: 1,
-                user_id: 1
+                user_id: slotComponent.memberInformations.id
             })
         });
         const reservationSlot = await response.json();

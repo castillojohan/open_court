@@ -3,6 +3,8 @@ import data from "./data.js";
 const slotComponent = {
     
     timeSlots : [],
+    memberInformations: {},
+    token: '',
 
     loadReservedSlots : () => {
         return new Promise((resolve, reject)=> {
@@ -14,9 +16,17 @@ const slotComponent = {
             .then((datas)=>{
                 for (const slot of datas.slots) {
                     const newSlot = new Date(slot.startAt).toISOString();
-                    slotComponent.timeSlots.push(newSlot);
+                    const bookingData = [
+                        newSlot,
+                        slot.memb.firstName
+                    ]
+                    slotComponent.timeSlots.push(bookingData);
                 }
-                console.log(datas.member);
+                
+                //needed to load member's information and send them in post method
+                slotComponent.memberInformations = datas.member;
+                console.log(slotComponent.memberInformations);
+
                 if(data.state.slots !== slotComponent.timeSlots){
                     data.state.slots = slotComponent.timeSlots;
                 }
@@ -40,15 +50,20 @@ const slotComponent = {
     reserveSlot : () => {
         const actualTime = new Date().toISOString();
         const allSlots = document.querySelectorAll('tbody.planning td:first-child');
+        const slotAndFirstName = [...data.state.slots];
         allSlots.forEach((slot)=>{
-            if(data.state.slots.includes(slot.firstChild.attributes[0].value) || slot.firstChild.attributes[0].value < actualTime){
+            if(slotAndFirstName[0].includes(slot.firstChild.attributes[0].value) || slot.firstChild.attributes[0].value < actualTime){
                 slot.parentNode.classList.add("reserved");
+                const nameLocation = document.querySelector('.booking-name');
+                nameLocation.innerText = slotAndFirstName[1];
             }
         });
     },
 
     init: () => {
+        slotComponent.token = document.querySelector('input').value;
         slotComponent.checkDisplayedSlots();
+        console.log(slotComponent.timeSlots);
     },
 }
 

@@ -58,10 +58,14 @@ const domModule = {
             firstTdChild.append(secondTimeChild);
             
             const secondTdChild = document.createElement('td');
-            secondTdChild.innerText = "Méteo du jour-vent-température";
+            secondTdChild.classList.add("booking-name");
+
+            const thirdTdChild = document.createElement('td');
+            thirdTdChild.innerText = "Méteo du jour-vent-température";
 
             trChild.appendChild(firstTdChild);
             trChild.appendChild(secondTdChild);
+            trChild.appendChild(thirdTdChild);
             
             tbodyChild.appendChild(trChild);
         

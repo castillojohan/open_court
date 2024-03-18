@@ -3,7 +3,9 @@
 namespace App\Controller\Front;
 
 use App\Repository\CourtRepository;
+use App\Repository\MemberRepository;
 use App\Repository\SlotRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,8 +47,12 @@ class PlanningController extends AbstractController
      * @return JsonResponse ( contains reserved slots by the member )
      */
     #[Route('/book-slot', name:'app_api_book-slot')]
-    public function bookSlot(SlotRepository $slotRepository)
+    public function bookSlot(SlotRepository $slotRepository, UserRepository $userRepository, MemberRepository $memberRepository)
     {
+        /*
+        $currentMember = $this->getUser();
+        $member = $memberRepository->find($currentMember);
+        */
         return $this->json(
             ['slots'=> $slotRepository->findSlotsFromToday()],
             Response::HTTP_OK,
