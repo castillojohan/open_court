@@ -16,10 +16,7 @@ const slotComponent = {
             .then((datas)=>{
                 for (const slot of datas.slots) {
                     const newSlot = new Date(slot.startAt).toISOString();
-                    const bookingData = [
-                        newSlot,
-                        slot.memb.firstName
-                    ]
+                    const bookingData = newSlot
                     slotComponent.timeSlots.push(bookingData);
                 }
                 
@@ -50,20 +47,24 @@ const slotComponent = {
     reserveSlot : () => {
         const actualTime = new Date().toISOString();
         const allSlots = document.querySelectorAll('tbody.planning td:first-child');
-        const slotAndFirstName = [...data.state.slots];
-        allSlots.forEach((slot)=>{
-            if(slotAndFirstName[0].includes(slot.firstChild.attributes[0].value) || slot.firstChild.attributes[0].value < actualTime){
-                slot.parentNode.classList.add("reserved");
-                const nameLocation = document.querySelector('.booking-name');
-                nameLocation.innerText = slotAndFirstName[1];
-            }
+        let slotFromDb = [...data.state.slots];
+        if (slotFromDb.length < 1){
+            slotFromDb =[''];
+        }
+
+        allSlots.forEach((slotOnPlanning)=>{
+                if(slotOnPlanning.firstChild.attributes[0].value < actualTime){
+                    slotOnPlanning.parentNode.classList.add("unavailable"); 
+                }
+                else if(slotFromDb.includes(slotOnPlanning.firstChild.attributes[0].value)){
+                    slotOnPlanning.parentNode.classList.add("reserved"); 
+                }
         });
     },
 
     init: () => {
         slotComponent.token = document.querySelector('input').value;
         slotComponent.checkDisplayedSlots();
-        console.log(slotComponent.timeSlots);
     },
 }
 

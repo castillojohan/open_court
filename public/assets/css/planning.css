@@ -33,12 +33,15 @@ table{
                 color: var(--theme-secondary);
                 transition: background-color ease .3s ;
             }
-            &.reserved{
+            &.unavailable, &.reserved{
                 background-color: lightgray;
                 cursor: not-allowed;
                 &:hover{
                     color: unset;
                 }
+            }
+            &.reserved{
+                background-color: var(--theme-planning);
             }
             td{
                 margin: 0 .8em;

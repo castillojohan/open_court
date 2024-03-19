@@ -30,7 +30,7 @@ const handleClick = {
     },
 
     sendSlot : async (slotValue) => {
-        console.log(slotComponent.memberInformations);
+        //console.log(slotComponent.memberInformations);
         const response = await fetch('http://127.0.0.1:8000/book-slot', 
         {
             method: 'post',
@@ -42,10 +42,11 @@ const handleClick = {
                 start_slot: slotValue,
                 end_slot: slotValue,
                 court_id: 1,
-                user_id: slotComponent.memberInformations.id
+                member_id: slotComponent.memberInformations.id
             })
         });
         const reservationSlot = await response.json();
+        console.log(reservationSlot);
     },
 
     goToDate : (newDayPosition) => {

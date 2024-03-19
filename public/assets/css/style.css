@@ -7,6 +7,10 @@ html{
     --theme-red-primary: #c54217;
     --theme-green-primary: #489452;
 
+    --theme-blue-planning: #bbdaffb4;
+    --theme-red-planning: #ffbda7c0;
+    --theme-green-planning: #c2ffcad5;
+
     /* for get a smoother transition between two navigation pages */
     --theme-primary: grey;
     --theme-secondary: white;
@@ -42,12 +46,15 @@ html{
 
 .theme-green{
     --theme-primary: var(--theme-green-primary);
+    --theme-planning : var(--theme-green-planning);
 }
 .theme-red{
     --theme-primary: var(--theme-red-primary);
+    --theme-planning : var(--theme-red-planning);
 }
 .theme-blue{
     --theme-primary: var(--theme-blue-primary);
+    --theme-planning : var(--theme-blue-planning);
 }
 
 body{
