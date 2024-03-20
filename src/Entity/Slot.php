@@ -3,28 +3,42 @@
 namespace App\Entity;
 
 use App\Repository\SlotRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SlotRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Slot
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("get_slots")]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Type(DateTimeImmutable::class)]
+    #[Groups("get_slots")]
     private ?\DateTimeImmutable $startAt = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Type(DateTimeImmutable::class)]
     private ?\DateTimeImmutable $endAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'slots')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Court $court = null;
 
     #[ORM\ManyToOne(inversedBy: 'slots')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups("get_slots")]
+    #[Assert\NotBlank]
+    #[Assert\Type(Member::class)]
     private ?Member $memb = null;
 
     public function getId(): ?int

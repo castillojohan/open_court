@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+{% block title %}Réserver un terrain{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/planning.css') }}">{% endblock %}
+{% block main %}
+<section>
+    <div>
+        <h2>Réservation du terrain</h2>
+        {% include ("Front/_member.html.twig") %}
+    </div>
+    <section class="main__planning">
+        <select type="court">
+        {% for court in courts %}
+            <option value="{{ court.id }}">{{ court.name }}</option>
+        {% endfor %}
+        </select>
+        
+        <table>
+            <!-- SKULLS NEEDED FOR BUILD IT WITH JS 
+            <thead>
+                <tr>
+                    <th><time datetime="2024-01-12"></time>le 12 Janvier 2024</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><time datetime="2024-01-12 8:00">8h00-9h00</time></td>
+                    <td class="show">
+                        <a href="#">Validation</a>
+                        <a href="#">Annulation</a>
+                    </td>
+                    <td>météo-temps ?</td>
+                </tr>
+            </tbody>
+            -->
+        </table>
+        <input type="hidden" name="_token" value="{{ csrf_token('booking') }}">
+
+    </section>
+</section>
+{% endblock %}
+{% block javascripts %}
+    <script type="application/json" id="mercure-url">
+        {{ mercure('booked')|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+    </script>
+{% endblock %}

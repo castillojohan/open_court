@@ -77,22 +77,19 @@ class AccountController extends AbstractController
     #[Route('/account', name: 'app_account', methods: 'GET')]
     public function userAccount(UserRepository $userRepository, MemberRepository $memberRepository, Request $request): Response
     {
-        $userId =  $this->getUser()->getId();
+        $userId = $this->getUser();
         $currentUser = $userRepository->find($userId);
-        $userMail = $currentUser->getEmail();
         $memberCollection = $memberRepository->findBy(['user'=>$userId]);
         foreach ($memberCollection as $member) {
             $member->getAge();
         }
-        
-        $this->addFlash('success', "Bienvenue, $userMail");
 
-        return $this->render('Front/account.html.twig', ['members'=> $memberCollection, 'session'=>$request->getSession(), "dateNow" => new DateTimeImmutable()]);
+        return $this->render('Front/account.html.twig', ['user'=>$currentUser->getUserIdentifier(), 'members'=> $memberCollection, 'session'=>$request->getSession(), "dateNow" => new DateTimeImmutable()]);
     }
 
     #[Route('/account/settings', name: 'app_settings', methods: ['GET', 'POST'])]
     public function userSettings(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager){
-        $user = $userRepository->find($this->getUser()->getId());
+        $user = $userRepository->find($this->getUser());
         $form = $this->createForm(RegistrationType::class, $user);
         
         if($request->isMethod('POST')){

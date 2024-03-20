@@ -40,6 +40,7 @@ const domModule = {
         //* Trying to build the whole table
         const tableParent = document.querySelector('table');
         const tbodyChild = document.createElement('tbody');
+        tbodyChild.classList.add('planning');
         for (let slot = 8; slot < domModule.timeSlotCount ; slot++){
             const trChild = document.createElement('tr');
             
@@ -57,10 +58,13 @@ const domModule = {
             firstTdChild.append(secondTimeChild);
             
             const secondTdChild = document.createElement('td');
-            secondTdChild.innerText = "Méteo du jour-vent-température";
+
+            const thirdTdChild = document.createElement('td');
+            thirdTdChild.innerText = "Méteo du jour-vent-température";
 
             trChild.appendChild(firstTdChild);
             trChild.appendChild(secondTdChild);
+            trChild.appendChild(thirdTdChild);
             
             tbodyChild.appendChild(trChild);
         
