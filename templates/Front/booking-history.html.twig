@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+{% block title %} Mon historique de reservation {% endblock %}
+{% block main %}
+<section>
+{{dump(slots)}}
+    <h2>Historique des réservation</h2>
+    {% for key, slot in slots %}
+        <p>{{ key }}</p>
+    {% endfor %}
+
+    <h3>Rétrospective saison 2023/2024 :  heures de tennis</h3>
+    <section> 
+        <div>
+            <h4>Janvier 2024 - vous avez jouer 7 heures</h4>
+            <ul>
+                <li>10 Janvier 2024 de 09:00 à 10:00</li>
+                <li>13 Janvier 2024 de 18:00 à 19:00</li>
+                <li>14 Janvier 2024 de 09:00 à 10:00</li>
+                <li>15 Janvier 2024 de 09:00 à 10:00</li>
+                <li>17 Janvier 2024 de 09:00 à 10:00</li>
+                <li>20 Janvier 2024 de 10:00 à 11:00</li>
+                <li>20 Janvier 2024 de 11:00 à 12:00</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Décembre 2023 - vous avez jouer 7 heures</h4>
+            <ul>
+                <li>10 Décembre 2024 de 09:00 à 10:00</li>
+                <li>13 Décembre 2024 de 18:00 à 19:00</li>
+                <li>14 Décembre 2024 de 09:00 à 10:00</li>
+                <li>15 Décembre 2024 de 09:00 à 10:00</li>
+                <li>17 Décembre 2024 de 09:00 à 10:00</li>
+                <li>20 Décembre 2024 de 10:00 à 11:00</li>
+                <li>20 Décembre 2024 de 11:00 à 12:00</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Novembre 2023 - vous avez jouer 3 heures</h4>
+            <ul>
+                <li>10 Novembre 2024 de 09:00 à 10:00</li>
+                <li>13 Novembre 2024 de 18:00 à 19:00</li>
+                <li>14 Novembre 2024 de 09:00 à 10:00</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Octobre 2023 - vous avez jouer 4 heures</h4>
+            <ul>
+                <li>15 Octobre 2024 de 09:00 à 10:00</li>
+                <li>17 Octobre 2024 de 09:00 à 10:00</li>
+                <li>20 Octobre 2024 de 10:00 à 11:00</li>
+                <li>20 Octobre 2024 de 11:00 à 12:00</li>
+            </ul>
+        </div>
+    </section>
+</section>
+{% endblock %}
