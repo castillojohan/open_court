@@ -3,7 +3,10 @@
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/planning.css') }}">{% endblock %}
 {% block main %}
 <section>
-    <h2>Réservation du terrain</h2>
+    <div>
+        <h2>Réservation du terrain</h2>
+        {% include ("Front/_member.html.twig") %}
+    </div>
     <section class="main__planning">
         <select type="court">
         {% for court in courts %}

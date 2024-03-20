@@ -1,5 +1,6 @@
+<h3>Connecté avec : {{ user }}</h3>
 {% if app.token.user.getMembers() is not empty %}
-    <p>Votre tribu est composée de : 
+    <p>Votre famille est composée de : </p>
     <div class="family">
     {% for member in members %}
         {% if session.get('member') and session.get('member').id is same as member.id %}

@@ -1,4 +1,16 @@
-
+div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    article.cards{
+        justify-self: flex-start;
+        width: 80px;
+        svg{
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
 table{
     font-size: 1.4rem;
     width:100%;

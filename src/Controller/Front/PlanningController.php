@@ -22,9 +22,11 @@ class PlanningController extends AbstractController
     #[Route('/planning', name:'app_planning', methods:['GET','POST'])]
     public function getPlanning(CourtRepository $courtRepository, Request $request): Response
     {   
+        $member = $request->getSession()->get('member');
         return $this->render('/Front/planning.html.twig', [
-            'courts' => $courtRepository->findAll()]
-        );
+            'courts' => $courtRepository->findAll(),
+            'member' => $member        
+        ]);
     }
 
     /**
