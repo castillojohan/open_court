@@ -33,13 +33,17 @@ class PlanningController extends AbstractController
      * @return JsonResponse ( contains reserved slots from today date, to avoid overload of requests in the futur )
      */
     #[Route('/booked-slots', name:'app_api_booked-slot')]
-    public function bookedSlots(SlotRepository $slotRepository, Request $request): JsonResponse
+    public function bookedSlots(SlotRepository $slotRepository,MemberRepository $memberRepository, Request $request): JsonResponse
     {   
         $member = $request->getSession()->get('member');
+        $user = $member->getUser();
+        $membersList = $memberRepository->findBy(['user'=> $user->getId()]);
+        
         return $this->json(
             [
                 'slots'=> $slotRepository->findSlotsFromToday(),
-                'member' => $member,
+                'currentMember' => $member,
+                'membersList' => $membersList
             ],
             Response::HTTP_OK,
             [],

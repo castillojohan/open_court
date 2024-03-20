@@ -19,7 +19,7 @@ class Member
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups("get_member")]
+    #[Groups(["get_member", "get_slots"])]
     private ?int $id = null;
 
     #[Assert\NotBlank(
@@ -48,6 +48,7 @@ class Member
 
     #[ORM\ManyToOne(inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups("get_member")]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'memb', targetEntity: Slot::class)]

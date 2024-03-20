@@ -46,7 +46,6 @@ const handleClick = {
             })
         });
         const reservationSlot = await response.json();
-        console.log(reservationSlot);
     },
 
     goToDate : (newDayPosition) => {

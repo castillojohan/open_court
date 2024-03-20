@@ -58,7 +58,6 @@ const domModule = {
             firstTdChild.append(secondTimeChild);
             
             const secondTdChild = document.createElement('td');
-            secondTdChild.classList.add("booking-name");
 
             const thirdTdChild = document.createElement('td');
             thirdTdChild.innerText = "Méteo du jour-vent-température";

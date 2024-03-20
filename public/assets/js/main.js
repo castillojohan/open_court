@@ -9,7 +9,7 @@ import pincode from "./pincode/pincode.js"
 const main = {
 
     isHomePage : document.querySelector(".main__slider"),
-    isPlanningPage: document.querySelector("table"),
+    isPlanningPage: document.querySelector("section.main__planning"),
     isPinPad: document.querySelector(".pinpad"),
 
     init : () => {

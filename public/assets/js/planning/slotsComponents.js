@@ -4,7 +4,9 @@ const slotComponent = {
     
     timeSlots : [],
     memberInformations: {},
+    membersList: {},
     token: '',
+    timeSlotMemberName: '',
 
     loadReservedSlots : () => {
         return new Promise((resolve, reject)=> {
@@ -16,13 +18,12 @@ const slotComponent = {
             .then((datas)=>{
                 for (const slot of datas.slots) {
                     const newSlot = new Date(slot.startAt).toISOString();
-                    const bookingData = newSlot
+                    const bookingData = `${newSlot},${slot.memb.id},${slot.memb.user.id}`;
                     slotComponent.timeSlots.push(bookingData);
                 }
-                
                 //needed to load member's information and send them in post method
-                slotComponent.memberInformations = datas.member;
-                console.log(slotComponent.memberInformations);
+                slotComponent.memberInformations = datas.currentMember;
+                slotComponent.membersList = datas.membersList;
 
                 if(data.state.slots !== slotComponent.timeSlots){
                     data.state.slots = slotComponent.timeSlots;
@@ -48,18 +49,43 @@ const slotComponent = {
         const actualTime = new Date().toISOString();
         const allSlots = document.querySelectorAll('tbody.planning td:first-child');
         let slotFromDb = [...data.state.slots];
+        
+        
         if (slotFromDb.length < 1){
             slotFromDb =[''];
         }
 
         allSlots.forEach((slotOnPlanning)=>{
+            slotFromDb.forEach((slotString)=> {
                 if(slotOnPlanning.firstChild.attributes[0].value < actualTime){
                     slotOnPlanning.parentNode.classList.add("unavailable"); 
                 }
-                else if(slotFromDb.includes(slotOnPlanning.firstChild.attributes[0].value)){
-                    slotOnPlanning.parentNode.classList.add("reserved"); 
+                else if(slotString.includes(slotOnPlanning.firstChild.attributes[0].value)){
+                    // for better readability, getting information about slot from DB
+                    const timeSlotMemberId = slotString.split(',')[1];
+                    const timeSlotAccountId = slotString.split(',')[2];
+
+                    slotOnPlanning.parentNode.classList.add("reserved");
+                    slotOnPlanning.nextSibling.setAttribute('data-values', (`${timeSlotMemberId},${timeSlotAccountId}`));
+ 
+                    // If time slot account ID is equal to current user ( member->user(id) )
+                    if(timeSlotAccountId == slotComponent.memberInformations.user.id){
+                        const memberNameOnSlot = slotComponent.seekMember(timeSlotMemberId);
+                        slotOnPlanning.nextSibling.textContent = `Réservation de ma famille - ${memberNameOnSlot}.`
+                    }
                 }
+            })
         });
+    },
+
+    seekMember: (memberId) => {
+        const membersArray = [...slotComponent.membersList];
+        for(let member = 0; member < membersArray.length ; member++){
+            if(membersArray[member].id == memberId){
+                return membersArray[member].firstName;
+            }
+        }
+        return "Nom introuvable";
     },
 
     init: () => {
