@@ -94,4 +94,12 @@ class PlanningController extends AbstractController
             ['groups'=>'get_slots']
         );
     }
+
+    #[Route('/booking-history', name:'app_booking-history', methods:'GET')]
+    public function bookingHistory(MemberRepository $memberRepository): Response
+    {
+        $user = $this->getUser();
+        $membersList = $memberRepository->findBy(['user'=>$user]);
+        return $this->render('Front/booking-history.html.twig', ['members'=> $membersList]);
+    }
 }

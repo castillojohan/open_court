@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+{% block title %} Mon historique de reservation {% endblock %}
+{% block main %}
+<section>
+    <h2>Historique des réservation</h2>
+
+    <h3>Rétrospective saison 2023/2024 : </h3>
+    <section> 
+    {% for member in members %}
+        <div>
+            <h4>{{ member.firstname }}</h4>
+            <ul>
+                {% for slot in member.getSlots %}
+                    <li class="hours">{{ slot.startAt|date('d/m/Y-H:i') }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+    </section>
+</section>
+{% endblock %}
+{% block javascripts %}<script type="module" src="{{ asset ('/assets/js/booking-history/booking-history.js') }}"></script>{% endblock %}
