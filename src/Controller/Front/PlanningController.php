@@ -6,7 +6,6 @@ use App\Entity\Slot;
 use App\Repository\CourtRepository;
 use App\Repository\MemberRepository;
 use App\Repository\SlotRepository;
-use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,20 +94,12 @@ class PlanningController extends AbstractController
             ['groups'=>'get_slots']
         );
     }
+
     #[Route('/booking-history', name:'app_booking-history', methods:'GET')]
-    public function bookingHistory(SlotRepository $slotRepository, MemberRepository $memberRepository): Response
+    public function bookingHistory(MemberRepository $memberRepository): Response
     {
         $user = $this->getUser();
         $membersList = $memberRepository->findBy(['user'=>$user]);
-        $membersSlots = [];
-        foreach($membersList as $member){
-            $slotList = $slotRepository->findBy(['memb'=>$member]);
-            dd($slotList);
-            if(!empty($slotList)){
-                $membersSlots[$member->getFirstName()] = $slotList;
-            }
-        }
-        return $this->render('Front/booking-history.html.twig', ['slots'=>$membersSlots]);
+        return $this->render('Front/booking-history.html.twig', ['members'=> $membersList]);
     }
-
 }
