@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% block title %} Mon historique de reservation {% endblock %}
+{% block main %}
+    {{ dump(member.gender == false) }}
+<section>
+    <h2>Cours Disponible :</h2>
+    <section> 
+    {% for lesson in lessons %}
+        {{ dump(lesson.getName|split(' ')[4]) }}
+        {% if member.gender == false and lesson.getName|split(' ')[4]== 'Homme' %}
+        <div>
+        {% else %}
+        <div class="unavailable">
+        {% endif %}
+            <h4>{{lesson.getName}}</h4>
+        
+            <p>Nombre de places: {{ lesson.getCapacity}}</p>
+            <p>Places restantes: {{ lesson.getCapacity }}</p>
+        </div>
+    {% endfor %}
+ 
+    </section>
+</section>
+{% endblock %}

@@ -47,7 +47,7 @@ class Member
     private ?int $age = null;
 
     #[ORM\ManyToOne(inversedBy: 'members')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups("get_member")]
     private ?User $user = null;
 
@@ -63,10 +63,14 @@ class Member
     #[ORM\Column(nullable: true)]
     private ?string $pinCode = null;
 
+    #[ORM\ManyToMany(targetEntity: Lesson::class, mappedBy: 'lessonMember')]
+    private Collection $lessons;
+
     public function __construct()
     {
         $this->slots = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,6 +226,33 @@ class Member
     public function setPinCode(?string $pinCode): static
     {
         $this->pinCode = $pinCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lesson>
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+
+    public function addLesson(Lesson $lesson): static
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons->add($lesson);
+            $lesson->addLessonMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesson(Lesson $lesson): static
+    {
+        if ($this->lessons->removeElement($lesson)) {
+            $lesson->removeLessonMember($this);
+        }
 
         return $this;
     }

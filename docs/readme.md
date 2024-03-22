@@ -33,11 +33,11 @@ OpenCourt est une application conçu et pensée pour répondre au besoin de digi
 # User Stories
 | En tant que | Je souhaite | Afin | Commentaires |
 |--|--|--|--|
-| Visiteur | Voir et m'informer des services/évènements proposés par l'association | Pouvoir envisager de m'inscrire |  |
-| Visiteur | Pouvoir m'inscrire en ligne | Profiter du terrain et des services/évènements |  |
-| Adhérent | Pouvoir réserver le terrain en ligne | Ne pas me déplacer jusqu'au terrain |  |
-| Adhérent | Pouvoir voir le planning en temps réel | Ne pas réserver un créneau déjà occupé |  |
-| Adhérent | Pouvoir communiquer avec l'association ou les autres adhérents | Avoir des réponses à mes questions / Rencontrer d'autres joueurs |  |
+| Visiteur | Voir et m'informer des services/évènements proposés par l'association | Pouvoir envisager de m'inscrire | FAIT |
+| Visiteur | Pouvoir m'inscrire en ligne | Profiter du terrain et des services/évènements | FAIT |
+| Adhérent | Pouvoir réserver le terrain en ligne | Ne pas me déplacer jusqu'au terrain | FAIT |
+| Adhérent | Pouvoir voir le planning en temps réel | Ne pas réserver un créneau déjà occupé | FAIT |
+| Adhérent | Pouvoir communiquer avec l'association ou les autres adhérents | Avoir des réponses à mes questions / Rencontrer d'autres joueurs | WIP |
 | Adhérent | Pouvoir participer aux événements proposés par l'association | Participer/Échanger |  |
 | Adhérent | Pouvoir proposer un match à un autre adhérent | M'amuser et progresser | V2 |
 | Adhérent | Souhaiter que l'on me propose des potentiels adversaires de mon niveau | Ne pas m'embêter à chercher | V2 |

@@ -35,11 +35,15 @@ class Slot
     private ?Court $court = null;
 
     #[ORM\ManyToOne(inversedBy: 'slots')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups("get_slots")]
     #[Assert\NotBlank]
     #[Assert\Type(Member::class)]
     private ?Member $memb = null;
+
+    #[ORM\ManyToOne(inversedBy: 'slots')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Lesson $lesson = null ;
 
     public function getId(): ?int
     {
@@ -92,5 +96,10 @@ class Slot
         $this->memb = $memb;
 
         return $this;
+    }
+
+    public function getLesson()
+    {
+        return $this->lesson;
     }
 }
