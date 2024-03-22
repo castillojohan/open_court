@@ -29,14 +29,16 @@ const bookingHistory = {
     cleanDateTime: () => {
         let oldValue = '';
         let oldMember = '';
-        for (const liElement of bookingHistory.countHours) {
-            const parentElement = liElement.parentElement;
-            const h4MemberName = parentElement.parentElement.children[0].textContent;
-            const liMonth = bookingHistory.month[parseInt(liElement.innerText.split('/')[1])-1];
-            if((liMonth !== oldValue) || (h4MemberName !== oldMember)){
-                bookingHistory.createElement('li', liElement, liMonth);
-                oldValue = liMonth;
-                oldMember = h4MemberName;
+        if(bookingHistory.countHours.length){
+            for (const liElement of bookingHistory.countHours) {
+                const parentElement = liElement.parentElement;
+                const h4MemberName = parentElement.parentElement.children[0].textContent;
+                const liMonth = bookingHistory.month[parseInt(liElement.innerText.split('/')[1])-1];
+                if((liMonth !== oldValue) || (h4MemberName !== oldMember)){
+                    bookingHistory.createElement('li', liElement, liMonth);
+                    oldValue = liMonth;
+                    oldMember = h4MemberName;
+                }
             }
         }
     },
