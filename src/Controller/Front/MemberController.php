@@ -11,27 +11,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MemberController extends AbstractController
 {
-    #[Route('/member-choice/{memberId}', name: 'app_member_choice', methods:['GET', 'POST'])]
-    public function memberChoice(Member $memberId, Request $request): Response
+    #[Route('/account/member-choice/{member}', name: 'app_member_choice', methods:['GET', 'POST'])]
+    public function memberChoice(Member $member, Request $request)
     {
-        if($memberId == null){
-            return new Exception("Membre non trouvé ( 404 )", Response::HTTP_NOT_FOUND);
-        }
+        $this->controlException($member, $this->getUser());
 
-        if(!$memberId->getPinCode()){
+        if(!$member->getPinCode()){
             $session = $request->getSession();
-            $session->set('member', $memberId);
+            $session->set('member', $member);
             return $this->redirectToRoute('app_account');
         }
 
         if($request->isMethod('POST')){
-            if($memberId->getPinCode() == $request->request->get('pincode')){
+            if($member->getPinCode() == $request->request->get('pincode')){
                 $session = $request->getSession();
-                $session->set('member', $memberId);
+                $session->set('member', $member);
                 return $this->redirectToRoute('app_account');
             }
             $this->addFlash('error', 'Mauvais code pin');
@@ -39,13 +36,13 @@ class MemberController extends AbstractController
         }
         
         return $this->render('/security/pincode.html.twig', [
-            'member'=> $memberId,
+            'member'=> $member,
             'last_username' => "",
         ]);
     }
 
-    #[Route('/register-member', name: 'app_register_member', methods:['GET', 'POST'])]
-    public function memberRegistration(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    #[Route('/account/register-member', name: 'app_register_member', methods:['GET', 'POST'])]
+    public function memberRegistration(Request $request, EntityManagerInterface $entityManager): Response
     {
         $member = new Member();
         $member->setUser($this->getUser());
@@ -63,13 +60,10 @@ class MemberController extends AbstractController
         return $this->render('Front/register-member.html.twig', ["form" => $form, "errors"=>""]);
     }
 
-    #[Route('/member/modify/{member}', name: 'app_member_modify', methods: ['GET', 'POST'])]
+    #[Route('/account/member/modify/{member}', name: 'app_member_modify', methods: ['GET', 'POST'])]
     public function memberModify(Member $member, MemberRepository $memberRepository, Request $request): Response
     {
-        // 404 case
-        if(!$member){
-            return new Exception('Not Found', Response::HTTP_NOT_FOUND);
-        }
+        dd($this->controlException($member, $this->getUser()));
         
         // GET request case
         $form = $this->createForm(MemberType::class, $member);
@@ -88,14 +82,32 @@ class MemberController extends AbstractController
         return $this->render('Front/modify-member.html.twig', ['member' => $member, 'form' => $form]);
     }
 
-    #[Route('/member/delete/{memberId}', name: 'app_member_delete')]
-    public function memberDeletion(Member $memberId, EntityManagerInterface $entityManager): Response
+    #[Route('/account/member/delete/{member}', name: 'app_member_delete')]
+    public function memberDeletion(Member $member, EntityManagerInterface $entityManager): Response
     {
-        if(!$memberId){
-            return new Exception('Not Found', Response::HTTP_NOT_FOUND);
-        }
-        $entityManager->remove($memberId);
+        $this->controlException($member, $this->getUser());
+        
+        $entityManager->remove($member);
         $entityManager->flush();
         return $this->redirectToRoute('app_account');
+    }
+
+    /**
+     *  function to control 404/403 exception
+     * @param Member $member
+     * @param User $user ( current User in session )
+     * 
+     * @return throw Exception (404/403) 
+     */
+    public function controlException($member, $user)
+    {
+        switch ($member) {
+            case $member->getId()== null:
+                throw $this->createNotFoundException("Ressource non trouvée");
+                break;
+            case $member->getUser() !== $user:
+                throw $this->createAccessDeniedException("Cette ressource ne vous appartiens pas");
+                break;
+        }
     }
 }

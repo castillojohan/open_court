@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PlanningController extends AbstractController
 {
-    #[Route('/planning', name:'app_planning', methods:['GET','POST'])]
+    #[Route('/account/planning', name:'app_planning', methods:['GET','POST'])]
     public function getPlanning(CourtRepository $courtRepository, Request $request): Response
     {   
         $member = $request->getSession()->get('member');
@@ -95,7 +95,7 @@ class PlanningController extends AbstractController
         );
     }
 
-    #[Route('/booking-history', name:'app_booking-history', methods:'GET')]
+    #[Route('/account/booking-history', name:'app_booking-history', methods:'GET')]
     public function bookingHistory(MemberRepository $memberRepository): Response
     {
         $user = $this->getUser();
