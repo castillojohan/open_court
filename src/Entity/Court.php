@@ -30,9 +30,13 @@ class Court
     #[ORM\OneToMany(mappedBy: 'court', targetEntity: Slot::class, orphanRemoval: true)]
     private Collection $slots;
 
+    #[ORM\OneToMany(mappedBy: 'court', targetEntity: Lesson::class)]
+    private Collection $lessons;
+
     public function __construct()
     {
         $this->slots = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +116,36 @@ class Court
             // set the owning side to null (unless already changed)
             if ($slot->getCourt() === $this) {
                 $slot->setCourt(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lesson>
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+
+    public function addLesson(Lesson $lesson): static
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons->add($lesson);
+            $lesson->setCourt($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesson(Lesson $lesson): static
+    {
+        if ($this->lessons->removeElement($lesson)) {
+            // set the owning side to null (unless already changed)
+            if ($lesson->getCourt() === $this) {
+                $lesson->setCourt(null);
             }
         }
 

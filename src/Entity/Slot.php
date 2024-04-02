@@ -43,6 +43,7 @@ class Slot
 
     #[ORM\ManyToOne(inversedBy: 'slots')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups("get_slots")]
     private ?Lesson $lesson = null ;
 
     public function getId(): ?int

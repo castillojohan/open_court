@@ -57,6 +57,9 @@ class Member
     #[ORM\OneToMany(mappedBy: 'memb', targetEntity: Article::class)]
     private Collection $articles;
 
+    #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Lesson::class)]
+    private Collection $lessonsTeacher;
+
     #[ORM\Column]
     private ?bool $gender = null;
 
@@ -64,13 +67,13 @@ class Member
     private ?string $pinCode = null;
 
     #[ORM\ManyToMany(targetEntity: Lesson::class, mappedBy: 'lessonMember')]
-    private Collection $lessons;
+    private $lessons;
 
     public function __construct()
     {
         $this->slots = new ArrayCollection();
         $this->articles = new ArrayCollection();
-        $this->lessons = new ArrayCollection();
+        $this->lessonsTeacher = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +147,11 @@ class Member
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getLessonsTeacher():Collection
+    {
+        return $this->lessonsTeacher;
     }
 
     /**

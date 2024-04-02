@@ -6,7 +6,7 @@ use App\Repository\LessonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
 class Lesson 
@@ -14,24 +14,41 @@ class Lesson
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("get_slots")]
     private ?int $id = null;
     
     #[ORM\Column(length: 255)]
+    #[Groups("get_slots")]
     private ?string $name = null;
     
     #[ORM\Column]
     private ?int $capacity = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $gender = null;
+
     #[ORM\OneToMany(mappedBy:'lesson', targetEntity: Slot::class)]
     private Collection $slots;
 
-    #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'lessons')]
+    #[ORM\ManyToOne(inversedBy: 'lessonsTeacher')]
+    private Member $teacher;
+
+    #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: "lessons")]
     private Collection $lessonMember;
+
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Court $court = null;
 
     public function __construct()
     {
         $this->slots = new ArrayCollection();
         $this->lessonMember = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        
     }
 
     public function getId()
@@ -60,9 +77,25 @@ class Lesson
         return $this;
     }
 
+    public function getGender(): ?bool
+    {
+        return $this->gender;
+    }
+
     public function getSlots(): Collection
     {
         return $this->slots;
+    }
+
+    public function getTeacher(): ?Member
+    {
+        return $this->teacher;
+    }
+
+    public function setTeacher($memberTeacher)
+    {
+        $this->teacher = $memberTeacher;
+        return $this;
     }
 
     /**
@@ -85,6 +118,18 @@ class Lesson
     public function removeLessonMember(Member $lessonMember): static
     {
         $this->lessonMember->removeElement($lessonMember);
+
+        return $this;
+    }
+
+    public function getCourt(): ?Court
+    {
+        return $this->court;
+    }
+
+    public function setCourt(?Court $court): static
+    {
+        $this->court = $court;
 
         return $this;
     }

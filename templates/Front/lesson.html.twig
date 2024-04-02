@@ -1,21 +1,35 @@
 {% extends "base.html.twig" %}
 {% block title %} Mon historique de reservation {% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/lessons.css') }}">{% endblock %}
 {% block main %}
-    {{ dump(member.gender == false) }}
 <section>
     <h2>Cours Disponible :</h2>
     <section> 
+
     {% for lesson in lessons %}
-        {{ dump(lesson.getName|split(' ')[4]) }}
-        {% if member.gender == false and lesson.getName|split(' ')[4]== 'Homme' %}
+
         <div>
-        {% else %}
-        <div class="unavailable">
-        {% endif %}
             <h4>{{lesson.getName}}</h4>
-        
-            <p>Nombre de places: {{ lesson.getCapacity}}</p>
-            <p>Places restantes: {{ lesson.getCapacity }}</p>
+            <ul>
+                <li>Professeur : {{ lesson.teacher.firstname }}</li>
+                <li>Date/heure:{{ lesson.slots[0].startAt|date('d-m-Y H:i') }}</li>
+                <li>Nombre de places : {{ lesson.getCapacity}}</li>
+                <li>Terrain : {{ lesson.court.name }}</li>
+                <li>Places restantes : {{ lesson.getCapacity }}</li>
+            </ul>
+            {% if member.age > 15 %}
+                {% if member.gender == lesson.gender and lesson.capacity > 0 and lesson.gender is not null %}
+                    <a href="{{ path('app_lesson_enrol', {'lessonFromRequest':lesson.id}) }}" class="button">S'inscrire</a>
+                {% endif %}
+            {% else %}
+                {% if lesson.gender is null %}
+                    <a href="#" class="button">S'inscrire</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% else %}
+        <div>
+            <h4>Aucune leçons/cours de tennis pour le moment</h4>
         </div>
     {% endfor %}
  

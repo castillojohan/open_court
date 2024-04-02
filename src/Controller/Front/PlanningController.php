@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PlanningController extends AbstractController
 {
     #[Route('/account/planning', name:'app_planning', methods:['GET','POST'])]
-    public function getPlanning(CourtRepository $courtRepository, Request $request): Response
+    public function getPlanning(CourtRepository $courtRepository, SlotRepository $slotRepository, Request $request): Response
     {   
         $member = $request->getSession()->get('member');
         return $this->render('/Front/planning.html.twig', [
@@ -40,6 +40,7 @@ class PlanningController extends AbstractController
         $member = $request->getSession()->get('member');
         $user = $member->getUser();
         $membersList = $memberRepository->findBy(['user'=> $user->getId()]);
+        
         
         return $this->json(
             [

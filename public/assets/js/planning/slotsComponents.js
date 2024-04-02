@@ -17,8 +17,11 @@ const slotComponent = {
                 })
             .then((datas)=>{
                 for (const slot of datas.slots) {
+                    let bookingData = "";
                     const newSlot = new Date(slot.startAt).toISOString();
-                    const bookingData = `${newSlot},${slot.memb.id},${slot.memb.user.id}`;
+                    slot.memb != null 
+                        ? bookingData = `${newSlot},${slot.memb.id},${slot.memb.user.id},member`
+                        : bookingData = `${newSlot},${slot.lesson.id},${slot.lesson.name},lesson`
                     slotComponent.timeSlots.push(bookingData);
                 }
                 //needed to load member's information and send them in post method
@@ -61,24 +64,32 @@ const slotComponent = {
                     slotOnPlanning.parentNode.classList.add("unavailable"); 
                 }
                 else if(slotString.includes(slotOnPlanning.firstChild.attributes[0].value)){
-                    // for better readability, getting information about slot from DB
-                    const timeSlotMemberId = slotString.split(',')[1];
-                    const timeSlotAccountId = slotString.split(',')[2];
-
+                    const timeSlotMemberOrLessonId = slotString.split(',')[1];
+                    const timeSlotUserIdOrLessonName = slotString.split(',')[2];
+                    const timeSlotType = slotString.split(',')[3];
                     slotOnPlanning.parentNode.classList.add("reserved");
-                    slotOnPlanning.nextSibling.setAttribute('data-values', (`${timeSlotMemberId},${timeSlotAccountId}`));
- 
-                    // If time slot account ID is equal to current user ( member->user(id) )
-                    if(timeSlotAccountId == slotComponent.memberInformations.user.id){
-                        const memberNameOnSlot = slotComponent.seekMember(timeSlotMemberId);
-                        slotOnPlanning.nextSibling.textContent = `Réservation de ma famille - ${memberNameOnSlot}.`
+                    slotOnPlanning.nextSibling.setAttribute('data-values', (`${timeSlotMemberOrLessonId},${timeSlotUserIdOrLessonName}`));
+                    // If time slot account ID is equal to current user ( member->user(id)
+                    switch (timeSlotType) {
+                        case "member":
+                            if(timeSlotUserIdOrLessonName == slotComponent.memberInformations.user.id){
+                                const memberNameOnSlot = slotComponent.seekMemberOrLesson(timeSlotUserIdOrLessonName);
+                                slotOnPlanning.nextSibling.textContent = `Réservation de ma famille - ${memberNameOnSlot}.`
+                            }
+                            break;
+                        case "lesson":
+                            slotOnPlanning.nextSibling.textContent = `${timeSlotUserIdOrLessonName}.`
+                            break;
+                        /* case "event": */
+                        default:
+                            break;
                     }
                 }
             })
         });
     },
 
-    seekMember: (memberId) => {
+    seekMemberOrLesson: (memberId) => {
         const membersArray = [...slotComponent.membersList];
         for(let member = 0; member < membersArray.length ; member++){
             if(membersArray[member].id == memberId){
