@@ -24,6 +24,8 @@ class Lesson
     #[ORM\Column]
     private ?int $capacity = null;
 
+    private ?int $actualCapacity = null;
+
     #[ORM\Column(nullable: true)]
     private ?bool $gender = null;
 
@@ -134,5 +136,14 @@ class Lesson
         return $this;
     }
 
+    public function getActualCapacity()
+    {
+        return $this->actualCapacity;
+    }
+
+    public function setActualCapacity($newCapacity)
+    {
+        $this->actualCapacity = $newCapacity;
+    }
 
 }

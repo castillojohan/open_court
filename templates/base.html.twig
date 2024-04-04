@@ -66,7 +66,8 @@
             </section>
         {% endif %}  
         <!--End Modal section-->
-
+        <!-- Manage login errors -->
+        {{ include ('_login-errors.html.twig')}}
         <!-- Flash Messages -->
         {{ include ( '_flash-messages.html.twig' )}}
 

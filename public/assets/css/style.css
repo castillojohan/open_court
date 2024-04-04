@@ -34,14 +34,36 @@ html{
     }
 }
 
-.error{
-    padding: .6em;
+.btn-close{
+    background-color: white;
+    color: black;
+    padding: 0.4em;
+    border-radius: 20%;
+    &:hover{
+        cursor: pointer;
+        box-shadow: 1px 1px 1px black;
+    }
+}
+
+.flashes{
+    padding: .5em;
     color: white;
-    background-color: darkred;
     margin: .5em auto;
     text-align: center;
     border-radius: 10px;
-    width : 50%;
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.error{
+    background-color: darkred;
+}
+
+.success{
+    background-color: green;
 }
 
 .theme-green{
