@@ -22,7 +22,7 @@ class LessonRepository extends ServiceEntityRepository
      */
     public function getNextLesson()
     {
-        $closestWeekStartDate = (new \DateTime())->modify('monday this week');
+        $closestWeekStartDate = (new \DateTime());
         $closestWeekEndDate = (new \DateTime())->modify('sunday this week');
         $qb = $this->createQueryBuilder('l');
         return $qb->select('l', 's')

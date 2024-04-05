@@ -1,7 +1,7 @@
 {# Provides errors due to bad credentials, limited connexion tries from authenticationUtils #}
 
 {% if error is defined and error %}
-    <div class="error">
+    <div class="flashes error">
         {{ error.messageKey|trans(error.messageData, 'security') }}
         <span class="btn-close">X</span>
     </div>

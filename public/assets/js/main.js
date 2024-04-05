@@ -31,7 +31,6 @@ const main = {
         if(main.isHappenError){
             flashesErrors.init();
         }
-        
     }
 }
 

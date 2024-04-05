@@ -35,7 +35,7 @@
                     {% endif %}
                 {% else %}
                     {% if lesson.gender is null %}
-                        <a href="#" class="button">S'inscrire</a>
+                        <a href="{{ path('app_lesson_subscribe', {'lessonFromRequest':lesson.id}) }}" class="button">S'inscrire</a>
                     {% endif %}
                 {% endif %}
             {% else %}
