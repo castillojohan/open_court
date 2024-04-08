@@ -1,6 +1,7 @@
 import data from "./data.js";
 import planning from "./planning.js";
 import slotComponent from "./slotsComponents.js";
+import manageResponse from "./manageResponse.js";
 
 const handleClick = {
     currentDay: 0,
@@ -46,6 +47,7 @@ const handleClick = {
             })
         });
         const reservationSlot = await response.json();
+        manageResponse.manageResponse(reservationSlot);
     },
 
     goToDate : (newDayPosition) => {

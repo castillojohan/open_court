@@ -36,6 +36,25 @@ class SlotRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function findWeeklySlots($memberId){
+        $dateOfTheDay = new DateTimeImmutable();
+        $weekStartAt = $dateOfTheDay->modify('monday this week');
+        $weekEndAt = $dateOfTheDay->modify('sunday this week');
+        $weekEndAt = $weekEndAt->modify('+1 day');
+        $searchDates = [$weekStartAt, $weekEndAt];
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
+            ->andWhere('s.memb IN (:member)')
+            ->setParameters([
+                    'startAt' => $searchDates[0],
+                    'endAt' => $searchDates[1],
+                    'member' => $memberId
+                ])
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 //    /**
 //     * @return Slot[] Returns an array of Slot objects
 //     */

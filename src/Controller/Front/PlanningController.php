@@ -6,6 +6,8 @@ use App\Entity\Slot;
 use App\Repository\CourtRepository;
 use App\Repository\MemberRepository;
 use App\Repository\SlotRepository;
+use App\Repository\UserRepository;
+use App\Service\TimeSlotRules;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,8 +62,20 @@ class PlanningController extends AbstractController
      * @return JsonResponse ( contains reserved slots by the member )
      */
     #[Route('/book-slot', name:'app_api_book-slot', methods:'POST')]
-    public function bookSlot(CourtRepository $courtRepository, MemberRepository $memberRepository, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager, HubInterface $hub): JsonResponse
+    public function bookSlot(TimeSlotRules $timeSlotRules, CourtRepository $courtRepository, MemberRepository $memberRepository, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager, HubInterface $hub): JsonResponse
     {
+        $member = $request->getSession()->get('member');
+        $user = $member->getUser();
+        
+        if(!$timeSlotRules->getRemainingWeeklyAvailableHours($user)){
+            return $this->json(
+                ['error' => 'Vous avez dépassé la limite de reservation pour cette semaine.'],
+                Response::HTTP_ACCEPTED,
+                [],
+                []
+            );
+        }
+
         $slot = new Slot();
 
         $json = json_decode($request->getContent(), true);
@@ -89,7 +103,10 @@ class PlanningController extends AbstractController
         $hub->publish($update);
 
         return $this->json(
-            ["slot" => $slot],
+            [
+                "success" => "Créneau horaire, correctement reservé",
+                "slot" => $slot
+            ],
             200,
             [],
             ['groups'=>'get_slots']
@@ -102,5 +119,21 @@ class PlanningController extends AbstractController
         $user = $this->getUser();
         $membersList = $memberRepository->findBy(['user'=>$user]);
         return $this->render('Front/booking-history.html.twig', ['members'=> $membersList]);
+    }
+
+    #[Route('/account/test', name:'app_planning_test', methods:['GET'])]
+    public function testService(SlotService $slotService, Request $request): Response
+    {   
+        $slotService->defineWeek();
+        
+        $member = $request->getSession()->get('member');
+        
+        $user = $member->getUser();
+        $slotService->updateTimeSlotsAvailable($user);
+        
+        return $this->render('/Front/planning.html.twig', [
+            'member' => $member,
+            'courts' => "Terrain Factice"      
+        ]);
     }
 }
