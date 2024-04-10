@@ -37,7 +37,7 @@ class SlotRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findWeeklySlots($memberId){
+    public function findUserWeeklySlots($memberId){
         $dateOfTheDay = new DateTimeImmutable();
         $weekStartAt = $dateOfTheDay->modify('monday this week');
         $weekEndAt = $dateOfTheDay->modify('sunday this week');
@@ -53,8 +53,40 @@ class SlotRepository extends ServiceEntityRepository
                 ])
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
+
+    public function findUserDailySlots($memberId){
+        $dateOfTheDay = new DateTimeImmutable('today');
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
+            ->andWhere('s.memb IN (:member)')
+            ->setParameters([
+                    'startAt' => $dateOfTheDay->setTime(0, 0, 0),
+                    'endAt' => $dateOfTheDay->setTime(23, 59, 59),
+                    'member' => $memberId
+                ])
+            ->orderBy('s.startAt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findMemberDailySlots($memberId){
+        $dateOfTheDay = new DateTimeImmutable('today');
+        return $this->createQueryBuilder('s')
+            ->where('s.memb = :member')
+            ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
+            ->setParameters([
+                    'startAt' => $dateOfTheDay->setTime(0, 0, 0),
+                    'endAt' => $dateOfTheDay->setTime(23, 59, 59),
+                    'member' => $memberId
+                ])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Slot[] Returns an array of Slot objects
 //     */

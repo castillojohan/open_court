@@ -17,11 +17,15 @@ const handleClick = {
     },
 
     slots : (event) => {
+        // prevent click on unavailable slot
+        if(event.target.className == "unavailable"){
+            return false;
+        }
         if(event.target.className !== "reserved" && event.target.childElementCount >= 2){
             const timeValue = event.target.firstElementChild.firstChild.attributes.dateTime.value;
             const dateTimeValue = timeValue.split('T');
             const hrDateTimeValue = dateTimeValue[0];
-            const hrTimeValue = dateTimeValue[1].slice(0, -8);
+            const hrTimeValue = dateTimeValue[1].slice(0, 8);
             const result = confirm(`Etes vous sur de vouloir reserver le : ${hrDateTimeValue} à ${hrTimeValue} ?` )
             if(result){
                 handleClick.sendSlot(timeValue);

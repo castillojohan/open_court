@@ -67,15 +67,6 @@ class PlanningController extends AbstractController
         $member = $request->getSession()->get('member');
         $user = $member->getUser();
         
-        if(!$timeSlotRules->getRemainingWeeklyAvailableHours($user)){
-            return $this->json(
-                ['error' => 'Vous avez dépassé la limite de reservation pour cette semaine.'],
-                Response::HTTP_ACCEPTED,
-                [],
-                []
-            );
-        }
-
         $slot = new Slot();
 
         $json = json_decode($request->getContent(), true);
@@ -87,6 +78,16 @@ class PlanningController extends AbstractController
             ->setCourt($court)
             ->setStartAt($startTime)
             ->setEndAt($endTime);
+
+
+        if(!$timeSlotRules->hasRemainingDailyAvailableHours($user)){
+            return $this->json(
+                ['error' => 'Une erreur est survenue..'],
+                Response::HTTP_ACCEPTED,
+                [],
+                []
+            );
+        }
 
         $errors = $validator->validate($slot);
         if(count($errors) > 0){
@@ -122,14 +123,19 @@ class PlanningController extends AbstractController
     }
 
     #[Route('/account/test', name:'app_planning_test', methods:['GET'])]
-    public function testService(SlotService $slotService, Request $request): Response
+    public function testService(TimeSlotRules $slotService,CourtRepository $courtRepository, Request $request): Response
     {   
         $slotService->defineWeek();
         
         $member = $request->getSession()->get('member');
-        
+        $slot = new Slot();
+        $slot->setMemb($member)
+            ->setStartAt((new \DateTimeImmutable('2024-04-10 12:00:00')))
+            ->setEndAt((new \DateTimeImmutable('2024-04-10 13:00:00')))
+            ->setCourt($courtRepository->find(1));
+
         $user = $member->getUser();
-        $slotService->updateTimeSlotsAvailable($user);
+        $slotService->canBookConsecutivelyTimeSlots($user, $slot);
         
         return $this->render('/Front/planning.html.twig', [
             'member' => $member,

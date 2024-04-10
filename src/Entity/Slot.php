@@ -68,9 +68,14 @@ class Slot
         return $this->endAt;
     }
 
-    public function setEndAt(\DateTimeImmutable $endAt): static
+    /**
+     * setEndAt will automaticaly set endDate to startDate +1 hour
+     *
+     * @return static
+     */
+    public function setEndAt(): static
     {
-        $this->endAt = $endAt;
+        $this->endAt = $this->getStartAt()->modify('+1 hour');
 
         return $this;
     }

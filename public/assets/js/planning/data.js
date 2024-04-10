@@ -14,5 +14,6 @@ const data = {
         ],
         slots : [],
     },
+
 }
 export default data;
