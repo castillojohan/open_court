@@ -5,6 +5,7 @@ namespace App\Interface ;
 use App\Entity\Member;
 use App\Entity\Slot;
 use App\Entity\User;
+use Doctrine\Common\Collections\Collection;
 
 interface TimeSlotRulesInterface
 {
@@ -14,7 +15,7 @@ interface TimeSlotRulesInterface
      * @param User $user
      * @return boolean
      */
-    public function hasRemainingWeeklyAvailableHours(User $user): bool;
+    public function hasRemainingWeeklyAvailableHours(User $user, Collection $members): bool;
 
     /** 
      * Get and calculate amount of hours remaining on current User, in this case, daily.
@@ -22,15 +23,7 @@ interface TimeSlotRulesInterface
      * @param User $user
      * @return boolean
      */
-    public function hasRemainingDailyAvailableHours(User $user): bool;
-
-    /**
-     * Verify if member can book a time slot , rules : max 2 hours/members/days 
-     *
-     * @param Member $member
-     * @return boolean
-     */
-    public function canBookTimeSlot(Member $member): bool ;
+    public function hasRemainingDailyAvailableHours(User $user, Collection $dailyUserSlots): bool;
 
     /**
      * verify if current User can reserve multiple time slot consecutively 
@@ -38,13 +31,14 @@ interface TimeSlotRulesInterface
      * @param User $user
      * @return boolean
      */
-    public function canBookConsecutivelyTimeSlots(User $user, Slot $slot): bool;
+    public function canBookConsecutivelyTimeSlots(User $user, Slot $slot, Collection $dailyUserSlots): bool;
 
     /**
      * Verify if an member wich book a time slot has reached is capacity, capacity defined by administrators 
      *
      * @param Member $member
+     * @param Slot $slot
      * @return boolean true if reached|false if unreached and can book
      */
-    public function hasExceededDailyTime(Member $member): bool;
+    public function hasExceededDailyTime(Member $member, Slot $slot): bool;
 }

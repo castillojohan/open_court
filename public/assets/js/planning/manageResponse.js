@@ -2,7 +2,7 @@ import flashesError from "../flashes-error/flashesError.js"
 
 const manageResponse = {
     
-        //Le but est de prendre un message contenu dans la réponse et de lafficher comme un flash message 
+        //Le but est de prendre un message contenu dans la réponse et de l'afficher comme un flash message 
         //dans la vue.
         
         //1. Controller si il y a des messages ?
@@ -11,10 +11,12 @@ const manageResponse = {
             if(Object.keys(response).includes('error') || Object.keys(response).includes('success')){
                 // on récupère justa la valeur de la clé pour l'envoyé à la méthode build
                 const key = Object.keys(response)[0];
-                const message = Object.values(response)[0];
-                const messageElement = manageResponse.buildErrorDisplay(key, message);
-                const targetLocation = manageResponse.domSibling();
-                manageResponse.insertInto(messageElement, targetLocation);
+                const messages = Object.values(response)[0];
+                for (const message of messages) {
+                    const messageElement = manageResponse.buildErrorDisplay(key, message);
+                    const targetLocation = manageResponse.domSibling();
+                    manageResponse.insertInto(messageElement, targetLocation);
+                }
             }
         },
 

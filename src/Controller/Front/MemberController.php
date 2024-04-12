@@ -63,7 +63,10 @@ class MemberController extends AbstractController
     #[Route('/account/member/modify/{member}', name: 'app_member_modify', methods: ['GET', 'POST'])]
     public function memberModify(Member $member, MemberRepository $memberRepository, Request $request): Response
     {
-        dd($this->controlException($member, $this->getUser()));
+        $session = $request->getSession();
+        $currentMember = $session->get("member");
+
+        $this->controlException($member, $this->getUser(), $currentMember);
         
         // GET request case
         $form = $this->createForm(MemberType::class, $member);
@@ -93,19 +96,23 @@ class MemberController extends AbstractController
     }
 
     /**
-     *  function to control 404/403 exception
-     * @param Member $member
-     * @param User $user ( current User in session )
+     * function to control 404/403 exception
+     * @param Member $member (memberID from route parameter)
+     * @param User $user (current User)
+     * @param Member|null $currentMember ($current member from session, if exist|if needed)
      * 
      * @return throw Exception (404/403) 
      */
-    public function controlException($member, $user)
+    public function controlException($member, $user, $currentMember=null)
     {
-        switch ($member) {
-            case $member->getId()== null:
+        switch (true) {
+            case $member->getId() == null:
                 throw $this->createNotFoundException("Ressource non trouvée");
                 break;
             case $member->getUser() !== $user:
+                throw $this->createAccessDeniedException("Cette ressource ne vous appartiens pas");
+                break;
+            case ($currentMember && $member !== $currentMember):
                 throw $this->createAccessDeniedException("Cette ressource ne vous appartiens pas");
                 break;
         }

@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Interface\TimeSlotRulesInterface;
 use App\Repository\SlotRepository;
 use App\Repository\UserRepository;
-use DateTimeImmutable;
 
 class TimeSlotRules implements TimeSlotRulesInterface
 {
@@ -24,11 +23,11 @@ class TimeSlotRules implements TimeSlotRulesInterface
     // Reservations max hebdomadaire par tout les MEMBRES d'un USER
     private $maxUserWeeklyreservations = 8;
     // Reservation max journalière par tout les MEMBRES d'un USER
-    private $maxUserDailyReservations = 4;
+    private $maxUserDailyReservations = 3;
     // Reservation max journalière consécutive par tout les MEMBRES d'un USER
     private $maxUserDailyConsecutiveReservation = 2;
     // Reservation max par jour par MEMBRES
-    private $maxMemberDailyReservation = 4;
+    private $maxMemberDailyReservation = 3;
     
     
     private $userRepository;
@@ -40,56 +39,84 @@ class TimeSlotRules implements TimeSlotRulesInterface
         $this->slotRepository = $slotRepository;  
     }
 
-    public function canBookTimeSlot(Member $member): bool
-    {
-        return true;
-    }
-
-    public function hasRemainingWeeklyAvailableHours(User $userArg):bool 
+    public function canBookTimeSlot(Member $memberArg, User $userArg, Slot $slotArg): array
     {
         $user = $this->userRepository->find($userArg);
+        $member = $memberArg;
         $members = $user->getMembers();
+        $userDailySlots = $this->slotRepository->findUserDailySlots($members, $slotArg);
+        $slot = $slotArg;
+
+        $errors = [];
+        $getErrors = false;
+
+        // si false, on génère l'erreur
+        if(!$this->hasRemainingWeeklyAvailableHours($user, $members)){
+            $errors['error'][] = "Vous n'avez plus de temps restant pour la semaine";
+            $getErrors = true;
+        }
+        
+        //si false, on génère l'erreur
+        if(!$this->hasRemainingDailyAvailableHours($user, $members)){
+            $errors['error'][] = "Le compte a épuisé son nombre de réservation journalière";
+            $getErrors = true;
+        }
+
+        // si true , on génère l'erreur
+        if($this->hasExceededDailyTime($member, $slot)){
+            $errors['error'][] = "Vous n'avez plus de temps restant pour la journée";
+            $getErrors = true;
+        }
+
+        // si false, on génère l'erreur
+        if(!$this->canBookConsecutivelyTimeSlots($user, $slot, $userDailySlots)){
+            $errors['error'][] = "Vous ne pouvez pas reserver plus de {$this->maxUserDailyConsecutiveReservation} heures consécutives";
+            $getErrors = true;
+        }
+        
+        $result[] = $getErrors;
+        $result[] = $errors; 
+        return $result;
+    }
+
+    // Est ce qu'il reste au COMPTE USER des heures hebdomadaire disponible ? OUI return TRUE | NON return FALSE
+    public function hasRemainingWeeklyAvailableHours($userArg, $members): bool
+    {
         $slotsInThisWeek = $this->slotRepository->findUserWeeklySlots($members);
-        ($this->maxUserWeeklyreservations - count($slotsInThisWeek)) <= 0 
-            ? $result = false 
-            : $result = true ;
+        ($this->maxUserWeeklyreservations - count($slotsInThisWeek)) > 0 
+            ? $result = true 
+            : $result = false ;
         return $result;
     }
 
-    public function hasRemainingDailyAvailableHours(User $userArg): bool
+    // Est ce qu'il reste au COMPTE USER des heures de reservations journalière ? OUI return TRUE | NON return FALSE
+    public function hasRemainingDailyAvailableHours($userArg, $dailyUserSlots): bool
     {
-        $user = $this->userRepository->find($userArg->getId());
-        $members = $user->getMembers();
-        $dailyUserSlots = $this->slotRepository->findUserDailySlots($members);
-        $this->maxUserDailyReservations - count($dailyUserSlots) <= 0
-            ? $result = false
-            : $result = true;
-        return $result;
-    }
-
-    public function hasExceededDailyTime(Member $member): bool
-    {
-        $slots = $this->slotRepository->findMemberDailySlots($member->getId());
-        $this->maxMemberDailyReservation - count($slots) <= 0
+        $this->maxUserDailyReservations > count($dailyUserSlots) 
             ? $result = true
             : $result = false;
         return $result;
     }
 
-    public function canBookConsecutivelyTimeSlots(User $userArg, Slot $newTimeSlot): bool
+    // Est ce que le MEMBRE à dépassé son temps de reservations impartis journalier ? OUI return TRUE | NON return FALSE
+    public function hasExceededDailyTime($member, $slot): bool
     {
-        $user = $this->userRepository->find($userArg->getId());
-        $members = $user->getMembers();
-        $dailyUserSlots = $this->slotRepository->findUserDailySlots($members);
+        $slots = $this->slotRepository->findMemberDailySlots($member->getId(), $slot);
+        count($slots) > $this->maxMemberDailyReservation
+            ? $result = true
+            : $result = false;
+        return $result;
+    }
 
+    // Le COMPTE USER peut t'il reserver consecutivement un autre TIMESLOT ? OUI return TRUE | NON return FALSE
+    public function canBookConsecutivelyTimeSlots($userArg, $newTimeSlot, $dailyUserSlots): bool
+    {
         $previousTimeSlot = null;
         $arrayConsecutiveTimeSlot = [];
-
         foreach ($dailyUserSlots as $timeSlot) {
             if($previousTimeSlot !== null && $timeSlot->getStartAt() == $previousTimeSlot->getEndAt()){
                 $arrayConsecutiveTimeSlot[] = $timeSlot;
                 $arrayConsecutiveTimeSlot[] = $previousTimeSlot;
-
                 if(count($arrayConsecutiveTimeSlot) >= $this->maxUserDailyConsecutiveReservation){
                     if($timeSlot->getEndAt() == $newTimeSlot->getStartAt() || $previousTimeSlot->getStartAt() == $newTimeSlot->getEndAt()){
                         return false;
@@ -101,15 +128,4 @@ class TimeSlotRules implements TimeSlotRulesInterface
         return true;
     }
 
-
-    /**
-     * DevLog TODO.
-     * Il semblerait que les trois methodes "has.." soit quasiement les même, reflechir à ça
-     * la méthode canBookTimeSlot, doit se charger de vérifié les autres, et de charger des erreur si il y a,
-     * éventuellement vérifié l'impact performance, entre methodes actuelle vs un chargement des données Users/Members/Slots 
-     * depuis canBookTimeSlot()
-     * Pour Jeudi 11 Avril,  
-     * 1.Retourner les erreurs à l'utilisateur via le json du controller
-     * 2.Modifier le JS pour traiter plusieurs erreurs
-     */
 }

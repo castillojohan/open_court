@@ -79,10 +79,11 @@ class PlanningController extends AbstractController
             ->setStartAt($startTime)
             ->setEndAt($endTime);
 
-
-        if(!$timeSlotRules->hasRemainingDailyAvailableHours($user)){
+   
+        $hasErrors = $timeSlotRules->canBookTimeSlot($member, $user, $slot);
+        if($hasErrors[0]){
             return $this->json(
-                ['error' => 'Une erreur est survenue..'],
+                ['error' => $hasErrors[1]['error']],
                 Response::HTTP_ACCEPTED,
                 [],
                 []
@@ -105,7 +106,7 @@ class PlanningController extends AbstractController
 
         return $this->json(
             [
-                "success" => "Créneau horaire, correctement reservé",
+                "success" => ["Créneau horaire, correctement reservé"],
                 "slot" => $slot
             ],
             200,
@@ -115,28 +116,43 @@ class PlanningController extends AbstractController
     }
 
     #[Route('/account/booking-history', name:'app_booking-history', methods:'GET')]
-    public function bookingHistory(MemberRepository $memberRepository): Response
+    public function bookingHistory(MemberRepository $memberRepository, SlotRepository $slotRepository): Response
     {
+        //! Tenter de récup les depuis le slot Repo ?
         $user = $this->getUser();
+        
         $membersList = $memberRepository->findBy(['user'=>$user]);
-        return $this->render('Front/booking-history.html.twig', ['members'=> $membersList]);
+        $slots = $slotRepository->findBy(['memb'=>$membersList], ['startAt'=>"ASC"]);
+        /*
+        foreach ($membersList as $member) {
+            $slots[$member->getFirstName()] = $member->getSlots();
+        };*/
+        return $this->render('Front/booking-history.html.twig', ['members'=> $membersList, "slots"=>$slots]);
     }
 
     #[Route('/account/test', name:'app_planning_test', methods:['GET'])]
     public function testService(TimeSlotRules $slotService,CourtRepository $courtRepository, Request $request): Response
     {   
-        $slotService->defineWeek();
-        
         $member = $request->getSession()->get('member');
         $slot = new Slot();
         $slot->setMemb($member)
-            ->setStartAt((new \DateTimeImmutable('2024-04-10 12:00:00')))
-            ->setEndAt((new \DateTimeImmutable('2024-04-10 13:00:00')))
+            ->setStartAt((new \DateTimeImmutable('2024-04-10 20:00:00')))
+            ->setEndAt((new \DateTimeImmutable('2024-04-10 21:00:00')))
             ->setCourt($courtRepository->find(1));
 
         $user = $member->getUser();
-        $slotService->canBookConsecutivelyTimeSlots($user, $slot);
-        
+        $test = $slotService->canBookTimeSlot($member, $user, $slot);
+        //dd($test[1]);
+        if(count($test[1]) > 0 ){
+            return $this->json([
+                "error" => $test[1]['error']
+            ],
+            200,
+            [],
+            []
+            );
+        }
+
         return $this->render('/Front/planning.html.twig', [
             'member' => $member,
             'courts' => "Terrain Factice"      

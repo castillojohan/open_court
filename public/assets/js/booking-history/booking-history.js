@@ -14,7 +14,7 @@ const bookingHistory = {
         "Décembre"
     ], 
 
-    countHours: document.querySelectorAll('li.hours'),
+    countHours: document.querySelectorAll('ul.slot-list li'),
 
     init: () => {
         bookingHistory.loadCountHours();
@@ -27,10 +27,41 @@ const bookingHistory = {
     },
 
     cleanDateTime: () => {
+
+        let memberSlots = [];
         let oldValue = '';
         let oldMember = '';
+        let datesList = [];
         if(bookingHistory.countHours.length){
-            for (const liElement of bookingHistory.countHours) {
+            for (const slot of bookingHistory.countHours) {
+                const [user, dateTime] = slot.innerText.split(' ');
+                if(!memberSlots[user]){
+                    memberSlots[user] = []
+                }
+                memberSlots[user].push(dateTime);
+            }
+        }
+        for (const member in memberSlots) {
+            if (Object.hasOwnProperty.call(memberSlots, member)) {
+                const slots = memberSlots[member];
+                const target = document.querySelector('main section>section');
+                const newDivMember = document.createElement('div'); 
+                const newH4Member = document.createElement('h4');
+                newH4Member.textContent = member;
+                newDivMember.appendChild(newH4Member);
+                target.append(newDivMember);
+
+                console.log(`Membre : ${member}`);
+                console.log('Créneaux horaires :');
+                slots.forEach(slot => {
+                    console.log(slot);
+                });
+            }
+        }
+        /*
+        if(bookingHistory.countHours.length){
+            for (const liElement of bookingHistory.countHours){
+                //dates = liElement.innerText.split("-")[0].map(dateString => new Date(dateString));
                 const parentElement = liElement.parentElement;
                 const h4MemberName = parentElement.parentElement.children[0].textContent;
                 const liMonth = bookingHistory.month[parseInt(liElement.innerText.split('/')[1])-1];
@@ -41,13 +72,14 @@ const bookingHistory = {
                 }
             }
         }
+        */
     },
 
     createElement: (tag, target, attr) => {
         const parentEl = target;
         const newliElement = document.createElement(tag);
         newliElement.textContent = attr
-        parentEl.prepend(newliElement);
+        parentEl.append(newliElement);
     }
 }
 

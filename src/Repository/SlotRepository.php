@@ -56,8 +56,9 @@ class SlotRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findUserDailySlots($memberId){
-        $dateOfTheDay = new DateTimeImmutable('today');
+    public function findUserDailySlots($memberId, $slotArg)
+    {
+        $dateOfTheDay = new DateTimeImmutable($slotArg->getStartAt()->format('Y-m-d'));
         return $this->createQueryBuilder('s')
             ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
             ->andWhere('s.memb IN (:member)')
@@ -72,8 +73,8 @@ class SlotRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findMemberDailySlots($memberId){
-        $dateOfTheDay = new DateTimeImmutable('today');
+    public function findMemberDailySlots($memberId, $slotArg){
+        $dateOfTheDay = new DateTimeImmutable($slotArg->getStartAt()->format('Y-m-d'));
         return $this->createQueryBuilder('s')
             ->where('s.memb = :member')
             ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
