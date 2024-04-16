@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Member;
 use App\Form\MemberType;
 use App\Repository\MemberRepository;
+use App\Repository\SlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -86,12 +87,17 @@ class MemberController extends AbstractController
     }
 
     #[Route('/account/member/delete/{member}', name: 'app_member_delete')]
-    public function memberDeletion(Member $member, EntityManagerInterface $entityManager): Response
+    public function memberDeletion(Member $member,SlotRepository $slotRepository, EntityManagerInterface $entityManager): Response
     {
         $this->controlException($member, $this->getUser());
-        
+        $slots = $slotRepository->findBy(['memb' => $member]);
+
+        foreach ($slots as $slot) {
+            $entityManager->remove($slot);
+        }
         $entityManager->remove($member);
         $entityManager->flush();
+
         return $this->redirectToRoute('app_account');
     }
 
@@ -112,8 +118,9 @@ class MemberController extends AbstractController
             case $member->getUser() !== $user:
                 throw $this->createAccessDeniedException("Cette ressource ne vous appartiens pas");
                 break;
-            case ($currentMember && $member !== $currentMember):
-                throw $this->createAccessDeniedException("Cette ressource ne vous appartiens pas");
+            // in this case, check if member to modify is the same as the current member and if the member to modify isn't minor ( case which minor can't delete or modify his own profil ) 
+            case ($currentMember && ($member->getId() !== $currentMember->getId() && $member->getAge() > 17)):
+                throw $this->createAccessDeniedException("Vous ne pouvez pas accéder a cette ressource");
                 break;
         }
     }

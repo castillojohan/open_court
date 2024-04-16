@@ -115,20 +115,30 @@ class PlanningController extends AbstractController
         );
     }
 
-    #[Route('/account/booking-history', name:'app_booking-history', methods:'GET')]
-    public function bookingHistory(MemberRepository $memberRepository, SlotRepository $slotRepository): Response
+    
+    #[Route('/account/booking-history', name:'app_booking-history', methods:['GET', 'POST'])]
+    public function bookingHistory(Request $request, MemberRepository $memberRepository, SlotRepository $slotRepository): Response | JsonResponse
     {
-        //! Tenter de récup les depuis le slot Repo ?
+        if($request->isMethod('GET')){
+            return $this->render('Front/booking-history.html.twig', []);
+        }
         $user = $this->getUser();
         
         $membersList = $memberRepository->findBy(['user'=>$user]);
         $slots = $slotRepository->findBy(['memb'=>$membersList], ['startAt'=>"ASC"]);
-        /*
-        foreach ($membersList as $member) {
-            $slots[$member->getFirstName()] = $member->getSlots();
-        };*/
-        return $this->render('Front/booking-history.html.twig', ['members'=> $membersList, "slots"=>$slots]);
+
+        //return $this->render('Front/booking-history.html.twig', ['members'=> $membersList, "slots"=>$slots]);
+        return $this->json([
+            "members"=>$membersList,
+            "slots" => $slots
+            ],
+            Response::HTTP_OK,
+            [],
+            ["groups" => "get_slots"]
+        );
+        
     }
+    
 
     #[Route('/account/test', name:'app_planning_test', methods:['GET'])]
     public function testService(TimeSlotRules $slotService,CourtRepository $courtRepository, Request $request): Response

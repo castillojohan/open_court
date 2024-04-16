@@ -57,7 +57,7 @@ class TimeSlotRules implements TimeSlotRulesInterface
         }
         
         //si false, on génère l'erreur
-        if(!$this->hasRemainingDailyAvailableHours($user, $members)){
+        if(!$this->hasRemainingDailyAvailableHours($user, $userDailySlots)){
             $errors['error'][] = "Le compte a épuisé son nombre de réservation journalière";
             $getErrors = true;
         }
