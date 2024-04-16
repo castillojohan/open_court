@@ -30,6 +30,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
+    #[ORM\Column]
+    private ?int $weeklySlotsCapacity = null;
+
     #[Assert\NotBlank(
         message : "Ne dois pas être vide"
     )]
@@ -42,6 +45,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->members = new ArrayCollection();
+    }
+
+    public function getWeeklySlotsCapacity()
+    {
+        return $this->weeklySlotsCapacity;
+    }
+
+    public function setWeeklySlotsCapacity($newCapacity)
+    {
+        $this->weeklySlotsCapacity = $newCapacity;
+        return $this;
     }
 
     public function getId(): ?int

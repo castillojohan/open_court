@@ -27,7 +27,6 @@ const slotComponent = {
                 //needed to load member's information and send them in post method
                 slotComponent.memberInformations = datas.currentMember;
                 slotComponent.membersList = datas.membersList;
-
                 if(data.state.slots !== slotComponent.timeSlots){
                     data.state.slots = slotComponent.timeSlots;
                 }
@@ -53,7 +52,6 @@ const slotComponent = {
         const allSlots = document.querySelectorAll('tbody.planning td:first-child');
         let slotFromDb = [...data.state.slots];
         
-        
         if (slotFromDb.length < 1){
             slotFromDb =[''];
         }
@@ -69,11 +67,11 @@ const slotComponent = {
                     const timeSlotType = slotString.split(',')[3];
                     slotOnPlanning.parentNode.classList.add("reserved");
                     slotOnPlanning.nextSibling.setAttribute('data-values', (`${timeSlotMemberOrLessonId},${timeSlotUserIdOrLessonName}`));
-                    // If time slot account ID is equal to current user ( member->user(id)
+                    // If time slot account ID is equal to current user ( member->user(id) )
                     switch (timeSlotType) {
                         case "member":
                             if(timeSlotUserIdOrLessonName == slotComponent.memberInformations.user.id){
-                                const memberNameOnSlot = slotComponent.seekMemberOrLesson(timeSlotUserIdOrLessonName);
+                                const memberNameOnSlot = slotComponent.seekMemberOrLesson(timeSlotMemberOrLessonId);
                                 slotOnPlanning.nextSibling.textContent = `Réservation de ma famille - ${memberNameOnSlot}.`
                             }
                             break;
@@ -91,9 +89,9 @@ const slotComponent = {
 
     seekMemberOrLesson: (memberId) => {
         const membersArray = [...slotComponent.membersList];
-        for(let member = 0; member < membersArray.length ; member++){
-            if(membersArray[member].id == memberId){
-                return membersArray[member].firstName;
+        for (const member of membersArray) {
+            if(member.id == memberId){
+                return member.firstName;
             }
         }
         return "Nom introuvable";

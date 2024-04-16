@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Member;
 use App\Form\MemberType;
 use App\Repository\MemberRepository;
+use App\Repository\SlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,7 +64,10 @@ class MemberController extends AbstractController
     #[Route('/account/member/modify/{member}', name: 'app_member_modify', methods: ['GET', 'POST'])]
     public function memberModify(Member $member, MemberRepository $memberRepository, Request $request): Response
     {
-        dd($this->controlException($member, $this->getUser()));
+        $session = $request->getSession();
+        $currentMember = $session->get("member");
+
+        $this->controlException($member, $this->getUser(), $currentMember);
         
         // GET request case
         $form = $this->createForm(MemberType::class, $member);
@@ -83,30 +87,40 @@ class MemberController extends AbstractController
     }
 
     #[Route('/account/member/delete/{member}', name: 'app_member_delete')]
-    public function memberDeletion(Member $member, EntityManagerInterface $entityManager): Response
+    public function memberDeletion(Member $member,SlotRepository $slotRepository, EntityManagerInterface $entityManager): Response
     {
         $this->controlException($member, $this->getUser());
-        
+        $slots = $slotRepository->findBy(['memb' => $member]);
+
+        foreach ($slots as $slot) {
+            $entityManager->remove($slot);
+        }
         $entityManager->remove($member);
         $entityManager->flush();
+
         return $this->redirectToRoute('app_account');
     }
 
     /**
-     *  function to control 404/403 exception
-     * @param Member $member
-     * @param User $user ( current User in session )
+     * function to control 404/403 exception
+     * @param Member $member (memberID from route parameter)
+     * @param User $user (current User)
+     * @param Member|null $currentMember ($current member from session, if exist|if needed)
      * 
      * @return throw Exception (404/403) 
      */
-    public function controlException($member, $user)
+    public function controlException($member, $user, $currentMember=null)
     {
-        switch ($member) {
-            case $member->getId()== null:
+        switch (true) {
+            case $member->getId() == null:
                 throw $this->createNotFoundException("Ressource non trouvée");
                 break;
             case $member->getUser() !== $user:
                 throw $this->createAccessDeniedException("Cette ressource ne vous appartiens pas");
+                break;
+            // in this case, check if member to modify is the same as the current member and if the member to modify isn't minor ( case which minor can't delete or modify his own profil ) 
+            case ($currentMember && ($member->getId() !== $currentMember->getId() && $member->getAge() > 17)):
+                throw $this->createAccessDeniedException("Vous ne pouvez pas accéder a cette ressource");
                 break;
         }
     }

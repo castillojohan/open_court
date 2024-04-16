@@ -6,16 +6,7 @@
 
     <h3>Rétrospective saison 2023/2024 : </h3>
     <section> 
-    {% for member in members %}
-        <div>
-            <h4>{{ member.firstname }}</h4>
-            <ul>
-                {% for slot in member.getSlots %}
-                    <li class="hours">{{ slot.startAt|date('d/m/Y-H:i') }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
+
     </section>
 </section>
 {% endblock %}
