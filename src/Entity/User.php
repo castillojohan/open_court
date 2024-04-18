@@ -30,11 +30,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column]
-    private ?int $weeklySlotsCapacity = null;
-
-    #[Assert\NotBlank(
-        message : "Ne dois pas être vide"
+    #[Assert\Regex(
+        pattern : '/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/',
+        message: "Le mot doit passe doit contenir au minimum 8 caractères, une majuscule, une minuscule, un chiffre, un caractère spécial.",
     )]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
@@ -45,17 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->members = new ArrayCollection();
-    }
-
-    public function getWeeklySlotsCapacity()
-    {
-        return $this->weeklySlotsCapacity;
-    }
-
-    public function setWeeklySlotsCapacity($newCapacity)
-    {
-        $this->weeklySlotsCapacity = $newCapacity;
-        return $this;
     }
 
     public function getId(): ?int

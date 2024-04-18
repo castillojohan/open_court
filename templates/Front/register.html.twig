@@ -1,11 +1,15 @@
 {% extends "base.html.twig" %}
 {% block title %}OpenCourt - Pimprennelle sur Odette - Inscription {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset ('assets/css/form.css') }}">
+{% endblock %}
 {% block main %} 
 <section>
     {% if errors %}
-        <div class="error">
+        <div class="flashes error">
             {% for key, error in errors %}
-                <p> {{ key }} => {{ error }} </p>
+                <p> {{ key }} : {{ error }} </p>
+                <span class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</span>
             {% endfor %}
         </div>
     {% endif %}
@@ -40,10 +44,19 @@
             <p>Ce formulaire contiendra les identifiants de connexion sur le site</p>
             <label for="email">Adresse email</label>
             <input type="email" name="email" id="email" required>
-
-            <label for="password">Mot de passe</label>
+            <div class="password-input-container">
+                <label for="password">
+                    Mot de passe
+                    <div class="password-help-container">
+                        <p><span id="password-help-message" class="help">
+                            Pour votre sécurité, le mot de passe doit contenir à minima, 8 caracteres, 1 majuscule, 1 minuscule, 1 chiffre, 1 caractere spécial
+                        </span></p>
+                        <button id="password-help">?</button>
+                    </div>
+                </label>
+            </div>
             <input type="password" name="password" id="password" required>
-
+            <div class="password-strenght"></div>
             <label for="confirmPassword">Confirmation de mot de passe</label>
             <input type="password" name="confirmPassword" id="confirmPassword" required>
             
@@ -64,4 +77,7 @@
         <input class="button" type="submit" value="S'inscrire">
     </form>
 </section>
+{% endblock %}
+{% block javascripts %}
+    <script type="module" src="{{ asset ('/assets/js/password-helper/passwordHelper.js') }}"></script>
 {% endblock %}

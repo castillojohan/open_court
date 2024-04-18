@@ -31,9 +31,8 @@ class AccountController extends AbstractController
             
             if($this->isCsrfTokenValid('registration', $submittedToken)){
                 $plainPassword = $allDatas['password'];
-                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
                 $user->setEmail($allDatas['email'])
-                        ->setPassword($hashedPassword)
+                        ->setPassword($plainPassword)
                         ->addMember($member)
                         ->setRoles(['ROLE_USER']);
                 $member->setFirstName($allDatas['firstname'])
@@ -44,6 +43,7 @@ class AccountController extends AbstractController
 
                 $errorsMember = $validator->validate($member);
                 $errorsUser = $validator->validate($user);
+                
                 
                 if(count($errorsMember) > 0 || count($errorsUser) > 0 ){
                     $errorsMessagesUser = $this->manageError($errorsUser);
@@ -60,6 +60,10 @@ class AccountController extends AbstractController
                 if(!isset($allDatas['acceptCGU'])){
                     return $this->render('Front/register.html.twig', ['errors' => ['CGU'=>'Vous devez accepter les CGU'], 'last_username'=> '']);
                 }
+
+                // for some reason must use password hashing here, before he can't be verified by assert regex in entity, for now , if there is no error i can hash and save password
+                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
                 $entityManager->persist($user);
                 $entityManager->persist($member);
                 $entityManager->flush();
