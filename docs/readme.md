@@ -85,7 +85,7 @@ OpenCourt est une application conçu et pensée pour répondre au besoin de digi
 </br></br></br>
 
 # MCD (raw)
-
+```
 COURSE: course_num, capacity, start_course, end_course
 PARTICIPATE, 0N COURSE, 0N MEMBER
 ACTU: actu_num, title, image, content, published_at, author, created_at, updated_at
