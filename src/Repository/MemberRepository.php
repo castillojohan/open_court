@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Member;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,6 +28,23 @@ class MemberRepository extends ServiceEntityRepository
         if($flush){
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * return only members who have + 18 years (for minors protection)
+     *
+     * @return void
+     */
+    public function getMemberForMessaging()
+    {
+        $dateNow = new DateTimeImmutable();
+        $dateToCompare = $dateNow->modify('-18 years');
+        return $this->createQueryBuilder('m')
+            ->where('m.birthday < :birthdayDate')
+            ->setParameter('birthdayDate', $dateToCompare)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 //    /**
 //     * @return Member[] Returns an array of Member objects
