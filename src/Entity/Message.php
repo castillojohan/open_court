@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Message
 {
     #[ORM\Id]
@@ -15,17 +18,21 @@ class Message
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups('get_conversation')]
     private ?string $content = null;
 
     #[ORM\Column]
+    #[Groups('get_conversation')]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'sent')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('get_conversation')]
     private ?Member $sender = null;
 
     #[ORM\ManyToOne(inversedBy: 'received')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('get_conversation')]
     private ?Member $recipient = null;
 
     public function getId(): ?int

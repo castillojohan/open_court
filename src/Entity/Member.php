@@ -26,7 +26,7 @@ class Member
         message : "Ne dois pas être vide"
     )]
     #[ORM\Column(length: 255)]
-    #[Groups(["get_member","get_slots"])]
+    #[Groups(["get_member","get_slots", "get_conversation"])]
     private ?string $firstName = null;
 
     #[Assert\NotBlank(

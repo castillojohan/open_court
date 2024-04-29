@@ -1,24 +1,29 @@
 {% extends "base.html.twig" %}
 {% block title %} Ma Messagerie {% endblock %}
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/lessons.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/messaging.css') }}">{% endblock %}
 {% block main %}
 <section>
     <h2>Messagerie</h2>
     <h3>Vous avez : {{ member.getReceived|length }} nouveau(x) message(s)</h3>
-    <span>
-        <button class="btn-on">ON</button>
-        <button class="btn-off">OFF</button>
-    </span>
-    <a href="" class="button new">Nouveau message</a>
+    <section class="new-message">
+        <a href="{{ path ('app_account_message_create') }}" class="button new">Nouveau message</a>
+        <span>
+            <button class="btn-on">ON</button>
+            <button class="btn-off">OFF</button>
+        </span>
+    </section>
     
-    <section>
+    <section class="conversations">
     {% set memberArray = [] %}
     {% for message in member.getReceived %}
         {% if message.getSender.firstName not in memberArray %}
-            <a href="" class="button">{{ message.getSender.firstName }} </a>
+            <a href="{{ path('app_account_conversations', { "id":message.getSender.id }) }}" class="button">{{ message.getSender.firstName }} </a>
             {% set memberArray = memberArray|merge([message.getSender.firstName]) %}
         {% endif %}
     {% endfor %}
+    </section>
+    <section class="create-message">
+    
     </section>
 
 </section>
