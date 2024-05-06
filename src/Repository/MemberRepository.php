@@ -35,13 +35,16 @@ class MemberRepository extends ServiceEntityRepository
      *
      * @return void
      */
-    public function getMemberForMessaging()
+    public function getMemberForMessaging($currentMemberId)
     {
         $dateNow = new DateTimeImmutable();
         $dateToCompare = $dateNow->modify('-18 years');
         return $this->createQueryBuilder('m')
-            ->where('m.birthday < :birthdayDate')
-            ->setParameter('birthdayDate', $dateToCompare)
+            ->where('(m.birthday < :birthdayDate) AND (m.id != :selfId)')
+            ->setParameters([
+                'birthdayDate' => $dateToCompare,
+                'selfId' => $currentMemberId
+            ])
             ->getQuery()
             ->getResult()
         ;

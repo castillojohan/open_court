@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
@@ -19,6 +21,15 @@ class Message
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups('get_conversation')]
+    #[Assert\NotBlank(
+        message : "Ne dois pas être vide."
+    )]
+    #[Assert\NotNull(
+        message : "Ne dois pas être null."
+    )]
+    #[Assert\Length(
+        max: 255
+    )]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -28,12 +39,19 @@ class Message
     #[ORM\ManyToOne(inversedBy: 'sent')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups('get_conversation')]
+    #[Assert\Type(Member::class)]
     private ?Member $sender = null;
 
     #[ORM\ManyToOne(inversedBy: 'received')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups('get_conversation')]
+    #[Assert\Type(Member::class)]
     private ?Member $recipient = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();    
+    }
 
     public function getId(): ?int
     {

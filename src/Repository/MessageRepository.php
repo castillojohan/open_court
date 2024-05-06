@@ -33,6 +33,16 @@ class MessageRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findConversationsWithMemberId($memberId)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.sender = :currentMember OR m.recipient = :currentMember')
+            ->setParameter('currentMember', $memberId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 //    /**
 //     * @return Message[] Returns an array of Message objects
 //     */
