@@ -24,11 +24,10 @@ class MessageController extends AbstractController
     public function messaging(MemberRepository $memberRepository, Request $request, MessageRepository $messageRepository, MessageService $messageService): Response
     {
         $sessionMember = $request->getSession()->get('member');
-        $currentMember = new Member();
         $currentMember = $memberRepository->find($sessionMember);
 
         $conversations = $messageRepository->findConversationsWithMemberId($currentMember);
-        $sortedConversations = $messageService->sortMessages($conversations, $currentMember);
+        $sortedConversations = $messageService->sortMessages($conversations, $currentMember); 
         return $this->render('./Front/messaging.html.twig', ["currentMember"=>$currentMember, "conversations" => $sortedConversations]);
     }
 
@@ -74,7 +73,7 @@ class MessageController extends AbstractController
 
         $tokenFromRequest = $request->headers->get('x-csrf-token');
         
-        // case witch token is bad
+        // case where bad token
         if(!$this->isCsrfTokenValid('send-message', $tokenFromRequest)){
             return $this->json(['error'=>'Il y à un problème avec le token, contactez un Admin.'], Response::HTTP_UNAUTHORIZED);
         }
@@ -107,8 +106,8 @@ class MessageController extends AbstractController
             return new JsonResponse(['errors'=>$errorsMessages], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        //$entityManager->persist($message);
-        //$entityManager->flush();
+        $entityManager->persist($message);
+        $entityManager->flush();
 
         $update = new Update(
             ['send-message'],
@@ -137,6 +136,24 @@ class MessageController extends AbstractController
             Response::HTTP_OK,
             [],
             ['groups'=>'get_conversation']
+        );
+    }
+
+    #[Route('/account/message/read/{recipient}', name:'app_account_message_read', methods: ['GET'])]
+    public function readMessageFromRecipient($recipient, Request $request, MessageRepository $messageRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $messages = $messageRepository->findUnreadMessagesBetweenMembers($request->getSession()->get('member'), $recipient);
+        foreach ($messages as $message) {
+            $message->readMessage();
+            $entityManager->persist($message);
+        }
+        $entityManager->flush();
+
+        return $this->json(
+            ['data'=>'messages marked as read'],
+            Response::HTTP_OK,
+            [],
+            []
         );
     }
 }

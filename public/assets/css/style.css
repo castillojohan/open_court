@@ -44,7 +44,6 @@ html{
         box-shadow: 1px 1px 1px black;
     }
 }
-
 .flashes{
     padding: .5em;
     color: white;
@@ -479,6 +478,14 @@ a.cards--add{
         svg{
             align-self: center;
         }
+    }
+    .new-messages{
+        align-self: center;
+        margin-left: 1em;
+        padding:0.5em;
+        background-color: darkred;
+        color: white;
+        border-radius: 10px;
     }
 
 }

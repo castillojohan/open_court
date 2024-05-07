@@ -19,17 +19,17 @@ const mercure = {
                 const orderedDate = mercure.cleanDate(date);
 
                 // localiser la discussion.
-                /* Alors, ici en gros on à deux navigateur le sender et le recipient, dans un cas
+                /* Alors, ici en gros on à deux clients le sender et le recipient, dans un cas
                 le sender envoie son message,
                 ( en partant du principe qu'il n'est pas possible de s'envoyer un message ) 
-                    - pour mettre à jour la discussion je vérifie si sur la page que le recipientId existe dans ma liste de contact
+                    - pour mettre à jour la discussion je vérifie si sur la page du client, que le recipientId existe dans ma liste de contact
                         - si true je le selectionne
-                        - si false je considère que nous sommes sur la vue recipient 
-                        et je selectionne donc mon contact qui possede un sendID   
+                        - si false je considère que nous sommes sur la vue du client recipient 
+                        et je selectionne donc mon contact qui possede un senderID   
                 */
-                const conversationTargetElement = (document.querySelector(`a.button.recipient[value='${recipientId}']`) != null) 
-                    ? document.querySelector(`a.button.recipient[value='${recipientId}']`)
-                    : document.querySelector(`a.button.recipient[value='${senderId}']`)
+                const conversationTargetElement = (document.querySelector(`a.button.recipient[data-member-id='${recipientId}']`) != null) 
+                    ? document.querySelector(`a.button.recipient[data-member-id='${recipientId}']`)
+                    : document.querySelector(`a.button.recipient[data-member-id='${senderId}']`)
                 
                 const conversationParentElement = conversationTargetElement.parentElement;
                 const threadDivElement = conversationParentElement.childNodes[3]
@@ -67,11 +67,13 @@ const mercure = {
                     const totalNewHeight = (conversationHeight + newDivElement.offsetHeight)+30;
                     conversationParentElement.style.height = `${totalNewHeight}px`
                 }else{
-                    const newSpanElement = document.createElement('span');
-                    newSpanElement.classList.add('alert');
-                    newSpanElement.textContent = 'new';
-                    const newMessageAlert = conversationParentElement.querySelector('a.button.recipient');
-                    newMessageAlert.append(newSpanElement);
+                    if(conversationParentElement.querySelector('a.button.recipient span') == null){
+                        const newSpanElement = document.createElement('span');
+                        newSpanElement.classList.add('alert');
+                        newSpanElement.textContent = 'new';
+                        const newMessageAlert = conversationParentElement.querySelector('a.button.recipient');
+                        newMessageAlert.append(newSpanElement);
+                    }
                 }
                
                 // cleanup this textarea

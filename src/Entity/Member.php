@@ -332,4 +332,15 @@ class Member
 
         return $this;
     }
+
+    public function gotNewMessages()
+    {
+        $messages = $this->received;
+        foreach ($messages as $message) {
+            if($message->getIsReadStatus() == false){
+                return true;
+            }
+        }
+        return false;
+    }
 }

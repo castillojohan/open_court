@@ -14,6 +14,7 @@ const manageMessages = {
 
     handleConversationClick: (event)=> {
         event.preventDefault();
+        manageMessages.markMessagesAsRead(event.target.dataset.memberId);
         const targetSection = event.target.parentNode;
         const popupNewMessage = targetSection.querySelector('a.button.recipient');
         const spanToRemove = popupNewMessage.querySelector('span');
@@ -48,6 +49,22 @@ const manageMessages = {
         if(expandedDiv){
             expandedDiv.classList.remove('expanded');
             expandedDiv.style.height = "2em";
+        }
+    },
+
+    markMessagesAsRead: async (targetId)=>{
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/account/message/read/${targetId}`, 
+            {
+                method: 'GET',
+                header: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const datas = await response.json();
+        } 
+        catch (error) {
+            throw error;
         }
     }
 }

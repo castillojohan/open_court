@@ -21,10 +21,10 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    public function findConversationBetweenMembers($currentMember, $memberInterlocutor)
+    public function findUnreadMessagesBetweenMembers($currentMember, $memberInterlocutor)
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('(m.sender = :currentMember AND m.recipient = :memberInterlocutor) OR (m.sender = :memberInterlocutor AND m.recipient = :currentMember)')
+            ->andWhere('(m.sender = :memberInterlocutor AND m.recipient = :currentMember) AND (m.isRead = false)')
             ->setParameters([
                 'currentMember' => $currentMember,
                 'memberInterlocutor' => $memberInterlocutor,

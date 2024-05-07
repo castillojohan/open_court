@@ -5,6 +5,18 @@ section.new-message{
     justify-content: space-between;
     align-items: center;
 }
+h3{
+    display: flex;
+}
+span.alert{
+    padding: 0.2em;
+    font-size: 0.7em;
+    margin: 0 0.3em;
+    align-self: center;
+    background-color: darkred;
+    color: white;
+    border-radius: 10px;
+}
 
 section.conversations{
     display: flex;
@@ -18,12 +30,7 @@ section.conversations{
         overflow: hidden;
         transition:1s height;
         span.alert{
-            padding: 0.2em;
-            font-size: 0.7em;
-            background-color: darkred;
-            color: white;
             margin-left: 1em;
-            border-radius: 10px;
         }
         a{
             display: flex;

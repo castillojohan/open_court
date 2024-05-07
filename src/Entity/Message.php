@@ -36,6 +36,9 @@ class Message
     #[Groups('get_conversation')]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column]
+    private ?bool $isRead = null;
+
     #[ORM\ManyToOne(inversedBy: 'sent')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups('get_conversation')]
@@ -50,7 +53,8 @@ class Message
 
     public function __construct()
     {
-        $this->createdAt = new DateTimeImmutable();    
+        $this->createdAt = new DateTimeImmutable();
+        $this->isRead = false;
     }
 
     public function getId(): ?int
@@ -104,5 +108,16 @@ class Message
         $this->recipient = $recipient;
 
         return $this;
+    }
+
+    public function readMessage()
+    {
+        $this->isRead = true;
+        return $this;
+    }
+
+    public function getIsReadStatus()
+    {
+        return $this->isRead;
     }
 }
