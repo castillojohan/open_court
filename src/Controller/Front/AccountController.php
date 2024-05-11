@@ -86,7 +86,12 @@ class AccountController extends AbstractController
             $member->getAge();
         }
 
-        return $this->render('Front/account.html.twig', ['user'=>$currentUser->getUserIdentifier(), 'members'=> $memberCollection, 'session'=>$request->getSession(), "dateNow" => new DateTimeImmutable()]);
+        $sessionMember = $request->getSession()->get('member') !== null
+            ? $memberRepository->find($request->getSession()->get('member')->getId())
+            : null
+        ;
+
+        return $this->render('Front/account.html.twig', ['user'=>$currentUser->getUserIdentifier(), 'members'=> $memberCollection, 'currentMember'=>$sessionMember, "dateNow" => new DateTimeImmutable()]);
     }
 
     #[Route('/account/settings', name: 'app_settings', methods: ['GET', 'POST'])]

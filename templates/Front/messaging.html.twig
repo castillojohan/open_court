@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% block title %} Ma Messagerie {% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/messaging.css') }}">{% endblock %}
+{% block main %}
+
+<section>
+    <h2>Messagerie</h2>
+    <h3>Les petits <span class='alert'>new</span> à côté de chaque conversation indiquent un ou plusieurs messages non lus. </h3>
+    <section class="new-message"> 
+        <a href="{{ path ('app_account_message_create') }}" class="button new">Nouveau message</a>
+        <span>
+            <button class="btn-on">ON</button>
+            <button class="btn-off">OFF</button>
+        </span>
+    </section>
+    <section class="conversations" data-member = {{ currentMember.getId() }}>
+
+    {% for member, conversation in conversations %}
+        {# ID of a recipient = informationsMember[0] , name of recipient informationsMember[1] #}
+        {% set informationsMember = member|split('/') %}
+        <section>
+            <a href="" class="button recipient" data-member-id="{{ informationsMember[0] }}">
+                {{ informationsMember[1] }}
+                {% for message in conversation %}
+                    {% if message.getRecipient() == currentMember and not message.getIsReadStatus() %}
+                        <span class="alert">new</span>
+                    {% endif %}
+                {% endfor %}
+            </a>
+            <div>
+            {% for message in conversation %}
+                <time>{{ message.getCreatedAt|date('d-m-Y H:i:s')}}</time>
+                {% if currentMember.getFirstName == message.getSender.getFirstName %}
+                    <div class="reponse self">
+                {% else %}
+                    <div class="reponse">
+                {% endif %}
+                    <h4>{{ message.getSender.getFirstName }}</h4>
+                    <p>{{ message.content }}</p>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="messages-recipient">
+            <label for="message">Envoyer un Message à {{ informationsMember[1] }}</label>
+                <textarea name="message" id="message"></textarea>
+                <span>
+                    <a href="{{ path('app_account_message_send', {'recipient': informationsMember[0]}) }}" class="button send">Envoyer</a>
+                </span>
+            </div>
+        </section>
+    {% endfor %}
+    <input id="send-message" type="hidden" name="_csrf_token" value="{{ csrf_token('send-message')}}">
+    </section>
+</section>
+{% endblock %}
+{% block javascripts %}
+    <script type="module" src="{{ asset ('/assets/js/message/manageMessages.js') }}"></script>
+    <script type="application/json" id="mercure-url">
+        {{ mercure('send-message')|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+    </script>
+{% endblock %}
