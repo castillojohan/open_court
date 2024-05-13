@@ -922,6 +922,74 @@ footer{
                 margin: 1em 1em;
             }
         }
+        article.cards, a.cards--add{
+            padding: 1em;
+            width: fit-content;
+            svg{
+                width: 20px;
+                height: 30px;
+            }
+            p{
+                margin: 3px;
+            }
+            div.cards--choices{
+                svg{
+                    margin-top: 10px;
+                    width: 30px;
+                }
+            }
+        }
+        .main__user-panel{
+            a{
+                width: 33%;
+                font-size: 0.7em;
+                align-self: center;
+                h3{
+                    font-size: 1.4em;
+                }
+            }
+        }
+        .pinpad{
+            width:unset;
+        }
+        h3{
+            display: block;
+            font-size: 1em;
+        }
+        .conversations{
+            h4{
+                font-size: 0.8em;
+            }
+        }
+        .main__planning{
+            table{
+                tr{
+                    td{
+                        font-size: 0.7em;
+                        &:last-of-type{
+                            font-size: 0.5em;
+                        }
+                    }
+                }
+                tr.unavailable, tr.reserved{
+                    td{
+                        &:last-of-type{
+                        display: none;
+                        }
+                    }
+                }
+            }
+        }
+        section.services{
+            .y.container>div{
+                h3{
+                    font-size: 1em;
+                }
+                img{
+                    width:60%;
+                }
+            }
+        }
     }
     footer{
         flex-direction: column;
