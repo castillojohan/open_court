@@ -1,0 +1,17 @@
+
+div{
+   line-height: 2.5em; 
+}
+
+.button{
+    width: fit-content;
+}
+
+.reserved{
+    background-color: var(--theme-primary);
+    color: var(--theme-secondary);
+}
+
+.danger{
+    background-color: darkred;
+}

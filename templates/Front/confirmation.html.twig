@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+{% block title %} Mon compte {% endblock %}
+{% block main %}
+    <h2> Êtes vous sûr ?</h2>
+    <section>
+        <p>Vous allez supprimer votre compte : {{ user.getEmail()}}</p>
+        <p>Qui contient {{ members|length }} membres :</p>
+        <ul>
+            {% for member in members %}
+                <li>{{ member.firstName() }}, {{ member.lastName() }}, {{ member.getBirthday()|date('d/m/Y') }}</li>
+            {% endfor %}
+        </ul>
+        <p class="danger">Attention, la suppression de votre compte est irréversible, l'adhésion en cours ne pourra être remboursée, conformément aux CGU. Les créneaux horaire réservés seront libérés. Les inscriptions aux événements effacées. Votre accès au site/application sera lui aussi supprimé.</p>
+        <form action="" method="POST">
+            <button type="submit" class="button">Supprimer</button>
+        </form>
+        <a class="button" href="{{ path('app_account') }}">Retour à mon compte</a>
+    </section>
+{% endblock %}

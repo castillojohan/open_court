@@ -28,6 +28,16 @@ html{
     }
 }
 
+.error p{
+    padding: .5em;
+    color: white;
+    background-color: red;
+    margin: .5em auto;
+    text-align: center;
+    border-radius: 10px;
+    width : 50%;
+}
+
 .theme-green{
     --theme-primary: var(--theme-green-primary);
 }

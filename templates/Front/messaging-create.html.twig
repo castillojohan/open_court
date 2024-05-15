@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+{% block title %} Ma Messagerie {% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/messaging.css') }}">{% endblock %}
+{% block main %}
+<section>
+    <h1>Nouveau message :</h1>
+    <section class="create-message">
+        <form name="message" action="" method="POST">
+        <input id="_token" type="hidden" name="_token" value="{{ csrf_token('send')}}">
+        <div>
+            <label for="content">Créer un message pour : </label>
+            <select name="message[recipient]" id="message_recipient">
+            {% for member in members %}
+                <option value="{{ member.getId()}}">{{ member.getFirstName() }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <textarea name="message[content]" id="message_content"></textarea>
+        <div>
+            <input type="submit" class="button send" value="Envoyer">
+            <a href="{{ path("app_account_message")}}" class="button">Retour à ma messagerie</a>
+        </div>
+        </form>
+    </section>
+</section>
+
+{% endblock %}
+

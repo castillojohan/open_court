@@ -37,7 +37,7 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private ?Member $memb = null;
 
     public function getId(): ?int
     {
@@ -128,14 +128,14 @@ class Article
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getMemb(): ?Member
     {
-        return $this->author;
+        return $this->memb;
     }
 
-    public function setAuthor(?User $author): static
+    public function setMemb(?Member $memb): static
     {
-        $this->author = $author;
+        $this->memb = $memb;
 
         return $this;
     }

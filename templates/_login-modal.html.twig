@@ -1,0 +1,23 @@
+<section class="blur-pattern">
+    <div class="login-modal">
+        <div class="form">
+            <form action="{{ path('app_login')}}" method="post">
+                <div>
+                    <div>
+                        <p class="button-close">x</p>
+                    </div>
+                    <h3>Connexion</h3>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" value="{{ last_username }}" required>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password" required>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                </div>
+                <div>
+                    <p><a href="#">Mot de passe oublié</a> - <a href="#">Pas encore inscrit</a></p>
+                </div>
+                <input class="button" type="submit" value="Se connecter">
+            </form>
+        </div>
+    </div>
+</section>

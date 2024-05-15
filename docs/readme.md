@@ -33,11 +33,11 @@ OpenCourt est une application conçu et pensée pour répondre au besoin de digi
 # User Stories
 | En tant que | Je souhaite | Afin | Commentaires |
 |--|--|--|--|
-| Visiteur | Voir et m'informer des services/évènements proposés par l'association | Pouvoir envisager de m'inscrire |  |
-| Visiteur | Pouvoir m'inscrire en ligne | Profiter du terrain et des services/évènements |  |
-| Adhérent | Pouvoir réserver le terrain en ligne | Ne pas me déplacer jusqu'au terrain |  |
-| Adhérent | Pouvoir voir le planning en temps réel | Ne pas réserver un créneau déjà occupé |  |
-| Adhérent | Pouvoir communiquer avec l'association ou les autres adhérents | Avoir des réponses à mes questions / Rencontrer d'autres joueurs |  |
+| Visiteur | Voir et m'informer des services/évènements proposés par l'association | Pouvoir envisager de m'inscrire | FAIT |
+| Visiteur | Pouvoir m'inscrire en ligne | Profiter du terrain et des services/évènements | FAIT |
+| Adhérent | Pouvoir réserver le terrain en ligne | Ne pas me déplacer jusqu'au terrain | FAIT |
+| Adhérent | Pouvoir voir le planning en temps réel | Ne pas réserver un créneau déjà occupé | FAIT |
+| Adhérent | Pouvoir communiquer avec l'association ou les autres adhérents | Avoir des réponses à mes questions / Rencontrer d'autres joueurs | WIP |
 | Adhérent | Pouvoir participer aux événements proposés par l'association | Participer/Échanger |  |
 | Adhérent | Pouvoir proposer un match à un autre adhérent | M'amuser et progresser | V2 |
 | Adhérent | Souhaiter que l'on me propose des potentiels adversaires de mon niveau | Ne pas m'embêter à chercher | V2 |
@@ -85,35 +85,30 @@ OpenCourt est une application conçu et pensée pour répondre au besoin de digi
 </br></br></br>
 
 # MCD (raw)
-
 ```
-BELONG, 11 EVENT, 11 EVENTPARTICIPANT
-EVENTPARTICIPANT: event_num, player_num
-ENROLLED, 0N USER, 11 EVENTPARTICIPANT
-WRITE, 11 ACTU, 0N USER
-ACTU: actu_num, title, image, content, published_at, author, created_at, updated_at
-:
-
-EVENT: event_num, title, is_open, players, start_at, winner, second, third
-MESSAGE: message_num, recipient, sender, title, content
-SEND, 1N MESSAGE, 0N USER
-USER: email, password, match_count, level
-PARTICIPATE, 0N COURSE, 0N USER
 COURSE: course_num, capacity, start_course, end_course
+PARTICIPATE, 0N COURSE, 0N MEMBER
+ACTU: actu_num, title, image, content, published_at, author, created_at, updated_at
+WRITE, 11 ACTU, 0N MEMBER
+ENROLLED, 0N MEMBER, 11 EVENTPARTICIPANT
+EVENTPARTICIPANT: event_num, player_num
+BELONG, 11 EVENT, 11 EVENTPARTICIPANT
 
-CONSTITUED, 01 MATCH, 1N EVENT
-MATCH:match_num, player_1, player_2, player_1_set1, player_1_set2, player_2_set1, player_2_set2, player_1_tb, player_2_tb, winner, played_at
-PLAYED, 1N MATCH, 0N USER
-ENGAGE, 0N USER, 11 SLOTS
-SLOTS: slot_num, start_at, end_at
 OCCUP, 11 SLOTS, 1N COURSE
+SLOTS: slot_num, start_at, end_at
+ENGAGE, 0N MEMBER, 11 SLOTS
+MEMBER: member_num, first_name, last_name, birthday, gender, pin_code
+SEND, 1N MESSAGE, 0N MEMBER
+MESSAGE: message_num, recipient, sender, content, is_read
+EVENT: event_num, title, is_open, players, start_at, winner, second, third
 
-:
-:
-:
-:
-RELATED, 1N COURT, 11 SLOTS
 COURT: court_num, is_active, surface, is_lighted
+RELATED, 1N COURT, 11 SLOTS
+USER: email, password, roles
+POSSESS, 1N MEMBER, 11 USER
+PLAYED, 1N MATCH, 0N MEMBER
+MATCH:match_num, player_1, player_2, player_1_set1, player_1_set2, player_2_set1, player_2_set2, player_1_tb, player_2_tb, winner, played_at
+CONSTITUED, 01 MATCH, 1N EVENT
 ```
 
 # MCD

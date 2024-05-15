@@ -6,34 +6,43 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[ORM\HasLifecycleCallbacks]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("get_member")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message : "Ne dois pas être vide"
+    )]
+    #[ORM\Column(type: 'string' ,length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [];
 
+    #[Assert\Regex(
+        pattern : '/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/',
+        message: "Le mot doit passe doit contenir au minimum 8 caractères, une majuscule, une minuscule, un chiffre, un caractère spécial.",
+    )]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
-    private Collection $articles;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Slot::class)]
-    private Collection $slots;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Member::class, orphanRemoval: true)]
+    private Collection $members;
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
-        $this->slots = new ArrayCollection();
+        $this->members = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,13 +61,28 @@ class User
 
         return $this;
     }
+    /**
+     * Implement of UserInterface  
+     */
+    public function getUserIdentifier(): string 
+    {
+        return (string)$this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // $this->plainPassword = null;
+    }
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $role = $this->roles;
+        $role[] = 'ROLE_USER';
+
+        return array_unique($role);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -70,67 +94,42 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getArticles(): Collection
+    public function getSalt(): ?string
     {
-        return $this->articles;
-    }
-
-    public function addArticle(Article $article): static
-    {
-        if (!$this->articles->contains($article)) {
-            $this->articles->add($article);
-            $article->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticle(Article $article): static
-    {
-        if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getAuthor() === $this) {
-                $article->setAuthor(null);
-            }
-        }
-
-        return $this;
+        return null;
     }
 
     /**
-     * @return Collection<int, Slot>
+     * @return Collection<int, Member>
      */
-    public function getSlots(): Collection
+    public function getMembers(): Collection
     {
-        return $this->slots;
+        return $this->members;
     }
 
-    public function addSlot(Slot $slot): static
+    public function addMember(Member $member): static
     {
-        if (!$this->slots->contains($slot)) {
-            $this->slots->add($slot);
-            $slot->setUser($this);
+        if (!$this->members->contains($member)) {
+            $this->members->add($member);
+            $member->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeSlot(Slot $slot): static
+    public function removeMember(Member $member): static
     {
-        if ($this->slots->removeElement($slot)) {
+        if ($this->members->removeElement($member)) {
             // set the owning side to null (unless already changed)
-            if ($slot->getUser() === $this) {
-                $slot->setUser(null);
+            if ($member->getUser() === $this) {
+                $member->setUser(null);
             }
         }
 

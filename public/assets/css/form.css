@@ -1,0 +1,60 @@
+.password-input-container{
+    padding: 0;
+    position: relative;
+
+}
+
+.password-help-container{
+    position:absolute;
+    top:0;
+    right:0;
+    display: flex;
+    flex-direction: row;
+    align-items: last baseline;
+    gap: 10px;
+    padding: 0;
+    margin-top: 7px;
+}
+#password-help-message{
+    display: none;
+    font-size: 0.6em;
+}
+#password-help{
+    font-size: 0.6em;
+    border-radius: 50px;
+    border: unset;
+}
+
+.password-strenght{
+    display: flex;
+    gap: 5px ;
+    flex-direction: row;
+    margin-top: 8px;
+    padding: unset;
+}
+.complexity-indicator{
+    display: inline-block;
+    width: 33%;
+    height: 6px;
+    border-radius: 5px;
+    animation: animationComplexity 0.5s linear;
+}
+
+@keyframes animationComplexity {
+    from {
+        width: 0;
+    }
+    to {
+        width: 33%;
+    }
+}
+
+.red{
+    background-color: darkred;
+}
+.orange{
+    background-color: orange;
+}
+.green{
+    background-color: green;
+}

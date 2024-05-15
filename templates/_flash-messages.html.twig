@@ -1,0 +1,10 @@
+{# read and display all flash messages #}
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flashes {{ label }}">
+            {{ message }}
+            <span class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</span>
+        </div>
+    {% endfor %}
+{% endfor %}

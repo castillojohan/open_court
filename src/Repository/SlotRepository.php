@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Slot;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,72 @@ class SlotRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Slot::class);
+    }
+
+    public function findSlotsFromToday()
+    {
+        $dateOfTheDay = new DateTimeImmutable();
+        $currentYear = $dateOfTheDay->format('Y');
+        $currentMonth = $dateOfTheDay->format('m');
+        $currentDay = $dateOfTheDay->format('d');
+        $searchDate = new DateTimeImmutable("{$currentYear}-{$currentMonth}-{$currentDay} 07:00:00");
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.startAt > :val')
+            ->setParameter('val', $searchDate)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findUserWeeklySlots($memberId){
+        $dateOfTheDay = new DateTimeImmutable();
+        $weekStartAt = $dateOfTheDay->modify('monday this week');
+        $weekEndAt = $dateOfTheDay->modify('sunday this week');
+        $weekEndAt = $weekEndAt->modify('+1 day');
+        $searchDates = [$weekStartAt, $weekEndAt];
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
+            ->andWhere('s.memb IN (:member)')
+            ->setParameters([
+                    'startAt' => $searchDates[0],
+                    'endAt' => $searchDates[1],
+                    'member' => $memberId
+                ])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findUserDailySlots($memberId, $slotArg)
+    {
+        $dateOfTheDay = new DateTimeImmutable($slotArg->getStartAt()->format('Y-m-d'));
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
+            ->andWhere('s.memb IN (:member)')
+            ->setParameters([
+                    'startAt' => $dateOfTheDay->setTime(0, 0, 0),
+                    'endAt' => $dateOfTheDay->setTime(23, 59, 59),
+                    'member' => $memberId
+                ])
+            ->orderBy('s.startAt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findMemberDailySlots($memberId, $slotArg){
+        $dateOfTheDay = new DateTimeImmutable($slotArg->getStartAt()->format('Y-m-d'));
+        return $this->createQueryBuilder('s')
+            ->where('s.memb = :member')
+            ->andWhere('s.startAt BETWEEN :startAt AND :endAt')
+            ->setParameters([
+                    'startAt' => $dateOfTheDay->setTime(0, 0, 0),
+                    'endAt' => $dateOfTheDay->setTime(23, 59, 59),
+                    'member' => $memberId
+                ])
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**
