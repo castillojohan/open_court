@@ -47,7 +47,7 @@ const mercure = {
                 newTextElement.textContent = content;
 
                 //on verifie si l'affichage ce fait depuis l'expéditeur
-                if(senderName !== conversationTargetElement.textContent){
+                if(senderName !== conversationTargetElement.innerText){
                     newDivElement.classList.add('self');
                 }
                 newDivElement.classList.add('instant-message');
@@ -77,7 +77,7 @@ const mercure = {
                 }
                
                 // cleanup this textarea
-                const textAreaElement = conversationParentElement.querySelector('textarea#message');
+                const textAreaElement = conversationParentElement.querySelector('textarea.message');
                 textAreaElement.value = '';
             }
         }    

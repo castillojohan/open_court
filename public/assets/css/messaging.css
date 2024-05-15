@@ -120,6 +120,7 @@ div.messages-recipient{
     border: 3px solid var(--theme-primary) ;
     textarea{
         width: 100%;
+        margin: 0.3em 0 0 0;
     }
     select{
         align-self:start;
@@ -130,8 +131,10 @@ div.messages-recipient{
         padding:0.6em;
         margin-bottom: 0.3em;
     }
-    span{
-        margin: 1em auto;
+    div{
+        margin: 0 auto;
+        width: 70%;
+        padding: 0;
         a.button{
             margin:0 0.4em 0 0;
             padding: 0.5em;
@@ -143,6 +146,23 @@ div.messages-recipient{
             &:hover{
                 box-shadow: 1px 1px 1px black;
             }
+        }
+    }
+    p{
+        margin-bottom: 0;
+    }
+    .send-or-scroll{
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.5em 0;
+        span{
+            font-size: 2em;
+            font-weight: bolder;
+            width: 2em;
+            text-align: center;
+            border: 2px solid darkgrey;
+            border-radius: 10px;
         }
     }
 }

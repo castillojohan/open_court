@@ -10,6 +10,13 @@ const manageMessages = {
         }
         sendMessage.init();
         mercure.init();
+        const buttonsScrollTop = document.querySelectorAll("span.scroll-top");
+        for (const button of buttonsScrollTop) {
+            button.addEventListener("click", () => {
+                const conversationExpanded = document.querySelector("section.expanded");
+                conversationExpanded.scrollTop = 0;
+            })
+        }
     },
 
     handleConversationClick: (event)=> {
