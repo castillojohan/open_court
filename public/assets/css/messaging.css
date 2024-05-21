@@ -18,11 +18,13 @@ span.alert{
     border-radius: 10px;
 }
 
+
 section.conversations{
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 2em;
+    position: relative;
     &>section{
         border: 2px dashed var(--theme-primary);
         gap: 0;
@@ -31,6 +33,9 @@ section.conversations{
         transition:1s height;
         span.alert{
             margin-left: 1em;
+            position: absolute;
+            display: inline;
+            right: 0;
         }
         a{
             display: flex;

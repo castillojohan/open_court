@@ -24,26 +24,27 @@
         <section>
             <a href="" class="button recipient" data-member-id="{{ informationsMember[0] }}">
                 {{ informationsMember[1] }}
+            </a>
+            <section>
                 {% for message in conversation %}
                     {% if message.getRecipient() == currentMember and not message.getIsReadStatus() and not unreadMessageExist %}
                         <span class="alert">new</span>
                         {% set unreadMessageExist = true %}
-                    {% endif %}
+                    {% endif %}    
+                    <div>
+                        <time>{{ message.getCreatedAt|date('d-m-Y H:i:s')}}</time>
+                        {% if currentMember.getFirstName == message.getSender.getFirstName %}
+                            <div class="reponse self">
+                        {% else %}
+                            <div class="reponse">
+                        {% endif %}
+                                <h4>{{ message.getSender.getFirstName }}</h4>
+                                <p>{{ message.content }}</p>
+                            </div>
+                    </div>
                 {% endfor %}
-            </a>
-            <div>
-            {% for message in conversation %}
-                <time>{{ message.getCreatedAt|date('d-m-Y H:i:s')}}</time>
-                {% if currentMember.getFirstName == message.getSender.getFirstName %}
-                    <div class="reponse self">
-                {% else %}
-                    <div class="reponse">
-                {% endif %}
-                    <h4>{{ message.getSender.getFirstName }}</h4>
-                    <p>{{ message.content }}</p>
-                </div>
-            {% endfor %}
-            </div>
+            </section>
+            
             <div class="messages-recipient">
             <p>Envoyer un Message à {{ informationsMember[1] }}</p>
                 <textarea name="message" class="message"></textarea>

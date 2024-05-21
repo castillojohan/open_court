@@ -39,6 +39,7 @@ const mercure = {
                 newTimeElement.dateTime = orderedDate;
                 newTimeElement.textContent = orderedDate;
 
+                const parentDivContainer = document.createElement('div');
                 const newDivElement = document.createElement('div');
                 newDivElement.classList.add('reponse');
                 const newH4Element = document.createElement('h4');
@@ -47,16 +48,17 @@ const mercure = {
                 newTextElement.textContent = content;
 
                 //on verifie si l'affichage ce fait depuis l'expéditeur
-                if(senderName !== conversationTargetElement.innerText){
+                if(senderName !== conversationTargetElement.childNodes[0].textContent.trim()){
                     newDivElement.classList.add('self');
                 }
                 newDivElement.classList.add('instant-message');
 
-                // implanter dans le DOM a la suite des autres ?
-                threadDivElement.append(newTimeElement);
+                // implanter dans le DOM à la suite des autres ?
+                parentDivContainer.append(newTimeElement);
                 newDivElement.append(newH4Element);
                 newDivElement.append(newTextElement);
-                threadDivElement.append(newDivElement);
+                parentDivContainer.append(newDivElement)
+                threadDivElement.append(parentDivContainer);
 
                 // suivi du scroll ?
                 if(conversationParentElement.offsetHeight > 36){

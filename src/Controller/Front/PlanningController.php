@@ -6,7 +6,6 @@ use App\Entity\Slot;
 use App\Repository\CourtRepository;
 use App\Repository\MemberRepository;
 use App\Repository\SlotRepository;
-use App\Repository\UserRepository;
 use App\Service\TimeSlotRules;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;

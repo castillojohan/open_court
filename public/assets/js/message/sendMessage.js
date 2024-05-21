@@ -30,30 +30,12 @@ const sendMessage = {
             }
         );
         const messageSend = await response.json();
-        //sendMessage.getUpdate(messageSend);
     },
 
     getRecipientId: (url) => {
         const recipientId = url.split('/');
         return recipientId[recipientId.length -1];
     },
-    
-    getUpdate: async () => {
-        const fetchUrl = "http://127.0.0.1:8000/account/messages/";
-        try{
-            const response = await fetch(fetchUrl,
-            {
-                method: 'GET',
-                header:{
-                    'Content-Type': 'application/json'
-                },
-            });
-            const datas = await response.json();
-        } 
-        catch(error){
-            throw error;
-        }
-    }
 }
 
 export default sendMessage;

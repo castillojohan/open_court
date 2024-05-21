@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MessageRepository;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -53,7 +54,8 @@ class Message
 
     public function __construct()
     {
-        $this->createdAt = new DateTimeImmutable();
+        $timezone = $_ENV['APP_TIMEZONE'] ?? 'UTC';
+        $this->createdAt = new DateTimeImmutable('now', new DateTimeZone($timezone));
         $this->isRead = false;
     }
 

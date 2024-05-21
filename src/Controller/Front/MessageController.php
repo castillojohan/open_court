@@ -27,7 +27,7 @@ class MessageController extends AbstractController
         $currentMember = $memberRepository->find($sessionMember);
 
         $conversations = $messageRepository->findConversationsWithMemberId($currentMember);
-        $sortedConversations = $messageService->sortMessages($conversations, $currentMember); 
+        $sortedConversations = $messageService->sortMessages($conversations, $currentMember);
         return $this->render('./Front/messaging.html.twig', ["currentMember"=>$currentMember, "conversations" => $sortedConversations]);
     }
 
