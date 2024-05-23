@@ -78,7 +78,6 @@ class PlanningController extends AbstractController
             ->setStartAt($startTime)
             ->setEndAt($endTime);
 
-   
         $hasErrors = $timeSlotRules->canBookTimeSlot($member, $user, $slot);
         if($hasErrors[0]){
             return $this->json(
@@ -150,11 +149,10 @@ class PlanningController extends AbstractController
             ->setCourt($courtRepository->find(1));
 
         $user = $member->getUser();
-        $test = $slotService->canBookTimeSlot($member, $user, $slot);
-        //dd($test[1]);
-        if(count($test[1]) > 0 ){
+        $errors = $slotService->canBookTimeSlot($member, $user, $slot);
+        if(count($errors[1]) > 0 ){
             return $this->json([
-                "error" => $test[1]['error']
+                "error" => $errors[1]['error']
             ],
             200,
             [],

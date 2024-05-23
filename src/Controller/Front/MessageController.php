@@ -17,6 +17,7 @@ use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Utils\Utils;
 
 class MessageController extends AbstractController
 {
@@ -25,6 +26,9 @@ class MessageController extends AbstractController
     {
         $sessionMember = $request->getSession()->get('member');
         $currentMember = $memberRepository->find($sessionMember);
+
+        // pass through child firewall, if current user is minor, firewall throw Denied exception else, nothing happen.
+        Utils::childFirewall($currentMember);
 
         $conversations = $messageRepository->findConversationsWithMemberId($currentMember);
         $sortedConversations = $messageService->sortMessages($conversations, $currentMember);
@@ -36,6 +40,9 @@ class MessageController extends AbstractController
     {
         $currentMember = $request->getSession()->get('member');
         $member = $memberRepository->find($currentMember);
+
+        Utils::childFirewall($currentMember);
+
         $membersList = $memberRepository->getMemberForMessaging($member->getId());
         if($request->isMethod('GET')){
             return $this->render('Front/messaging-create.html.twig', ["members" => $membersList]);
@@ -81,7 +88,7 @@ class MessageController extends AbstractController
         $json = json_decode($request->getContent(), true);
         $recipientIdFromRequest = $json['recipient'];
         $messageContentFromRequest = $json['content'];
-        // check if , recipient ID from request is the same as recipient into route parameters.
+        // check if, recipient ID from request is the same as recipient into route parameters.
         if($recipientIdFromRequest != $recipient){
             return $this->json(
                 ["error" => "Une erreur s'est produite"],
