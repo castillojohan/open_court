@@ -453,7 +453,8 @@ a.cards--add{
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    margin : 3em 0 3em 0;
+    margin : 3em 0 1em 0;
+    border-bottom: 4px dashed var(--theme-blue-primary);
     a{
         display: flex;
         flex-direction: row;
@@ -488,6 +489,9 @@ a.cards--add{
         border-radius: 10px;
     }
 
+}
+.main__panel{
+    
 }
 
 form{

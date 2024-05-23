@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Utils\Utils;
+use App\Utils\Utils;
 
 class MemberController extends AbstractController
 {
@@ -59,7 +59,7 @@ class MemberController extends AbstractController
                 return $this->redirectToRoute('app_account');
             }
         }
-        return $this->render('Front/register-member.html.twig', ["form" => $form, "errors"=>""]);
+        return $this->render('Front/account/register-member.html.twig', ["form" => $form, "errors"=>""]);
     }
 
     #[Route('/account/member/modify/{member}', name: 'app_member_modify', methods: ['GET', 'POST'])]
@@ -84,21 +84,26 @@ class MemberController extends AbstractController
             return $this->redirectToRoute('app_account');
         }
 
-        return $this->render('Front/modify-member.html.twig', ['member' => $member, 'form' => $form]);
+        return $this->render('Front/account/modify-member.html.twig', ['member' => $member, 'form' => $form]);
     }
 
-    #[Route('/account/member/delete/{member}', name: 'app_member_delete')]
-    public function memberDeletion(Member $member,SlotRepository $slotRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/account/member/delete/{member}', name: 'app_member_delete', methods:['GET', 'POST'])]
+    public function memberDeletion(Member $member,SlotRepository $slotRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
+
         Utils::controlException($member, $this->getUser());
         $slots = $slotRepository->findBy(['memb' => $member]);
-
-        foreach ($slots as $slot) {
-            $entityManager->remove($slot);
+        //!\ TODO finisg this controller's route, remove or modify Member/User entity ? 
+        if($request->isMethod('POST')){
+            foreach ($slots as $slot) {
+                $entityManager->remove($slot);
+            }
+            $entityManager->remove($member);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('app_account');
         }
-        $entityManager->remove($member);
-        $entityManager->flush();
 
-        return $this->redirectToRoute('app_account');
+        return $this->render('/Front/account/delete-member-confirmation.html.twig', ["member" => $member]);
     }
 }

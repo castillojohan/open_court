@@ -91,7 +91,7 @@ class AccountController extends AbstractController
             : null
         ;
 
-        return $this->render('Front/account.html.twig', ['user'=>$currentUser->getUserIdentifier(), 'members'=> $memberCollection, 'currentMember'=>$sessionMember, "dateNow" => new DateTimeImmutable()]);
+        return $this->render('Front/account/account.html.twig', ['user'=>$currentUser->getUserIdentifier(), 'members'=> $memberCollection, 'currentMember'=>$sessionMember, "dateNow" => new DateTimeImmutable()]);
     }
 
     #[Route('/account/settings', name: 'app_settings', methods: ['GET', 'POST'])]
@@ -116,7 +116,7 @@ class AccountController extends AbstractController
                 return $this->redirectToRoute('app_account');
             }
         }
-        return $this->render("/Front/settings.html.twig", ['form' => $form, 'errors' => '' ]);
+        return $this->render("/Front/account/settings.html.twig", ['form' => $form, 'errors' => '' ]);
     }
 
     #[Route('/account/delete', name: 'app_delete_user', methods: ['GET', 'POST'])]
@@ -145,7 +145,7 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('app_logout');
         }
         
-        return $this->render('/Front/confirmation.html.twig', ['user'=>$user, 'members'=>$members]);
+        return $this->render('/Front/account/confirmation.html.twig', ['user'=>$user, 'members'=>$members]);
     }
 
     /**

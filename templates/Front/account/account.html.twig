@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+{% block title %} Mon compte {% endblock %}
+{% block main %}
+    {% include ("Front/account/_tribe.html.twig") %}
+        {% if currentMember %}
+            <section class="main__user-panel">
+                {% include "Front/account/_common-links.html.twig" %}
+            </section>
+            {% if "ROLE_ADMIN" in app.user.getRoles() %}
+                <h3>Administration - Admin</h3>
+                <section class="main__user-panel">
+                    {% include "Front/account/_admin-links.html.twig" %}
+                </section>
+            {% endif %}
+            {% if "ROLE_ADMIN" in app.user.getRoles() %}
+                <h3>Administration - Manager de contenu</h3>
+                <section class="main__user-panel">
+                    {% include "Front/account/_manager-links.html.twig" %}
+                </section>
+            {% endif %}
+            {% if "ROLE_ADMIN" in app.user.getRoles() %}
+                <h3>Administration - Professeur</h3>
+                <section class="main__user-panel">
+                    {% include "Front/account/_teacher-links.html.twig" %}
+                </section>
+            {% endif %}
+        {% else %}
+        <div>
+            <p>Vous devez selectionner un membre</p>
+        </div>
+        {% endif %}
+{% endblock %}

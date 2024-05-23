@@ -17,7 +17,7 @@ use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Utils\Utils;
+use App\Utils\Utils;
 
 class MessageController extends AbstractController
 {

@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block title %} Supprimer un Membre {% endblock %}
+{% block main %}
+    <h2> Êtes vous sûr ?</h2>
+    <section>
+        <p>Vous allez supprimer le membre de votre compte : {{ member.getFirstName()}}</p>
+        {% set slots = member.getSlots %}
+        <p>Qui possède {{ slots|length }} reservations en cours :</p>
+        <ul>
+            {% for slot in slots %}
+                <li>{{ slot.startAt()|date('d-m-Y H:i')}} -> {{ slot.endAt()|date('d-m-Y H:i') }}</li>
+            {% endfor %}
+        </ul>
+        <p class="danger">Attention, la suppression de ce membre est irréversible, les créneaux horaire réservés seront libérés. Les inscriptions aux événements, cours et messages seront effacés. </p>
+        <form action="" method="POST">
+            <button type="submit" class="button">Supprimer</button>
+        </form>
+        <a class="button" href="{{ path('app_account') }}">Retour à mon compte</a>
+    </section>
+{% endblock %}
