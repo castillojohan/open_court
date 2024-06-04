@@ -1,6 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@300&display=swap');
 @import url('./booking-history.css');
 @import url('./pin.css');
+
+@font-face {
+    font-family: "Anton";
+    src: url("/assets/fonts/Anton.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}   
 
 html{
     --theme-blue-primary: #2e425b;
@@ -489,9 +495,6 @@ a.cards--add{
         border-radius: 10px;
     }
 
-}
-.main__panel{
-    
 }
 
 form{

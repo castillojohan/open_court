@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/manage-members.css') }}">{% endblock %}
+{% block title %} Ajouter un court {% endblock %}
+{% block main %} 
+    <section>
+        <h2>Ajout d'un nouveau court</h2>
+        {{ include ("Back/court/_add-court.html.twig") }}
+    </section>
+{% endblock %}

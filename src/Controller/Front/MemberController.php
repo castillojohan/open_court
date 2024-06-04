@@ -7,7 +7,6 @@ use App\Form\MemberType;
 use App\Repository\MemberRepository;
 use App\Repository\SlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,7 +79,7 @@ class MemberController extends AbstractController
                $member->setPinCode($formPinCode); 
             }
             $memberRepository->add($member, true);
-            $this->addFlash('Success', 'Membre bien modifié');
+            $this->addFlash('success', 'Membre bien modifié');
             return $this->redirectToRoute('app_account');
         }
 

@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+{% block title %} Liste des utilisateurs {% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/manage-members.css') }}">{% endblock %}
+
+{% block main %}
+<section>
+    <h2>Liste des utilisateurs</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Email</td>
+                <td>Nombre de membres</td>
+                <td>Suspendre</td>
+                <td>Supprimer</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.getEmail()}} </td>
+                <td>{{ user.getMembers()|length }}</td>    
+                <td><a href="{{ path ('app_account_manage_suspend_user', {"userId": user.id}) }}" class="button">Suspendre</a></td>
+                <td><a href="{{ path ('app_account_manage_delete_user', {"userId": user.id}) }}" class="button">Supprimer</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        
+        </tfoot>
+    </table>
+</section>
+{% include "/Back/common/_button-back.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}<script type="module" src=""></script>{% endblock %}
