@@ -5,28 +5,26 @@
         {% if currentMember %}
             <section class="main__user-panel">
                 {% include "Front/account/_common-links.html.twig" %}
+            {% if "ROLE_ADMIN" in app.user.getRoles() %}
+                    <a href=" {{ path ('app_account_admin') }}">
+                        <h3>Espace administrateur</h3>
+                    </a>
+            {% endif %}
+            {% if "ROLE_MANAGER" in app.user.getRoles() %}
+                    <a href="#">
+                        <h3>Espace manager de contenu</h3>
+                    </a>
+            {% endif %}
+            {% if "ROLE_PROFESSOR" in app.user.getRoles() %}
+                    <a href="#">
+                        <h3>Espace professeur</h3>
+                    </a>
+            {% endif %}
             </section>
-            {% if "ROLE_ADMIN" in app.user.getRoles() %}
-                <h3>Administration - Admin</h3>
-                <section class="main__user-panel">
-                    {% include "Front/account/_admin-links.html.twig" %}
-                </section>
-            {% endif %}
-            {% if "ROLE_ADMIN" in app.user.getRoles() %}
-                <h3>Administration - Manager de contenu</h3>
-                <section class="main__user-panel">
-                    {% include "Front/account/_manager-links.html.twig" %}
-                </section>
-            {% endif %}
-            {% if "ROLE_ADMIN" in app.user.getRoles() %}
-                <h3>Administration - Professeur</h3>
-                <section class="main__user-panel">
-                    {% include "Front/account/_teacher-links.html.twig" %}
-                </section>
-            {% endif %}
         {% else %}
         <div>
             <p>Vous devez selectionner un membre</p>
         </div>
         {% endif %}
+        
 {% endblock %}

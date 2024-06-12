@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset ('assets/css/stats.css') }}">{% endblock %}
+{% block title %} Administration {% endblock %}
+    
+{% block main %}
+<h2>Panneau d'administration</h2> 
+    <section class="main__user-panel">
+        {% include "/Back/_admin-links.html.twig" %}
+    </section>
+    <section class="admin__stats">
+        <h2>Taux d'occupation des terrains</h2>
+        <section class="courts-statistiques">
+            {# 
+            <div id="court-name" class="stat-parent">
+                <div class="stat-container">
+                    <span class="progress-value">50%</span>
+                </div>
+                <span class="court-name">court-name</span>
+            </div>
+            #}
+        </section>
+
+        <h2>Adherents</h2>
+        <section>
+            <div>
+                <h4>Total adhérents</h4>
+                <span>25</span>
+            </div>
+            <div>
+                <h4>Total membres</h4>
+                <span>42</span>
+            </div>
+            <div>
+                <h4>Membres moyen par compte</h4>
+                <span>2.5</span>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script type="module" src="/assets/js/stats/stats.js"></script>
+{% endblock %}
